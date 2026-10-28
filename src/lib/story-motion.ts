@@ -12,6 +12,28 @@ const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const seg = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
 const smooth = (t: number) => t * t * (3 - 2 * t);
 
+/** Four scroll intervals: center to 01, 01 to 02, 02 to 03, then final framing. */
+export const VIDEO_FRAMES = [
+  { scale: 1.5, aspect: 1.78, center: 1 },
+  { scale: 1, aspect: 1.78, center: 0 },
+  { scale: .85, aspect: 1.25, center: 0 },
+  { scale: .93, aspect: 1.5, center: 0 },
+  { scale: 1.06, aspect: 2.1, center: 0 },
+] as const;
+
+export function videoFrame(p: number) {
+  const position = clamp01(p) * 4;
+  const index = Math.min(3, Math.floor(position));
+  const a = VIDEO_FRAMES[index];
+  const b = VIDEO_FRAMES[index + 1];
+  if (!a || !b) return VIDEO_FRAMES[0];
+  const t = position - index;
+  const mix = (x: number, y: number) => x + (y - x) * t;
+  return { scale: mix(a.scale, b.scale), aspect: mix(a.aspect, b.aspect), center: mix(a.center, b.center) };
+}
+
+export const sceneProgress = (p: number) => clamp01((p - .1) / .75);
+
 /** Ease-out with a gentle overshoot: fast start, soft landing just past rest. */
 const OVERSHOOT = 0.9;
 const backOut = (t: number) => 1 + (OVERSHOOT + 1) * (t - 1) ** 3 + OVERSHOOT * (t - 1) ** 2;

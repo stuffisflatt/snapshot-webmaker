@@ -132,18 +132,16 @@ export function AnimatedTestimonials({
 
               <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">{subtitle}</p>
 
-              <div className="flex items-center gap-3 pt-4">
+              <div className="testimonial-pagination flex items-center gap-2">
                 {testimonials.map((_, index) => (
                   <Button
                     variant="ghost"
                     key={index}
                     onClick={() => setActiveIndex(index)}
-                    className={`h-2.5 p-0 rounded-[3px] transition-all duration-300 ${
-                      activeIndex === index ? "w-10 bg-primary" : "w-2.5 bg-muted-foreground/30"
-                    }`}
+                    className="testimonial-page h-8 w-8 p-0 rounded-full hover:bg-transparent"
                     aria-label={dotLabel(index)}
                     aria-pressed={activeIndex === index}
-                  />
+                  ><span className="testimonial-page-mark" /></Button>
                 ))}
               </div>
             </div>

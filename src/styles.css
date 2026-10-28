@@ -865,3 +865,53 @@
 .sx .sx-bars i { background: var(--clinic-pewter); }
 .sx .sx-bars i:first-child { background: oklch(0.7 0.08 250); }
 .sx .sx-tag { border-color: oklch(0.7 0.07 250 / .45); }
+
+/* Compact editorial rhythm, with stable columns throughout the story. */
+:root {
+  --clinic-tight-gap: .5rem;
+  --clinic-compact-space: 1.5rem;
+  --clinic-review-mark: color-mix(in oklab, var(--clinic-light) 65%, transparent);
+}
+.sx { height: 420svh; }
+.sx .sx-video { will-change: transform, width; }
+.services-section { padding-block: 3rem var(--clinic-compact-space); }
+.services-heading .clinic-section-title { font-size: 3.5rem; }
+.services-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.services-content .service-list { margin-top: 0; width: 100%; max-width: 31rem; justify-self: end; }
+.services-heading > p { margin-top: var(--clinic-tight-gap); }
+.team-introduction { padding-block: var(--clinic-compact-space) .75rem; }
+.team-intro-heading { margin-bottom: 0; padding-inline: 12px; }
+.team-intro-heading h2 { font-size: 3rem; margin-bottom: .25rem; }
+.team-heading-copy > p { line-height: 1.4; }
+.team-curve { margin-block: -12px -20px; }
+.team-marquee { --gap: 12px; margin-top: var(--clinic-tight-gap); }
+.team-intro-footer { margin-top: var(--clinic-tight-gap); gap: 0; padding-inline: 12px; align-items: start; }
+.team-intro-footer > div { max-width: 54rem; }
+.team-lead { margin-top: 0; margin-bottom: var(--clinic-tight-gap); }
+.team-lead span { margin-top: 2px; }
+.team-intro-footer blockquote { line-height: 1.5; }
+.testimonials-section { padding-block: .75rem var(--clinic-compact-space); }
+.testimonials-section .grid { column-gap: 1.5rem; row-gap: 1rem; }
+.testimonials-section .space-y-6 > :not(:last-child) { margin-bottom: var(--clinic-tight-gap); }
+.testimonials-section .space-y-6 > p { line-height: 1.5; }
+.testimonials-section .grid > div:last-child { gap: var(--clinic-tight-gap); }
+.testimonials-section .testimonial-window { min-height: 240px; }
+.testimonials-section .testimonial-card { padding: 16px 20px; }
+.testimonials-section .testimonial-pagination { gap: 2px; }
+.testimonial-page-mark { display: block; height: 3px; width: 3px; border-radius: 999px; background: var(--clinic-review-mark); transition: width 180ms ease, background-color 180ms ease; }
+.testimonial-page[aria-pressed="true"] .testimonial-page-mark { width: 28px; height: 2px; background: var(--primary); }
+@media (min-width: 768px) {
+  .sx .sx-grid { grid-template-columns: 42.5vw minmax(240px, 330px); }
+  .team-intro-footer { padding-inline: 0; }
+}
+@media (max-width: 767px) {
+  .sx { height: 360svh; }
+  .sx-grid { width: 100%; }
+  .services-content { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .services-heading .clinic-section-title { font-size: 2.5rem; }
+  .services-content .service-list { max-width: none; }
+  .team-intro-heading h2 { font-size: 2.125rem; }
+  .team-intro-heading, .team-intro-footer { margin-block: 0 var(--clinic-tight-gap); }
+  .team-intro-footer { margin-top: var(--clinic-tight-gap); }
+  .testimonials-section .testimonial-window { min-height: 260px; }
+}
