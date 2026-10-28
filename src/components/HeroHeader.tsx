@@ -1,3 +1,5 @@
+import heroAv1 from "@/assets/hero.av1.mp4.asset.json";
+import heroMp4 from "@/assets/hero.mp4.asset.json";
 import { useEffect, useRef } from "react";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
@@ -32,8 +34,8 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
       <div className="clinic-hero-film" aria-hidden="true">
         <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/hero-poster.webp" disablePictureInPicture>
           {/* AV1 carries the film grain as synthesis parameters; H.264 keeps it in the pixels. */}
-          <source src="/media/hero.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
-          <source src="/media/hero.mp4" type="video/mp4" />
+          <source src={heroAv1.url} type='video/mp4; codecs="av01.0.08M.08"' />
+          <source src={heroMp4.url} type="video/mp4" />
         </video>
       </div>
 
