@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Define the clinic's shared palette and section hierarchy through semantic tokens in `src/styles.css`; lower sections inherit the same dark-surface theme so presentation stays consistent without changing content or interactions.

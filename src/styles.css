@@ -4,28 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --font-display: "Montserrat", "Noto Sans Armenian", system-ui, sans-serif;
+  --font-sans: "Noto Sans Armenian", "Montserrat", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -34,6 +20,10 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
+  --color-primary-soft: var(--primary-soft);
+  --color-sky: var(--sky);
+  --color-sky-foreground: var(--sky-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -45,100 +35,833 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.875rem; /* Apple-style scale: sm 6, md 10, lg 14, xl 18, 2xl 22 */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.16 0.01 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.16 0.01 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.16 0.01 260);
+  /* Restrained pewter accent, with neutral editorial surfaces. */
+  --primary: oklch(0.37 0.012 250);
+  --primary-foreground: oklch(1 0 0);
+  --primary-deep: oklch(0.25 0.008 250);
+  --primary-soft: oklch(0.95 0.004 250);
+  --sky: oklch(0.56 0.2 262);
+  --sky-foreground: oklch(1 0 0);
+  --secondary: oklch(0.965 0.01 255);
+  --secondary-foreground: oklch(0.16 0.01 260);
+  --muted: oklch(0.965 0.008 255);
+  --muted-foreground: oklch(0.45 0.02 260);
+  --accent: oklch(0.95 0.03 255);
+  --accent-foreground: oklch(0.42 0.18 264);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.01 255);
+  --input: oklch(0.88 0.015 255);
+  --ring: oklch(0.62 0.012 250);
+  --clinic-dark: oklch(0.19 0.003 260);
+  --clinic-surface: oklch(0.235 0.004 260);
+  --clinic-light: oklch(0.96 0.003 250);
+  --clinic-secondary: oklch(0.73 0.006 250);
+  --clinic-line: oklch(0.34 0.004 260);
+  --clinic-pewter: oklch(0.74 0.055 250);
+  --clinic-blue: oklch(0.52 0.085 252);
+  --clinic-blue-soft: oklch(0.94 0.02 250);
+  --hero-field: oklch(0.96 0.005 250);
+  --hero-ink: oklch(0.23 0.004 260);
+  --hero-dot: oklch(0.7 0.009 250);
+  --gradient-sky: linear-gradient(170deg, oklch(0.42 0.18 264) 0%, oklch(0.56 0.2 262) 50%, oklch(0.74 0.12 250) 100%);
+  --shadow-button: 0 8px 24px -10px color-mix(in oklab, var(--primary) 70%, transparent);
+  --shadow-card: 0 1px 2px color-mix(in oklab, var(--foreground) 6%, transparent), 0 12px 32px -16px color-mix(in oklab, var(--foreground) 18%, transparent);
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; text-wrap: balance; overflow-wrap: break-word; }
+  :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 8px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 }
+
+@utility bg-sky-gradient { background-image: var(--gradient-sky); }
+@utility shadow-button { box-shadow: var(--shadow-button); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+
+@utility btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 3rem; padding: 0 1.4rem; border-radius: 10px; font-weight: 600;
+  font-family: var(--font-display); font-size: 0.95rem;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
+  &:active { transform: scale(0.97); }
+}
+@utility btn-primary {
+  background: var(--primary); color: var(--primary-foreground); box-shadow: var(--shadow-button);
+  &:hover { background: var(--primary-deep); }
+}
+@utility btn-outline {
+  background: transparent; color: var(--foreground); border: 1.5px solid var(--input);
+  &:hover { border-color: var(--foreground); }
+}
+@utility btn-white {
+  background: var(--sky-foreground); color: var(--primary-deep);
+  &:hover { background: var(--primary-soft); }
+}
+@utility btn-ghost-white {
+  color: var(--sky-foreground); border: 1.5px solid color-mix(in oklab, var(--sky-foreground) 50%, transparent);
+  &:hover { background: color-mix(in oklab, var(--sky-foreground) 12%, transparent); }
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@utility animate-rise { animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2,0.7,0.2,1); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/instrument-serif.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/instrument-serif-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Noto Serif Armenian"; src: url("/fonts/noto-serif-armenian.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+
+/* Desktop uses a split hero; phones use a full background video. */
+.clinic-hero { position: relative; isolation: isolate; height: 100svh; min-height: 720px; max-height: 1400px; overflow: hidden; background: #fff; color: #454545; margin-bottom: 0; }
+.clinic-hero::before { content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none; background: linear-gradient(135deg, #adb1b6 0%, #d4d6d9 18%, #eceeef 36%, #f6f7f8 65%, #f4f5f6 100%); }
+.clinic-hero-dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; fill: #aaaaaa; filter: blur(.4px); mask-image: radial-gradient(circle clamp(420px, 56vw, 960px) at 46% 82%, #000 0%, #000000e6 18%, #00000099 40%, #00000045 64%, #00000012 85%, transparent 100%); }
+@media (max-width: 600px) { .clinic-hero-dots { display: none; } }
+.clinic-hero-film { position: absolute; z-index: -1; inset: 0 0 0 50%; overflow: hidden; background: #60524b; }
+/* The replacement video already contains the cropped 960px picture. */
+.clinic-hero-film video { position: absolute; left: 0; top: 0; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.clinic-hero-film::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / .2), transparent 40%, rgb(0 0 0 / .36)); pointer-events: none; }
+.clinic-headline { position: absolute; top: 20%; left: 0; width: 100%; margin: 0; font-family: "Instrument Serif", "Noto Serif Armenian", serif; font-size: clamp(115px, 12.4vw, 260px); font-weight: 400; line-height: .86; letter-spacing: -.045em; text-align: center; text-wrap: nowrap; overflow-wrap: normal; pointer-events: none; }
+.clinic-headline > span { display: block; }
+.clinic-headline > span + span { margin-top: .045em; }
+.clinic-headline i { font-weight: 400; }
+.clinic-headline-light { color: #fffefa; clip-path: inset(0 0 0 50%); }
+.clinic-location { position: absolute; bottom: 4.7%; left: 2.25%; font-size: 16px; line-height: 1.25; color: #454545; }
+.clinic-location > span { display: block; margin-bottom: 16px; font-size: 12px; color: #7a838d; }
+.clinic-location, .clinic-hero-note { translate: 0 -22px; }
+.clinic-location strong { font-weight: 600; }
+.clinic-location small { display: flex; align-items: center; gap: 7px; margin-top: 12px; color: #687581; font-size: 11px; }
+.clinic-hero-note { position: absolute; right: 2.25%; bottom: 4.7%; color: #f5f2ef; text-align: right; font-size: clamp(11px, 0.9vw, 17px); line-height: 1.35; font-weight: 600; letter-spacing: -.03em; }
+@media (min-width: 2000px) { .clinic-hero { min-height: 900px; } }
+@media (max-width: 1250px) {
+  .clinic-hero-note { max-width: 18%; font-size: 11px; }
+}
+@media (max-width: 900px) {
+  .clinic-headline { top: 26%; font-size: 13vw; }
+  .clinic-hero-note { max-width: 40%; right: 4%; bottom: 5%; font-size: 12px; }
+  .clinic-location { left: 4%; bottom: 5%; font-size: 14px; }
+}
+@media (max-width: 600px) {
+  .clinic-hero { height: 100svh; min-height: 680px; max-height: 1000px; margin-bottom: 0; }
+  .clinic-hero-film { inset: 0; }
+  .clinic-hero-film video { object-position: 50% 50%; }
+  .clinic-hero-film::after { background: linear-gradient(180deg, #00000026, transparent 30%, #000000a6); }
+  .clinic-headline { top: 27%; font-size: 20vw; line-height: .95; letter-spacing: -.05em; color: #fff; mix-blend-mode: difference; }
+  .clinic-headline > span + span { margin-top: .02em; }
+  .clinic-headline-light { display: none; }
+  .clinic-location { left: 14px; top: auto; bottom: 5%; max-width: calc(50% - 28px); font-size: 11px; display: block; color: #fff; }
+  .clinic-location > span { font-size: 10px; margin: 0 0 10px; color: #ffffffb3; }
+  .clinic-location small { display: block; margin-top: 8px; font-size: 9px; line-height: 1.5; color: #ffffffcc; }
+  .clinic-location small svg { display: none; }
+  .clinic-hero-note { bottom: 5%; right: 14px; max-width: calc(50% - 28px); font-size: 10px; line-height: 1.5; }
+}
+
+
+.clinic-hero-ctas { position: absolute; bottom: 18%; left: 50%; width: min(500px, calc(100% - 40px)); transform: translateX(-50%); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (min-width: 901px) { .clinic-hero-ctas { width: min(532px, calc(100% - 40px)); gap: 52px; } }
+.clinic-hero-cta { display: flex; align-items: center; justify-content: center; justify-self: center; width: 100%; max-width: 240px; gap: 10px; min-height: 52px; padding: 12px 19px; border: 1px solid; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
+.clinic-hero-cta svg { flex-shrink: 0; width: 18px; height: 18px; }
+.clinic-hero-cta svg:last-child { margin-left: auto; }
+.clinic-hero-cta span { margin-right: auto; white-space: nowrap; }
+.clinic-hero-cta-book { background: #171717; border-color: #171717; color: #fff; }
+.clinic-hero-cta-book:hover { background: transparent; color: #171717; }
+.clinic-hero-cta-call { background: transparent; border-color: #fff; color: #fff; }
+.clinic-hero-cta-call:hover { background: #fff; color: #171717; }
+@media (max-width: 900px) {
+  .clinic-hero-cta { min-height: 50px; padding: 11px 16px; font-size: 12px; gap: 8px; }
+}
+@media (max-width: 600px) {
+  .clinic-hero-ctas { bottom: 23%; width: min(240px, calc(100% - 48px)); grid-template-columns: 1fr; gap: 12px; }
+  .clinic-hero-cta { min-height: 46px; padding: 10px; font-size: 11px; gap: 7px; }
+  .clinic-hero-cta svg { width: 16px; height: 16px; }
+  .clinic-hero-cta svg:last-child { display: none; }
+  .clinic-hero-cta span { margin: 0; }
+  .clinic-hero-cta-call { background: #fff; border-color: #fff; color: #000; }
+  .clinic-hero-cta-call:hover { background: #eceae9; border-color: #eceae9; color: #000; }
+  .clinic-hero-cta-book:hover { background: #fff; color: #171717; border-color: #fff; }
+}
+
+
+/* Extend the hero beneath the facts panel's rounded corners. */
+.clinic-hero { box-sizing: content-box; padding-bottom: 40px; margin-bottom: -40px; }
+/* One floating navigation bar stays available throughout the page. */
+#services, #team, #contact { scroll-margin-top: 120px; }
+.clinic-topbar { position: fixed; z-index: 45; top: 16px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 40px); display: flex; align-items: center; gap: 44px; padding: 6px 6px 6px 20px; border-radius: 14px; border: 0; background: rgb(0 0 0 / .65); color: #fff; font-family: "Montserrat", "Noto Sans Armenian", sans-serif; }
+.clinic-nav { display: flex; align-items: center; gap: 24px; }
+.clinic-nav a { display: inline-block; font-size: 12px; font-weight: 500; white-space: nowrap; text-decoration: none; transition: transform 180ms ease; }
+.clinic-nav a:hover { text-decoration: none; transform: scale(1.07); }
+.clinic-header-actions { display: flex; align-items: center; gap: 8px; }
+.clinic-header-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 34px; height: 34px; border: 1px solid #ffffff70; border-radius: 9px; background: transparent; color: #fff; transition: background-color 160ms ease; }
+.clinic-header-icon:hover { background: #ffffff20; }
+.clinic-header-icon svg { width: 19px; height: 19px; }
+.clinic-nav-toggle { display: none; cursor: pointer; }
+.clinic-book { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-width: 150px; min-height: 42px; padding: 0 18px; border: 1px solid #ffffff70; border-radius: 10px; background: transparent; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
+.clinic-book:hover { background: #fff; color: #171717; }
+@media (max-width: 900px) {
+  .clinic-topbar { max-width: calc(100% - 32px); padding: 8px 8px 8px 20px; gap: 28px; }
+  .clinic-nav { gap: 20px; }
+  .clinic-nav a { font-size: 12px; }
+  .clinic-header-actions { gap: 8px; }
+  .clinic-header-icon { width: 36px; height: 36px; }
+  .clinic-book { min-width: 156px; min-height: 44px; padding: 0 18px; gap: 16px; font-size: 12px; }
+}
+@media (max-width: 600px) {
+  #services, #team, #contact { scroll-margin-top: 92px; }
+  .clinic-topbar { top: 12px; width: max-content; max-width: calc(100% - 24px); gap: 0; padding: 8px; border-radius: 14px; }
+  .clinic-nav { display: none; position: absolute; top: calc(100% + 8px); left: 0; width: 100%; padding: 20px 24px; border-radius: 14px; border: 0; background: rgb(0 0 0 / .65); color: #fff; flex-direction: column; align-items: stretch; gap: 22px; }
+  .clinic-nav[data-open="true"] { display: flex; }
+  .clinic-nav a { font-size: 12px; }
+  .clinic-header-actions { margin-left: 0; justify-content: center; gap: 9px; }
+  .clinic-header-instagram { display: inline-flex; }
+  .clinic-nav-toggle { display: inline-flex; }
+  .clinic-header-icon { width: 36px; height: 36px; }
+  .clinic-header-icon svg { width: 19px; height: 19px; }
+  .clinic-book { min-height: 40px; min-width: 156px; padding: 0 16px; font-size: 11px; gap: 16px; }
+  .clinic-book svg { width: 19px; }
+}
+
+.clinic-facts { position: relative; width: 100%; background-color: #000; color: #fff; border-radius: 22px 22px 0 0; z-index: 1; }
+
+.clinic-facts ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: 100%; max-width: 1280px; min-height: 172px; margin: 0 auto; padding: 64px 28px; list-style: none; }
+.clinic-facts li { display: flex; align-items: center; justify-content: center; text-align: center; gap: 11px; min-height: 30px; padding: 0 22px; font-size: 13px; font-weight: 600; line-height: 1.4; transition: color 180ms ease; }
+.clinic-facts li:hover, .clinic-facts li:focus-within { color: #fff; }
+.clinic-facts li > span, .clinic-facts li > svg, .clinic-facts a { transition: transform 180ms ease; }
+.clinic-facts li:hover > span, .clinic-facts li:hover > svg, .clinic-facts li:hover a, .clinic-facts li:focus-within a { transform: scale(1.05); }
+.clinic-facts li + li { border-left: 1px solid #c4c4c430; }
+.clinic-facts svg { width: 19px; height: 19px; flex-shrink: 0; color: currentColor; }
+.clinic-facts a { display: flex; align-items: center; justify-content: center; gap: 11px; color: inherit; }
+.clinic-facts a:hover { opacity: 1; }
+
+/* Accordion rows stay visible; only their inner panels animate. */
+.services-section { background: #000; color: #f5f5f5; --muted-foreground: #999; }
+.services-section .service-item { background: #111; border-color: #333; color: #f5f5f5; transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease; }
+.services-section .service-item[data-open="true"] { background: #fff; border-color: #fff; color: #171717; --muted-foreground: #666; }
+.services-section .service-item[data-open="true"] .service-chevron { color: #171717; }
+.services-section .btn-primary { background: #171717; color: #fff; box-shadow: none; }
+.services-section .btn-primary:hover { background: #333; }
+.service-item { overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--card); transition: background-color 200ms ease, border-color 200ms ease; }
+.service-item[data-open="true"] { border-color: var(--primary); background: var(--primary-soft); }
+.service-trigger { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 20px; text-align: left; font-size: 18px; font-weight: 600; cursor: pointer; }
+.service-chevron { flex-shrink: 0; transition: transform 220ms cubic-bezier(.2,.7,.2,1), color 180ms ease; }
+.service-item[data-open="true"] .service-chevron { transform: rotate(180deg); color: var(--primary); }
+.service-panel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 220ms cubic-bezier(.2,.7,.2,1), visibility 0s 220ms; }
+.service-item[data-open="true"] .service-panel { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1), visibility 0s; }
+.service-panel-clip { min-height: 0; overflow: hidden; }
+.service-panel-content { padding: 0 20px 20px; opacity: 0; transform: translateY(-5px); transition: opacity 150ms ease, transform 200ms cubic-bezier(.2,.7,.2,1); }
+.service-item[data-open="true"] .service-panel-content { opacity: 1; transform: translateY(0); }
+@media (max-width: 600px) { .service-trigger { font-size: 16px; } }
+
+.story-section { --story-panel-height: min(440px, calc(100svh - 96px)); height: 280svh; color: #222; background: #000; overflow-anchor: none; }
+.story-sticky { position: sticky; top: 0; height: 100svh; display: flex; align-items: center; overflow: hidden; background: #fff; border-radius: var(--story-entry-radius, 40px) var(--story-entry-radius, 40px) 40px 40px; }
+.story-layout { position: relative; width: 100%; height: var(--story-panel-height); transform: scale(.92); transform-origin: center; }
+.story-dot-pattern { --dot-oval: ellipse 36% 52% at 52% 50%; top: -60px; height: calc(100% + 120px); fill: #9a9a9a; opacity: .75; }
+.story-dot-core { mask-image: radial-gradient(var(--dot-oval), #000 0%, #000 40%, #000000b3 55%, transparent 75%); }
+.story-dot-soft { filter: blur(1.3px); mask-image: radial-gradient(var(--dot-oval), transparent 30%, #0000008c 58%, #00000052 75%, #0000001a 90%, transparent 100%); }
+.story-dot-outer { filter: blur(2.6px); mask-image: radial-gradient(var(--dot-oval), transparent 55%, #00000059 75%, #00000014 93%, transparent 100%); }
+.story-visual { position: absolute; left: 20.5%; top: 50%; transform: translateY(-50%); width: 27.5%; max-width: 440px; }
+.story-step-number { position: absolute; left: -16vw; top: 50%; transform: translateY(-50%); display: flex; align-items: baseline; gap: 22px; font-family: "Instrument Serif", serif; font-size: clamp(52px, 4vw, 80px); font-weight: 400; line-height: 1; }
+.story-step-number small { font-family: var(--font-sans); font-size: 14px; white-space: nowrap; }
+.story-media { position: relative; width: 66.667%; margin-inline: auto; aspect-ratio: 1; contain: layout paint; }
+.story-media { mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent), linear-gradient(0deg, transparent, #000 10%, #000 90%, transparent); mask-composite: intersect; }
+.story-media canvas, .story-poster { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
+.story-media canvas { opacity: 0; }
+.story-media canvas[data-ready="true"] { opacity: 1; }
+.story-media:has(canvas[data-ready="true"]) .story-poster { visibility: hidden; }
+.story-ground-shadow { display: none; position: absolute; left: 50%; top: 80%; width: 68%; height: 12%; transform: translateX(-50%); pointer-events: none; background: radial-gradient(ellipse at center, #00000038 0%, #0000001a 35%, #00000008 55%, transparent 72%); }
+.story-copy { position: absolute; top: calc(14% + max(0, var(--story-position, 0) - 1) * 36%); transform: translateY(calc(max(0, var(--story-position, 0) - 1) * -50%)); left: 55%; width: 40.5%; padding: 24px; box-sizing: border-box; border-radius: 24px; border: 1px solid #e5e5e5; background: #f7f7f7; color: #202020; box-shadow: 0 10px 30px #00000012, 0 2px 6px #00000008, inset 0 1px 8px #00000008; }
+.story-copy-label, .story-text-window { position: relative; z-index: 1; }
+.story-copy-label { margin: 0 0 18px; font-size: 14px; color: #6b6b6b; }
+.story-text-window { --story-text-offset: calc(min(1, var(--story-position, 0)) * var(--story-first-row-height, 130px) + max(0, var(--story-position, 0) - 1) * var(--story-second-row-height, 130px)); height: calc(var(--story-total-text-height, 390px) - var(--story-text-offset)); overflow: hidden; }
+.story-text-track { transform: translate3d(0, calc(var(--story-text-offset) * -1), 0); will-change: transform; }
+.story-copy-step { height: auto; padding: 14px 0 12px; border-top: 1px solid #00000014; box-sizing: border-box; color: #333; }
+.story-copy-step.is-active { color: #111; }
+.story-copy-step:last-child { height: auto; padding-bottom: 0; }
+.story-copy-step h2 { font-family: "Noto Serif Armenian", serif; font-size: clamp(26px, 2.4vw, 46px); font-weight: 400; line-height: 1.25; letter-spacing: -.035em; text-wrap: balance; }
+.story-copy-step p { max-width: 88%; margin-top: 8px; font-size: 13px; line-height: 1.6; opacity: .75; }
+.story-scroll-hint { position: absolute; left: 50%; top: calc(max(50% + min(31vw, 580px) * .36, 14% + max(0, var(--story-position, 0) - 1) * 36% + var(--story-card-height, 350px) * (1 - max(0, var(--story-position, 0) - 1) / 2)) + 20px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; color: #999; font-size: 11px; line-height: 1.4; pointer-events: none; }
+.story-scroll-hint svg { animation: story-hint-down 2s ease-in-out infinite; }
+@keyframes story-hint-down { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) { .story-scroll-hint svg { animation: none; } }
+@media (min-width: 768px) {
+  .story-visual { left: 67%; width: 27.5%; max-width: 440px; z-index: 2; transform: translateY(calc(-50% - 37px)); }
+  .story-step-number { left: -56vw; }
+  .story-copy { left: 50%; width: 52%; transform: translate(-50%, calc(max(0, var(--story-position, 0) - 1) * -50%)); padding-left: clamp(48px, 5.5vw, 106px); }
+  .story-copy-step h2 { font-size: clamp(18px, 1.55vw, 30px); transition: color 180ms ease; }
+  .story-copy-step.is-active h2 { font-size: clamp(24px, 2.15vw, 41px); }
+  .story-copy-step p { font-size: 12px; }
+  .story-copy-label { font-size: 13px; }
+}
+@media (max-width: 767px) {
+  .story-dot-pattern, .story-visual { display: none; }
+  .story-media { contain: layout paint; isolation: isolate; }
+  .story-section { --story-panel-height: min(520px, calc(100svh - 88px)); height: 230svh; background: #000; color: #222; }
+
+  .story-visual { width: min(280px, 65vw); left: 27%; top: 30%; }
+  .story-step-number { font-size: 46px; left: -21vw; gap: 8px; }
+  .story-step-number small { font-size: 11px; }
+  .story-copy { top: 50%; transform: translateY(-50%); left: 8%; width: 84%; padding: 18px; border-radius: 20px; background: #f7f7f7; color: #202020; }
+  .story-scroll-hint { top: calc(50% + var(--story-card-height, 350px) / 2 + 20px); }
+  .story-copy-label { margin-bottom: 12px; font-size: 12px; }
+  .story-copy-label { color: #6b6b6b; }
+  .story-copy-step { padding-top: 14px; color: #333; border-color: #00000014; }
+  .story-copy-step.is-active { color: #111; }
+  .story-copy-step h2 { font-size: 25px; }
+  .story-copy-step p { font-size: 12px; margin-top: 8px; }
+}
+@media (max-height: 700px) and (max-width: 767px) { .story-visual { max-width: 220px; } }
+.team-introduction { position: relative; isolation: isolate; overflow: hidden; width: 100%; padding: 96px 0; background: #000; color: #f5f5f5; }
+.team-intro-heading { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; max-width: 1024px; margin: 0 auto 32px; padding: 0 24px; text-align: center; }
+.team-heading-copy { min-width: 0; }
+.team-intro-heading h2 { position: relative; margin-bottom: .375rem; }
+.team-heading-copy > p { font-size: 15px; color: #aaa; line-height: 1.8; }
+.team-marquee { position: relative; max-width: 1280px; margin: 0 auto; --gap: 24px; }
+.team-marquee-window { overflow: hidden; }
+.team-marquee::before, .team-marquee::after { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; width: min(128px, 8vw); pointer-events: none; }
+.team-marquee::before { left: 0; background: linear-gradient(to right, #000, transparent); }
+.team-marquee::after { right: 0; background: linear-gradient(to left, #000, transparent); }
+.team-marquee-window::-webkit-scrollbar { display: none; }
+.team-marquee-track { display: flex; width: max-content; transform: translate3d(0, 0, 0); will-change: transform; backface-visibility: hidden; animation: team-marquee var(--duration, 40s) linear infinite; }
+.team-marquee:not([data-ready="true"]) .team-marquee-track { animation-play-state: paused; }
+.team-marquee-group { display: flex; flex-shrink: 0; gap: var(--gap); padding-right: var(--gap); }
+.team-profile { width: 256px; flex-shrink: 0; }
+.team-profile-photo { position: relative; height: 368px; overflow: hidden; contain: layout paint; border-radius: 12px; background: #171717; }
+.team-profile-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.team-profile-caption { position: absolute; inset: auto 0 0; padding: 8px; border-radius: 8px; background: #262626e6; }
+.team-profile-caption h3 { color: #f5f5f5; font-size: 15px; font-weight: 600; }
+.team-profile-caption p { margin-top: 5px; font-size: 12px; color: #aaa; }
+.team-sample-badge { position: absolute; top: 12px; left: 12px; padding: 5px 9px; border-radius: 6px; background: #000000b3; color: #ccc; font-size: 10px; }
+@keyframes team-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+.team-intro-footer { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 24px; max-width: 880px; margin: 40px auto 0; padding: 0 24px; text-align: left; }
+.team-intro-footer blockquote { margin: 0; font-family: var(--font-sans); font-size: 15px; font-weight: 400; color: #aaa; line-height: 1.8; }
+.team-lead { margin-top: 16px; }
+.team-lead-portrait { flex-shrink: 0; width: 80px; height: 80px; object-fit: cover; border-radius: 50%; }
+.team-lead h3 { font-size: 14px; font-weight: 600; }
+.team-lead span { display: block; margin-top: 5px; font-size: 12px; color: #aaa; }
+.team-bottom-decoration { position: absolute; z-index: -1; right: 0; bottom: 0; width: min(460px, 65vw); height: 154px; color: #171717; }
+@media (max-width: 600px) {
+  .team-introduction { padding: 48px 0; }
+  .team-intro-heading { margin-bottom: 24px; padding: 0 20px; }
+  .team-heading-copy h2 { margin-bottom: .25rem; }
+  .team-heading-copy > p { font-size: 13px; }
+  .team-marquee { --gap: 16px; }
+  .team-profile { width: 220px; }
+  .team-profile-photo { height: 316px; }
+  .team-intro-footer { margin-top: 28px; gap: 14px; }
+  .team-intro-footer blockquote { font-size: 13px; }
+  .team-lead-portrait { width: 56px; height: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-marquee-track { animation: none; }
+  .team-marquee-group[aria-hidden="true"] { display: none; }
+  .team-marquee-window { overflow-x: auto; }
+  .team-marquee::before, .team-marquee::after { display: none; }
+}
+@media (max-width: 700px) {
+  .clinic-facts ul { min-height: 168px; padding: 64px 10px; }
+  .clinic-facts li { gap: 7px; padding: 0 8px; font-size: 10px; }
+  .clinic-facts svg { width: 16px; height: 16px; }
+  .clinic-facts a { gap: 6px; }
+}
+
+
+
+
+/* Agreed monochrome palette for reviews and contact. */
+.reviews-section { background: #fff; color: #171717; }
+.review-rating { --primary: #fff; --primary-deep: #fff; background: #000; color: #fff; }
+.review-rating:hover { background: #242424; }
+.contact-section { --primary-deep: #000; --primary-soft: #ededed; --sky-foreground: #fff; background: #000; color: #fff; }
+
+/* Shared Armenian heading hierarchy: optical size, tracking and leading together. */
+.clinic-section-title { font-family: "Noto Serif Armenian", serif; font-size: clamp(1.75rem, 3.1vw, 2.75rem); font-weight: 400; font-optical-sizing: auto; line-height: 1.32; letter-spacing: -.015em; text-wrap: balance; }
+
+/* Desktop rhythm: shared alignment, comfortable reading, and deliberate section gaps. */
+@media (min-width: 768px) {
+  .clinic-page { --section-space: clamp(4.5rem, 6.5vw, 6.5rem); --content-width: 70rem; --page-gutter: clamp(2rem, 5vw, 5rem); }
+  .services-content, .reviews-section, .faq-section, .contact-content, .clinic-footer {
+    width: calc(100% - var(--page-gutter) * 2); max-width: var(--content-width); margin-inline: auto; padding-inline: 0;
+  }
+  .services-section { padding: var(--section-space) 0 3rem; }
+  .services-content > p { margin-top: 1rem; font-size: 1rem; line-height: 1.65; }
+  .team-introduction { padding: 3rem 0 var(--section-space); }
+  .team-intro-heading { max-width: var(--content-width); margin-bottom: 2.5rem; }
+  .team-intro-heading h2 { margin-bottom: .875rem; }
+  .team-heading-copy > p { font-size: 1rem; line-height: 1.65; color: #b8b8b8; }
+  .team-intro-footer { width: calc(100% - var(--page-gutter) * 2); max-width: var(--content-width); padding: 0; margin-top: 3rem; gap: 1.5rem; align-items: center; }
+  .team-intro-footer > div { max-width: 46rem; }
+  .team-intro-footer blockquote { font-size: 1rem; line-height: 1.75; color: #b8b8b8; }
+  .team-profile-caption { padding: .875rem 1rem; }
+  .team-profile-caption p { font-size: .8125rem; line-height: 1.5; color: #c0c0c0; }
+  .reviews-section { padding-block: var(--section-space) 4rem; }
+  .reviews-card { padding: 2.5rem; gap: 2rem; }
+  .reviews-card > div { min-width: 0; }
+  .reviews-card .clinic-section-title { max-width: 15em; }
+  .reviews-card p { margin-top: 1rem; line-height: 1.65; }
+  .review-rating { flex-shrink: 0; }
+  .faq-section { padding-top: 0; padding-bottom: var(--section-space); }
+  .faq-section > ul { margin-top: 2rem; }
+  .faq-section li { max-width: 100%; }
+  .faq-section li button { padding-block: 1.5rem; line-height: 1.5; }
+  .faq-section li p { max-width: 52rem; line-height: 1.75; }
+  .contact-content { padding-block: var(--section-space); }
+  .contact-content > p { margin-top: 1.25rem; max-width: 32rem; font-size: 1rem; line-height: 1.75; }
+  .contact-content > .flex { margin-top: 2rem; gap: 1rem; }
+  .contact-details { margin-top: 3rem; gap: 1.5rem; }
+  .contact-details > * { padding: 1.5rem; }
+  .contact-details p, .contact-details a { line-height: 1.6; }
+  .clinic-footer { padding-block: 2rem; }
+  .clinic-topbar { background: rgb(0 0 0 / .82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 .5rem 2rem #00000012; }
+  #services, #team, #contact, #faq { scroll-margin-top: 7.5rem; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .clinic-topbar { background: #000; backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* Treatment steps: a minimal, editorial spread on Apple's light grey. No rounded corners:
+   the video is a sharp 16:9 rectangle pinned in place, four clinic photos rise into the
+   row beneath it, and the step text sits in a column to the right, top-aligned with the
+   video. The motion itself is driven per frame from src/lib/story-motion.ts. */
+.sx { position: relative; height: 360svh; background: #f5f5f7; color: #1d1d1f; overflow-anchor: none; }
+.sx-stage { background: #f5f5f7; position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; align-content: center; padding: 104px clamp(32px, 6vw, 96px) 40px; }
+/* A linear shade, darkest on the left under the media, drifting slowly with the
+   scroll. It is its own oversized layer moved by transform only, so nothing repaints. */
+.sx-shade { position: absolute; inset: -30%; pointer-events: none; background: linear-gradient(112deg, #bfbfc4 0%, #d6d6da 28%, #eaeaee 56%, #f5f5f7 80%); will-change: transform; }
+.sx-grid { position: relative; z-index: 1; display: grid; align-items: start; grid-template-columns: clamp(360px, 38vw, 600px) minmax(240px, 330px); column-gap: clamp(36px, 4.5vw, 72px); row-gap: 8px; justify-content: center; }
+/* Media sit in a white mount: 9px frame, 12px outer corners, inner corners 4px (outer minus frame) so the curves nest. */
+/* The white mount is one frame that deforms: it first pours down from the video's bottom
+   edge to wrap the first photo, then the same piece stretches left to right across the
+   others in turn. A clip-path inset with rounded corners shapes it, so its corners stay
+   round while it moves. Photos arrive bare and settle into it. */
+.sx-media { grid-column: 1; grid-row: 1; align-self: start; filter: drop-shadow(0 10px 18px rgb(0 0 0 / .07)); }
+.sx-video { padding: 9px; background: #fff; border-radius: 12px; }
+.sx-video video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: #e8e8ed; }
+
+/* Photo row: four portrait frames, flush with the video's width. They start a full screen
+   below and squash and stretch from their bottom edge as they land. */
+.sx-photos { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.sx-ext { position: absolute; inset: 0; background: #fff; clip-path: inset(0 100% 100% 0 round 0 0 12px 12px); will-change: clip-path; }
+.sx-photo { position: relative; margin: 0; padding: 0 4.5px 9px; transform: translate3d(0, 100vh, 0); transform-origin: 50% 100%; will-change: transform; }
+/* Three photos fill the right three slots; the first slot stays open, so the video keeps
+   its rounded bottom-left corner and the frame ends in a corner of its own. */
+.sx-photo:first-of-type { grid-column-start: 2; padding-left: 9px; }
+.sx-photo:last-of-type { padding-right: 9px; }
+/* Inner corner where the frame turns back under the video: a white square with a 12px
+   quarter-circle cut, matching the outer corners. Placed per frame. */
+.sx-fillet { position: absolute; left: 0; top: 0; width: 12px; height: 12px; background: #fff; -webkit-mask: radial-gradient(circle at 0 100%, transparent 11.5px, #000 12px); mask: radial-gradient(circle at 0 100%, transparent 11.5px, #000 12px); opacity: 0; pointer-events: none; will-change: transform; }
+.sx-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; background: #e8e8ed; }
+
+/* Text column: a fixed label, then one step at a time. Every line lives in its own mask
+   and slides up into it; the padding gives the small overshoot room to breathe. */
+.sx-text { grid-column: 2; grid-row: 1; align-self: start; min-width: 0; display: flex; flex-direction: column; }
+.sx-label { margin: 0 0 20px; font-size: 13px; font-weight: 500; letter-spacing: .01em; color: #86868b; }
+.sx-steps { position: relative; height: 16.5rem; }
+.sx-step { position: absolute; inset: 0; }
+.sx-line { overflow: hidden; padding-top: .14em; margin-top: -.14em; }
+/* Spacing lives between the masks, never inside them, so a lifted line clears its mask completely. */
+.sx-line + .sx-line { margin-top: calc(12px - .14em); }
+.sx-line > * { display: block; transform: translate3d(0, 110%, 0); transform-origin: 50% 100%; will-change: transform; }
+/* The large italic numeral is the accent; the serif title and the quiet sans line follow. */
+.sx-num { font-family: "Instrument Serif", serif; font-style: italic; font-size: clamp(48px, 4.6vw, 72px); font-weight: 400; line-height: .9; letter-spacing: -.02em; color: #1d1d1f; }
+.sx-title { margin: 0; font-family: "Noto Serif Armenian", serif; font-size: clamp(21px, 1.8vw, 28px); font-weight: 400; line-height: 1.2; letter-spacing: -.015em; text-wrap: balance; }
+.sx-desc { margin: 0; max-width: 30em; font-size: 13px; line-height: 1.6; color: #6e6e73; }
+/* What each step includes: small outlined tags, transparent, hairline grey, quiet type. */
+.sx-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 0; padding: 0; list-style: none; }
+.sx-tag { padding: 4px 10px; border: 1px solid rgb(0 0 0 / .14); border-radius: 8px; font-size: 11.5px; line-height: 1.3; color: #6e6e73; white-space: nowrap; }
+
+/* Progress: three hairline bars level with the bottom of the photo row; the current step's
+   bar is full length and dark, the others short and faint (scale and opacity only). */
+.sx-bars { margin-top: 20px; display: flex; gap: 8px; }
+.sx-bars i { width: 44px; height: 2px; background: #1d1d1f; transform-origin: 0 50%; transform: scaleX(.35); opacity: .3; }
+.sx-bars i:first-child { transform: none; opacity: 1; }
+
+/* Phones: a simple stack for now (video, photos, text, bars); not yet designed. */
+@media (max-width: 767px) {
+  .sx { height: 300svh; }
+  .sx-stage { align-content: start; padding: 84px 20px 24px; }
+  .sx-grid { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .sx-media, .sx-text { grid-column: 1; grid-row: auto; }
+  .sx-text { margin-top: 20px; }
+  .sx-label { margin-bottom: 16px; }
+  .sx-steps { height: 14rem; }
+  .sx-num { font-size: 48px; }
+  .sx-bars { margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-photo, .sx-line > * { transform: none; }
+}
+
+/* Large screens (around 1920x1080): the whole spread steps down about a sixth so it keeps
+   the same proportion to the screen as it has at laptop sizes. */
+@media (min-width: 1680px) {
+  .sx-grid { grid-template-columns: 500px 280px; column-gap: 64px; }
+  .sx-label { font-size: 12px; margin-bottom: 22px; }
+  .sx-steps { height: 14rem; }
+  .sx-num { font-size: 60px; }
+  .sx-title { font-size: 23px; }
+  .sx-desc { font-size: 12.5px; }
+  .sx-bars i { width: 32px; }
+}
+
+/* Team, desktop: portraits on the inside of a cylinder (geometry in src/lib/curved-carousel.ts).
+   Each card fills the band and is cut to its rounded quad per frame; the portrait, shade
+   and caption inside are moved by transform only. Cards run off the section edges. */
+.team-curve { display: none; position: relative; width: 100%; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; }
+.team-curve[data-dragging="true"] { cursor: grabbing; }
+.team-curve-card { position: absolute; inset: 0; margin: 0; background: #171717; will-change: clip-path; }
+.team-curve-media { position: absolute; left: 0; top: 0; max-width: none; object-fit: cover; transform-origin: 0 0; will-change: transform; pointer-events: none; }
+.team-curve-shade { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: linear-gradient(to top, rgb(0 0 0 / .72), rgb(0 0 0 / .35) 55%, transparent); will-change: transform; }
+.team-curve-caption { position: absolute; left: 0; top: 0; color: #f5f5f5; will-change: transform; }
+.team-curve-caption h3 { font-size: 14px; font-weight: 600; line-height: 1.25; }
+.team-curve-caption p { margin-top: 4px; font-size: 11.5px; color: #c0c0c0; line-height: 1.35; }
+@media (min-width: 768px) {
+  .team-curve { display: block; margin: 8px 0 0; }
+  .team-marquee-phone { display: none; }
+}
+
+/* Reviews inherit the shared clinic theme rather than introducing a separate palette. */
+.testimonials-section { background: var(--clinic-dark); color: var(--clinic-light); }
+.testimonials-section .review-rating { background: transparent; color: var(--foreground); border-bottom: 1px solid var(--border); border-radius: 0; padding: 0 0 24px; }
+.testimonials-section .review-rating:hover { color: var(--primary); }
+.testimonials-section h2 { font-family: "Noto Serif Armenian", serif; font-weight: 400; letter-spacing: 0; }
+@media (min-width: 768px) { .testimonials-section > div { width: calc(100% - var(--page-gutter) * 2); max-width: var(--content-width); margin-inline: auto; padding-inline: 0; } }
+/* Reviews: the heading group sits flush right, against the rating and card column. */
+@media (min-width: 768px) {
+  .testimonials-section .space-y-6 { text-align: right; }
+  .testimonials-section .space-y-6 > p { margin-left: auto; }
+  .testimonials-section .space-y-6 > .flex { justify-content: flex-end; }
+}
+/* Reviews: the two columns form one centred group with a single, generous gutter
+   between them, so the composition sits balanced on the page's axis. */
+@media (min-width: 768px) {
+  .testimonials-section .grid { max-width: 1000px; margin-inline: auto; column-gap: clamp(48px, 6vw, 88px); align-items: center; }
+  .testimonials-section .grid > div:last-child { margin-right: 0; }
+}
+
+/* Story section, dark: a deep graphite page with a visible diagonal glow, white type.
+   Apple's dark label scale: primary #f5f5f7, secondary ~72%, tertiary ~55%. */
+.sx, .sx-stage { background: #141416; color: #f5f5f7; }
+.sx-shade { background: linear-gradient(112deg, #3c3c41 0%, #2b2b2f 28%, #1d1d20 56%, #141416 80%); }
+.sx-label { color: rgb(235 235 245 / .55); }
+.sx-num, .sx-title { color: #f5f5f7; }
+.sx-desc { color: rgb(235 235 245 / .72); }
+.sx-tag { border-color: rgb(255 255 255 / .22); color: rgb(235 235 245 / .72); }
+.sx-media { filter: drop-shadow(0 14px 28px rgb(0 0 0 / .45)); }
+/* No gradient: one flat Apple dark surface (#161617, as on apple.com's dark sections);
+   the framed video and white type carry the section. */
+.sx, .sx-stage { background: #161617; }
+.sx-shade { display: none; }
+/* Video quality and corners: no filter above the video (a filter forces slow,
+   blurry scaling of every frame), so the frame casts a plain box-shadow instead; and
+   the video is clipped with clip-path, which Chrome honours even while it plays,
+   so all four corners stay round. */
+.sx-media { filter: none; }
+.sx-video { box-shadow: 0 14px 28px rgb(0 0 0 / .45); }
+.sx-video video { clip-path: inset(0 round 4px); }
+/* The mount around the video: Apple's light grey instead of white, softer on the dark page. */
+.sx-video { background: #b4b4b8; }
+
+/* Section title as an editorial kicker: a large, thin serif that hangs off the video's
+   top-left corner, mostly above it and just into it. Difference blending keeps it legible
+   where it crosses the bright footage. */
+.sx-media { position: relative; }
+.sx-kicker { position: absolute; z-index: 2; left: -22%; top: 0; margin: 0; transform: translateY(-78%); font-family: "Noto Serif Armenian", serif; font-weight: 200; font-size: clamp(48px, 4.6vw, 88px); line-height: 1; letter-spacing: -.02em; white-space: nowrap; color: #fff; mix-blend-mode: difference; pointer-events: none; }
+@media (max-width: 767px) { .sx-kicker { position: static; transform: none; margin: 0 0 12px; font-size: 40px; mix-blend-mode: normal; } }
+
+/* Section signature: "Փուլերը" in Tumanian's Handwriting (Ruben Tarumian, after Hovhannes
+   Tumanyan's own hand; free for commercial use), tilted like a signature across the video's
+   top-left corner. Difference blending keeps it legible over the bright footage. */
+@font-face { font-family: "Tumanian Handwriting"; src: url("/fonts/tumanian-dzeragir.ttf") format("truetype"); font-display: swap; }
+.sx-kicker { left: -18%; transform: translateY(-55%) rotate(-7deg); transform-origin: 0 100%; font-family: "Tumanian Handwriting", cursive; font-weight: 400; font-size: clamp(64px, 7vw, 112px); letter-spacing: 0; }
+@media (max-width: 767px) { .sx-kicker { transform: rotate(-5deg); transform-origin: 0 100%; font-size: 52px; } }
+.sx-kicker { color: #c7c7cc; mix-blend-mode: difference; }
+/* Signature font: Poqrik dzeragir (fonter.am, free for commercial and personal use). */
+@font-face { font-family: "Poqrik Dzeragir"; src: url("/fonts/poqrik-dzeragir.ttf") format("truetype"); font-display: swap; }
+.sx-kicker { font-family: "Poqrik Dzeragir", cursive; }
+/* Signature: 1.5x smaller, sitting fully on the page above the video (no overlap). */
+.sx-kicker { font-size: clamp(43px, 4.67vw, 75px); transform: translateY(-118%) rotate(-7deg); }
+/* Back to Tumanian's Handwriting at its earlier size, still sitting fully above the video. */
+.sx-kicker { font-family: "Tumanian Handwriting", cursive; font-size: clamp(64px, 7vw, 112px); }
+
+/* Hero lettering after the swash-capital style: each word opens with a large Pinyon Script
+   capital (free, Google Fonts) that dips below the baseline and tucks under the tall,
+   condensed Instrument Serif letters that follow. Both words are upright. */
+.clinic-headline .swash { font-family: "Pinyon Script", cursive; font-weight: 400; font-style: normal; font-size: 1.5em; line-height: 0; letter-spacing: 0; vertical-align: -0.1em; margin-right: 0.2em; position: relative; z-index: 1; }
+
+/* Swash capitals: a touch smaller, set close enough that each one just meets the letter
+   after it, the way a swash capital connects in print. */
+.clinic-headline .swash { font-size: 1.38em; vertical-align: -0.09em; margin-right: 0.1em; }
+/* PC uses the phone's treatment: one white headline in difference mode, dark over the
+   light half and light over the film. */
+@media (min-width: 601px) {
+  .clinic-headline { color: #fff; mix-blend-mode: difference; }
+  .clinic-headline-light { display: none; }
+}
+
+
+/* Hero lettering, pairing 3: Mrs Saint Delafield pen-script capitals with Cormorant for the
+   rest (both free, Google Fonts). The fine script capital is drawn small in its em box, so
+   it is set larger, dropped below the baseline and tucked under the next letter. */
+.clinic-headline { font-family: "Cormorant", "Noto Serif Armenian", serif; font-weight: 500; letter-spacing: -.035em; }
+.clinic-headline .swash { font-family: "Mrs Saint Delafield", cursive; font-size: 2em; vertical-align: -0.15em; margin-right: 0.14em; }
+
+/* Hero lettering, lowercase in Nyght Serif italic (Maksym Kobuzan, SIL Open Font License;
+   licence in public/fonts/nyght-serif-LICENSE.txt). Regular 400 / Medium 500. */
+@font-face { font-family: "Nyght Serif"; src: url("/fonts/nyght-serif-regular-italic.otf") format("opentype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Nyght Serif"; src: url("/fonts/nyght-serif-medium-italic.otf") format("opentype"); font-weight: 500; font-style: italic; font-display: swap; }
+.clinic-headline { font-family: "Nyght Serif", "Cormorant", serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; }
+/* Headline 1.5x smaller across sizes. */
+.clinic-headline { font-size: clamp(77px, 8.27vw, 173px); }
+@media (max-width: 900px) { .clinic-headline { font-size: 8.67vw; } }
+@media (max-width: 600px) { .clinic-headline { font-size: 13.3vw; } }
+/* Headline centred optically in the space between the menu bar and the buttons. */
+.clinic-headline { top: 42.8%; transform: translateY(-50%); }
+@media (max-width: 600px) { .clinic-headline { top: 40%; } }
+/* Swash capitals: smaller, tucked under the following letters. They sit behind the
+   lowercase (painted first, no stacking lift), so the overlap never hides a letter. */
+.clinic-headline .swash { font-size: 1.62em; vertical-align: -0.12em; margin-right: -0.01em; position: static; z-index: auto; }
+/* Headline tracking: opened slightly so the italic letters breathe at display size. */
+.clinic-headline { letter-spacing: .03em; }
+.clinic-headline .swash { letter-spacing: 0; }
+/* Second line ("Dental Clinic") set smaller than the name, as a subline. */
+.clinic-headline > span:last-child { font-size: .72em; margin-top: .1em; }
+/* "Dental Clinic" in Borel (Rosa Wagner, SIL Open Font License, Google Fonts): a rounded
+   handwriting with tall loops, so it is set smaller with tight leading to sit under the name. */
+.clinic-headline span.clinic-headline-sub { font-family: "Borel", cursive; font-style: normal; font-weight: 400; font-size: .4em; line-height: 1; letter-spacing: 0; margin-top: .35em; }
+
+/* Headline: "Alphastom" 1.25x larger; the Borel subline keeps its earlier size (0.4 / 1.25). */
+.clinic-headline { font-size: clamp(96px, 10.34vw, 216px); }
+@media (max-width: 900px) { .clinic-headline { font-size: 10.84vw; } }
+@media (max-width: 600px) { .clinic-headline { font-size: 16.6vw; } }
+.clinic-headline span.clinic-headline-sub { font-size: .32em; }
+
+/* "Dental Clinic": DT Nightingale Light (Death of Typography, SIL Open Font License;
+   licence in public/fonts/dt-nightingale-LICENSE.txt), right-aligned under the end of
+   "Alphastom" like a signature line (placement B). */
+@font-face { font-family: "DT Nightingale"; src: url("/fonts/dt-nightingale-light.otf") format("opentype"); font-weight: 300; font-style: normal; font-display: swap; }
+.clinic-headline span.clinic-headline-sub { font-family: "DT Nightingale", "Cormorant", serif; font-weight: 300; font-size: .36em; letter-spacing: .02em; margin-top: .3em; }
+@media (min-width: 601px) { .clinic-headline span.clinic-headline-sub { text-align: right; padding-right: 26%; } }
+
+/* Headline as one centred block that hugs its widest line, so "Dental Clinic" can align
+   exactly to the right edge of "Alphastom". The subline is a plain, quiet sans at a small
+   size, lightly tracked, with a clear gap under the name. */
+@media (min-width: 601px) {
+  .clinic-headline { left: 50%; width: max-content; transform: translate(-50%, -50%); }
+}
+.clinic-headline span.clinic-headline-sub { font-family: "Noto Sans Armenian", system-ui, sans-serif; font-style: normal; font-weight: 500; font-size: .17em; letter-spacing: .06em; line-height: 1.2; margin-top: .9em; }
+@media (min-width: 601px) { .clinic-headline span.clinic-headline-sub { text-align: right; padding-right: .2em; } }
+/* Subline tucked closer under the name and set in from its right edge. */
+.clinic-headline span.clinic-headline-sub { margin-top: .25em; }
+@media (min-width: 601px) { .clinic-headline span.clinic-headline-sub { padding-right: 1.4em; } }
+.clinic-headline span.clinic-headline-sub { font-weight: 300; }
+
+/* Palette hero (PC): tan field on the left, red headline where it sits on the field,
+   and the difference overlay only where it crosses the video. Both copies share one box,
+   centred on the seam, so clipping each at 50% splits them exactly at the video edge. */
+@media (min-width: 601px) {
+  .clinic-hero { background: var(--hero-field); }
+  .clinic-hero::before { background: var(--hero-field); }
+  .clinic-hero-dots { fill: var(--hero-dot); opacity: 1; }
+  .clinic-headline { color: var(--hero-ink); mix-blend-mode: normal; clip-path: inset(-50% 50% -50% -50%); }
+  .clinic-headline.clinic-headline-light { display: block; color: #fff; mix-blend-mode: difference; clip-path: inset(-50% -50% -50% 50%); }
+  .clinic-location, .clinic-location > span, .clinic-location small { color: var(--hero-ink); }
+  .clinic-hero-cta-book { background: var(--hero-ink); border-color: var(--hero-ink); }
+  .clinic-hero-cta-book { color: var(--hero-field); }
+  .clinic-hero-cta-book:hover { color: var(--hero-ink); }
+  /* Lift the corner notes clear of the screen edge and the facts panel below. */
+  .clinic-location, .clinic-hero-note { bottom: 9%; }
+  /* A larger swash A, set a touch further from the "l" so the loops still breathe. */
+  .clinic-headline .swash { font-size: 1.9em; vertical-align: -0.12em; margin-right: .04em; }
+}
+
+/* "Alph" ends and "astom" begins exactly on the video seam: two equal columns around
+   the centre, so no letter is ever split between the red and the difference overlay. */
+.clinic-headline > span.hl-row { display: grid; grid-template-columns: 1fr 1fr; column-gap: 0; font-size: 1em; margin: 0; }
+.clinic-headline .hl-left { justify-self: end; }
+.clinic-headline .hl-right { justify-self: start; }
+.clinic-headline span.clinic-headline-sub { display: block; }
+
+/* Without the top menu, the headline and the two buttons read as one group, centred a touch
+   above the middle (optical centre, about 46-47% of the screen). The buttons hang from the
+   headline by a gap tied to its size, so the pair keeps its proportions at every width. */
+@media (min-width: 601px) {
+  .clinic-hero { --hl-size: clamp(96px, 10.34vw, 216px); }
+  .clinic-headline { top: 45svh; }
+  .clinic-hero-ctas { top: calc(45svh + var(--hl-size) * 1 - 30px); bottom: auto; }
+}
+
+/* Hero buttons: much softer corners, a near-capsule. */
+.clinic-hero-cta { border-radius: 22px; }
+
+/* One surface, type scale and spacing rhythm from the facts through the footer. */
+.clinic-facts, .sx, .sx-stage, .services-section, .team-introduction,
+.testimonials-section, .faq-section, .contact-section, .clinic-footer {
+  --background: var(--clinic-dark);
+  --foreground: var(--clinic-light);
+  --card: var(--clinic-surface);
+  --card-foreground: var(--clinic-light);
+  --muted: var(--clinic-surface);
+  --muted-foreground: var(--clinic-secondary);
+  --primary: var(--clinic-pewter);
+  --primary-deep: var(--clinic-light);
+  --primary-foreground: var(--clinic-dark);
+  --primary-soft: var(--clinic-surface);
+  --secondary: var(--clinic-surface);
+  --secondary-foreground: var(--clinic-light);
+  --accent: var(--clinic-line);
+  --accent-foreground: var(--clinic-light);
+  --border: var(--clinic-line);
+  --input: var(--clinic-line);
+  --sky-foreground: var(--clinic-light);
+  background: var(--background);
+  color: var(--foreground);
+}
+.clinic-page { --section-space: 5rem; --content-width: 70rem; --page-gutter: 1.25rem; }
+.clinic-section-title { font-size: 2.75rem; letter-spacing: 0; line-height: 1.32; }
+.services-section .service-item { background: var(--card); border-color: var(--border); color: var(--foreground); }
+.services-section .service-item[data-open="true"] { background: var(--clinic-light); border-color: var(--clinic-light); color: var(--clinic-dark); --muted-foreground: oklch(0.44 0.006 250); }
+.services-section .service-item[data-open="true"] .service-chevron { color: var(--clinic-dark); }
+.services-section .btn-primary { background: var(--clinic-dark); color: var(--clinic-light); }
+.services-section .btn-primary:hover { background: var(--clinic-line); }
+.clinic-facts li + li { border-color: var(--border); }
+.team-heading-copy > p, .team-intro-footer blockquote, .team-lead span,
+.team-profile-caption p, .team-curve-caption p { color: var(--muted-foreground); }
+.team-profile-photo, .team-curve-card { background: var(--card); }
+.team-marquee::before { background: linear-gradient(to right, var(--background), transparent); }
+.team-marquee::after { background: linear-gradient(to left, var(--background), transparent); }
+.team-bottom-decoration { color: var(--card); }
+.sx-label, .sx-desc, .sx-tag { color: var(--muted-foreground); }
+.sx-tag { border-color: var(--border); }
+.sx-num, .sx-title { color: var(--foreground); }
+.sx-video, .sx-ext, .sx-fillet { background: oklch(0.79 0.015 250); }
+.testimonials-section { padding-block: var(--section-space); }
+.testimonials-section > div, .faq-content, .contact-content {
+  width: calc(100% - var(--page-gutter) * 2); max-width: var(--content-width); margin-inline: auto; padding-inline: 0;
+}
+.testimonials-section .space-y-6 > p { font-size: 1rem; line-height: 1.75; }
+.testimonials-section .testimonial-card { border: 1px solid var(--border); box-shadow: none; }
+.faq-section { width: 100%; max-width: none; padding: var(--section-space) 0; }
+.faq-content, .contact-content { border-top: 1px solid var(--border); padding-top: var(--section-space); }
+.faq-section { padding-top: 0; }
+.faq-section li button { font-size: 1rem; font-weight: 500; }
+.contact-content { padding-bottom: var(--section-space); }
+.contact-content > p { color: var(--muted-foreground); opacity: 1; font-size: 1rem; line-height: 1.75; }
+.contact-details > * { background: transparent; border-radius: 0; border-top: 1px solid var(--border); padding: 1.5rem 0 0; }
+.contact-details > a:hover { background: transparent; color: var(--primary); }
+.contact-details svg { color: var(--primary); width: 20px; height: 20px; }
+.contact-details p:last-child { color: var(--muted-foreground); opacity: 1; }
+.clinic-footer { width: 100%; max-width: none; margin: 0; padding: 2rem max(var(--page-gutter), calc((100% - var(--content-width)) / 2)); border-top: 1px solid var(--border); color: var(--muted-foreground); }
+@media (min-width: 768px) {
+  .clinic-page { --section-space: 6rem; --page-gutter: 3rem; }
+}
+@media (max-width: 767px) {
+  .clinic-page { --section-space: 3.5rem; }
+  .clinic-section-title { font-size: 1.875rem; }
+  .testimonials-section .grid { gap: 2rem; }
+  .testimonials-section .space-y-6 { text-align: left; }
+  .testimonials-section .review-rating { gap: 12px; padding-bottom: 20px; }
+  .testimonials-section .review-rating > span:first-child { font-size: 2.5rem; }
+  .testimonials-section .review-rating > span:nth-child(2) { min-width: 0; }
+  .testimonials-section .review-rating > span:nth-child(2) > span:last-child { font-size: .75rem; }
+  .testimonials-section .testimonial-card { padding: 20px; }
+  .testimonials-section .testimonial-window { min-height: 300px; }
+  .testimonials-section .testimonial-card h3 { font-size: .875rem; flex-wrap: wrap; }
+  .testimonials-section .testimonial-card p { font-size: .875rem; }
+  .contact-details { gap: 1.75rem; }
+}
+
+/* Sky zone: services start white and the page gradually becomes sky through team and reviews. */
+.sky-zone {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: linear-gradient(180deg,
+    oklch(1 0 0) 0%, oklch(0.985 0.008 245) 14%, oklch(0.9 0.05 245) 26%,
+    oklch(0.74 0.08 250) 38%, oklch(0.6 0.1 252) 55%, oklch(0.48 0.1 255) 100%);
+}
+.sky-zone > section, .sky-zone > div:not(.sky-ambient) { position: relative; z-index: 1; background: transparent !important; }
+.sky-zone .services-section {
+  --background: transparent; --foreground: oklch(0.2 0.01 255); --card: oklch(1 0 0 / 0.75);
+  --card-foreground: oklch(0.2 0.01 255); --muted-foreground: oklch(0.45 0.015 255);
+  --border: oklch(0.2 0.02 255 / 0.12); --primary: var(--clinic-blue); --clinic-light: oklch(1 0 0);
+  --clinic-dark: oklch(0.2 0.01 255); color: var(--foreground);
+}
+.sky-zone .services-section .service-item { backdrop-filter: blur(6px); }
+.sky-zone .services-section .service-item[data-open="true"] { box-shadow: 0 18px 40px -24px oklch(0.4 0.15 258 / 0.5); }
+.sky-zone .team-introduction, .sky-zone .testimonials-section {
+  --background: transparent; --foreground: oklch(1 0 0); --muted-foreground: oklch(0.95 0.02 245 / 0.82);
+  --card: oklch(1 0 0 / 0.12); --card-foreground: oklch(1 0 0); --border: oklch(1 0 0 / 0.22);
+  --primary: oklch(1 0 0); --primary-deep: oklch(1 0 0); --primary-soft: oklch(1 0 0 / 0.12);
+  color: var(--foreground);
+}
+.sky-zone .testimonial-card { backdrop-filter: blur(10px); }
+.sky-zone .team-marquee::before, .sky-zone .team-marquee::after { display: none; }
+.sky-zone .review-rating { background: oklch(1 0 0 / 0.12); color: oklch(1 0 0); backdrop-filter: blur(8px); }
+
+/* Barely-there drifting light, like slow clouds. */
+.sky-ambient { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.sky-ambient span {
+  position: absolute; width: 70vmax; height: 40vmax; border-radius: 50%;
+  background: radial-gradient(closest-side, oklch(1 0 0 / 0.22), transparent);
+  filter: blur(40px); animation: sky-drift 60s ease-in-out infinite alternate;
+}
+.sky-ambient span:nth-child(1) { top: 30%; left: -20%; }
+.sky-ambient span:nth-child(2) { top: 50%; right: -25%; animation-duration: 75s; animation-delay: -20s; }
+.sky-ambient span:nth-child(3) { top: 70%; left: 10%; animation-duration: 90s; animation-delay: -40s; opacity: .7; }
+.sky-ambient span:nth-child(4) { top: 85%; right: 0; animation-duration: 68s; animation-delay: -10s; opacity: .6; }
+@keyframes sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: .5; }
+  50% { opacity: 1; }
+  100% { transform: translate3d(18vw, -4vh, 0) scale(1.15); opacity: .6; }
+}
+@media (prefers-reduced-motion: reduce) { .sky-ambient span { animation: none; } }
+
+/* Reviews: solid light cards in the familiar review-site style. */
+.sky-zone .testimonials-section .testimonial-card {
+  --card: oklch(1 0 0); --card-foreground: oklch(0.22 0.01 255); --foreground: oklch(0.22 0.01 255);
+  --muted-foreground: oklch(0.47 0.012 255); --border: oklch(0.9 0.006 250);
+  background: oklch(1 0 0); color: var(--foreground); backdrop-filter: none;
+  border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 1px 2px oklch(0.3 0.02 255 / .08), 0 12px 32px -18px oklch(0.25 0.05 255 / .45);
+}
+.sky-zone .testimonials-section .testimonial-card [data-slot="avatar-fallback"], .sky-zone .testimonials-section .testimonial-card .rounded-full > span {
+  background: var(--clinic-blue); color: oklch(1 0 0);
+}
+.sky-zone .testimonials-section .testimonial-card .h-14 { height: 2.75rem; width: 2.75rem; }
+.sky-zone .testimonials-section .testimonial-card svg.fill-primary { fill: oklch(0.8 0.15 80); color: oklch(0.8 0.15 80); }
+.sky-zone .testimonials-section .testimonial-card p:last-child { color: oklch(0.3 0.01 255); font-size: .95rem; }
+.sky-zone .testimonials-section .testimonial-card h3 span { border-color: var(--border); background: var(--clinic-blue-soft); color: var(--clinic-blue); }
+.sky-zone .review-rating {
+  background: oklch(0.975 0.004 250); color: oklch(0.22 0.01 255); backdrop-filter: none; border-radius: 16px;
+  border: 1px solid oklch(0.9 0.006 250); --primary: oklch(0.8 0.15 80); --primary-deep: oklch(0.22 0.01 255);
+}
+.sky-zone .review-rating:hover { background: oklch(1 0 0); color: var(--clinic-blue); }
+.sky-zone .testimonials-section .review-rating { padding: 1rem 1.25rem !important; }
+
+/* Story video: about 42% of the screen wide; its shape follows the scroll (set from script). */
+.team-bottom-decoration { display: none; }
+@media (min-width: 768px) {
+  .sx .sx-grid { grid-template-columns: var(--sx-w, 42.5vw) minmax(240px, 330px); }
+}
+.sx .sx-video video { aspect-ratio: var(--sx-ar, 1.78); }
+.sx .sx-bars i { background: var(--clinic-pewter); }
+.sx .sx-bars i:first-child { background: oklch(0.7 0.08 250); }
+.sx .sx-tag { border-color: oklch(0.7 0.07 250 / .45); }
