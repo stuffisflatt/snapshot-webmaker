@@ -47,10 +47,9 @@ export default function Team({ members = [] }: { members?: TeamMember[] }) {
       </Marquee>
 
       <figure className="team-intro-footer">
-        {lead && <img className="team-lead-portrait" src={lead.photo} alt={isSample ? "Նմուշային գլխավոր բժշկի դիմանկար" : lead.name} width={80} height={80} loading="lazy" />}
         <div>
-          <blockquote>«Յուրաքանչյուր ժպիտի հետևում անհատական պատմություն է։ Մեր նպատակը հոգատար մոտեցմամբ ձեր ժպիտի առողջությունն ու գեղեցկությունը պահպանելն է։»</blockquote>
           {lead && <figcaption className="team-lead"><h3>{lead.name}</h3><span>{lead.specialty} · Alphastom</span></figcaption>}
+          <blockquote>«Յուրաքանչյուր ժպիտի հետևում անհատական պատմություն է։ Մեր նպատակը հոգատար մոտեցմամբ ձեր ժպիտի առողջությունն ու գեղեցկությունը պահպանելն է։»</blockquote>
         </div>
       </figure>
     </section>

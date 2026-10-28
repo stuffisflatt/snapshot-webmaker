@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Define the clinic's shared palette and section hierarchy through semantic tokens in `src/styles.css`; lower sections inherit the same dark-surface theme so presentation stays consistent without changing content or interactions.
+- Keep video-frame keyframes in pure scroll-progress helpers and apply them without elapsed-time smoothing; this makes forward and reverse scrolling deterministic and testable.

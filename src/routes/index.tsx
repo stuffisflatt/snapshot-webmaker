@@ -84,8 +84,10 @@ function Index() {
         {/* Services */}
         <section id="services" className="services-section scroll-mt-20 px-5 py-20">
           <div className="services-content mx-auto max-w-3xl">
+          <div className="services-heading">
           <h2 className="clinic-section-title">Ծառայություններ</h2>
           <p className="mt-3 text-muted-foreground">Ընտրեք ուղղությունը՝ մանրամասների համար։</p>
+          </div>
           <ServiceAccordion onBook={service => book({ service })} />
           </div>
         </section>

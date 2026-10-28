@@ -1,5 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { activeStep, barWeight, photoRise, rise, stepLine } from "./story-motion";
+import { activeStep, barWeight, photoRise, rise, sceneProgress, stepLine, videoFrame, VIDEO_FRAMES } from "./story-motion";
+
+describe("scroll-driven video frame", () => {
+  it("starts centered at exactly 1.5 times scene 01 size", () => {
+    expect(videoFrame(0).center).toBe(1);
+    expect(videoFrame(0).scale / videoFrame(.25).scale).toBe(1.5);
+    expect(videoFrame(.25).center).toBe(0);
+  });
+  it("has four movements with exact scroll keyframes", () => {
+    expect([0, .25, .5, .75, 1].map(videoFrame)).toEqual(VIDEO_FRAMES);
+    expect(videoFrame(.125).center).toBe(.5);
+    expect(videoFrame(.125).scale).toBe(1.25);
+    expect(videoFrame(.375).scale).toBe(.925);
+    expect(videoFrame(.625).aspect).toBe(1.375);
+    expect(videoFrame(.875).aspect).toBe(1.8);
+  });
+  it("returns the same frame when scrolling back to a position", () => {
+    const frame = videoFrame(.375);
+    videoFrame(.9);
+    expect(videoFrame(.375)).toEqual(frame);
+  });
+  it("shows scenes 01, 02 and 03 at their corresponding positions", () => {
+    expect([.25, .5, .75].map(p => activeStep(sceneProgress(p)))).toEqual([0, 1, 2]);
+  });
+});
 
 describe("rise", () => {
   it("starts a full travel away and ends exactly at rest", () => {

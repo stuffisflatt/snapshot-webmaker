@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { storyScrollDelta } from "@/lib/story-scroll";
-import { activeStep, CORNER, frameTab, photoRise, stepLine } from "@/lib/story-motion";
+import { activeStep, CORNER, frameTab, photoRise, sceneProgress, stepLine, videoFrame } from "@/lib/story-motion";
 
 const STEPS = [
   { t: "Մանրակրկիտ զննում", d: "Սկսում ենք ձեր ատամների և խնդրի ուշադիր գնահատումից։", tags: ["Զննում", "Ռենտգեն", "Խորհրդատվություն"] },
@@ -65,7 +65,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
     const ext = section.querySelector<HTMLElement>(".sx-ext");
     const fillet = section.querySelector<HTMLElement>(".sx-fillet");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let raf = 0, target = 0, displayed = 0, lastTime = 0, currentStep = 0;
+    let raf = 0, target = 0, currentStep = 0;
     let visible = false, disposed = false;
     const storyRect = () => section.getBoundingClientRect();
     const scrollMetrics = () => ({ range: Math.max(1, section.offsetHeight - window.innerHeight) });
@@ -76,28 +76,30 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
       // Map the whole scroll range onto the whole clip, last frame included.
       // Reduced motion swaps the walk-through for one still per step.
       const end = Math.max(0, video.duration - 1 / 24);
-      const time = reduced.matches ? ([0, .5, 1][currentStep] ?? 0) * end : displayed * end;
+      const time = reduced.matches ? ([0, .5, 1][currentStep] ?? 0) * end : target * end;
       if (Math.abs(video.currentTime - time) >= 1 / 48) video.currentTime = time;
     };
     const schedule = () => { if (!raf && visible && !disposed) raf = requestAnimationFrame(render); };
-    function render(time: number) {
+    function render() {
       raf = 0;
       if (disposed || !visible) return;
-      const dt = lastTime ? Math.min(50, time - lastTime) : 16;
-      lastTime = time;
-      displayed = reduced.matches ? target : displayed + (target - displayed) * (1 - Math.exp(-dt / 80));
-      if (Math.abs(target - displayed) < .0001) displayed = target;
-      const p = displayed, still = reduced.matches;
-      // Video frame shape follows the scroll: hand-tuned, deliberately uneven keyframes.
-      if (!still) {
-        const keys = [[42.5, 1.78, 12], [36, 1.25, 20], [39.5, 1.5, 8], [45, 2.1, 16], [41, 1.62, 12]];
-        const t = Math.min(1, Math.max(0, target)) * (keys.length - 1);
-        const k = Math.min(keys.length - 2, Math.floor(t)), f = t - k;
-        const e = f * f * (3 - 2 * f);
-        const a = keys[k]!, b = keys[k + 1]!;
-        const lerp = (j: number) => a[j]! + (b[j]! - a[j]!) * e;
-        section!.style.setProperty("--sx-w", `${lerp(0).toFixed(2)}vw`);
-        section!.style.setProperty("--sx-ar", lerp(1).toFixed(3));
+      const p = sceneProgress(target), still = reduced.matches;
+      // Stable grid: only the frame moves and resizes, exactly at scroll progress.
+      if (frame) {
+        const pose = videoFrame(still ? .25 : target);
+        const media = frame.parentElement;
+        const stage = section.querySelector<HTMLElement>(".sx-stage");
+        if (media && stage) {
+          const baseWidth = media.offsetWidth;
+          const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
+          const width = Math.min(baseWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
+          const mediaRect = media.getBoundingClientRect();
+          const stageRect = stage.getBoundingClientRect();
+          const x = (stageRect.left + stageRect.width / 2 - mediaRect.left - width / 2) * pose.center;
+          frame.style.width = `${width}px`;
+          frame.style.transform = `translate3d(${x}px, 0, 0)`;
+          section.style.setProperty("--sx-ar", String(pose.aspect));
+        }
       }
       // Photos travel up from below the screen into the row under the video; transform
       // and opacity only, so the fixed video and text never re-lay out.
@@ -143,7 +145,6 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
       const nextStep = activeStep(p);
       if (nextStep !== currentStep) { currentStep = nextStep; setStep(nextStep); }
       syncVideo();
-      if (displayed !== target) schedule();
     }
     const update = () => {
       target = Math.min(1, Math.max(0, -storyRect().top / scrollMetrics().range));
@@ -166,7 +167,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
     };
     const observer = new IntersectionObserver(entries => {
       visible = entries[0]?.isIntersecting ?? false;
-      if (visible) { lastTime = 0; update(); }
+      if (visible) update();
       else { cancelAnimationFrame(raf); raf = 0; }
     }, { rootMargin: "300px" });
     observer.observe(section);
