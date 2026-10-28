@@ -883,7 +883,7 @@
 .team-intro-heading { margin-bottom: 0; padding-inline: 12px; }
 .team-intro-heading h2 { font-size: 3rem; margin-bottom: .25rem; }
 .team-heading-copy > p { line-height: 1.4; }
-.team-curve { margin-top: 0; }
+.team-curve { margin-block: -12px -20px; }
 .team-marquee { --gap: 12px; margin-top: var(--clinic-tight-gap); }
 .team-intro-footer { margin-top: var(--clinic-tight-gap); gap: 0; padding-inline: 12px; align-items: start; }
 .team-intro-footer > div { max-width: 54rem; }

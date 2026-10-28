@@ -82,7 +82,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
     const schedule = () => { if (!raf && visible && !disposed) raf = requestAnimationFrame(render); };
     function render() {
       raf = 0;
-      if (disposed || !visible) return;
+      if (disposed || !visible || !section) return;
       const p = sceneProgress(target), still = reduced.matches;
       // Stable grid: only the frame moves and resizes, exactly at scroll progress.
       if (frame) {
@@ -96,8 +96,10 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc }: { videoSrc?:
           const mediaRect = media.getBoundingClientRect();
           const stageRect = stage.getBoundingClientRect();
           const x = (stageRect.left + stageRect.width / 2 - mediaRect.left - width / 2) * pose.center;
+          const height = (width - 18) / pose.aspect + 18;
+          const y = (stageRect.top + stageRect.height / 2 - mediaRect.top - height / 2) * pose.center;
           frame.style.width = `${width}px`;
-          frame.style.transform = `translate3d(${x}px, 0, 0)`;
+          frame.style.transform = `translate3d(${x}px, ${y}px, 0)`;
           section.style.setProperty("--sx-ar", String(pose.aspect));
         }
       }
