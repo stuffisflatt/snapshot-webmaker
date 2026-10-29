@@ -113,9 +113,10 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
           section.style.setProperty("--sx-ar", String(pose.aspect));
           if (firstCopy && text) {
             const textRect = text.getBoundingClientRect();
-            firstCopy.style.left = `${mediaRect.left + x - textRect.left}px`;
-            firstCopy.style.top = `${mediaRect.top + y + height + 16 - textRect.top}px`;
-            firstCopy.style.width = `${width}px`;
+            const frameRect = frame.getBoundingClientRect();
+            firstCopy.style.left = `${frameRect.left - textRect.left}px`;
+            firstCopy.style.top = `${frameRect.bottom + 16 - textRect.top}px`;
+            firstCopy.style.width = `${frameRect.width}px`;
           }
         }
       }
