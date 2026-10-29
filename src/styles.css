@@ -870,16 +870,30 @@
 :root {
   --clinic-tight-gap: .5rem;
   --clinic-compact-space: 1.5rem;
+  --clinic-section-gap: 2rem;
+  --clinic-credit-ink: oklch(0 0 0);
+  --clinic-service-rest: var(--clinic-light);
+  --clinic-service-rest-ink: var(--clinic-dark);
+  --clinic-service-active: var(--clinic-dark);
+  --clinic-service-active-ink: var(--clinic-light);
   --clinic-review-mark: color-mix(in oklab, var(--clinic-light) 65%, transparent);
 }
 .sx { height: 420svh; }
 .sx .sx-video { will-change: transform, width; }
-.services-section { padding-block: 3rem var(--clinic-compact-space); }
+.services-section { padding-block: 4rem var(--clinic-section-gap); }
 .services-heading .clinic-section-title { font-size: 3.5rem; }
-.services-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
-.services-content .service-list { margin-top: 0; width: 100%; max-width: 31rem; justify-self: end; }
+.services-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem 1.5rem; align-items: start; }
+.services-heading { grid-column: 1; }
+.services-content .service-list { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: column; grid-template-rows: repeat(3, auto); gap: 12px 24px; margin-top: 0; width: 100%; align-items: start; }
+.sky-zone .services-section .service-item { background: var(--clinic-service-rest); color: var(--clinic-service-rest-ink); border-color: var(--border); --muted-foreground: var(--hero-ink); border-radius: 14px; }
+.sky-zone .services-section .service-item[data-open="true"] { background: var(--clinic-service-active); color: var(--clinic-service-active-ink); --muted-foreground: var(--clinic-secondary); border-color: var(--clinic-service-active); box-shadow: none; }
+.sky-zone .services-section .service-item[data-open="true"] .service-chevron { color: var(--clinic-service-active-ink); }
+.sky-zone .services-section .service-item .btn-primary { background: var(--clinic-light); color: var(--clinic-dark); }
+.service-trigger { height: auto; min-height: 76px; white-space: normal; border-radius: inherit; }
+.service-trigger:hover { background: transparent; color: inherit; }
+.service-trigger > span { min-width: 0; overflow-wrap: anywhere; }
 .services-heading > p { margin-top: var(--clinic-tight-gap); }
-.team-introduction { padding-block: var(--clinic-compact-space) .75rem; }
+.team-introduction { padding-block: var(--clinic-section-gap); }
 .team-intro-heading { margin-bottom: 0; padding-inline: 12px; }
 .team-intro-heading h2 { font-size: 3rem; margin-bottom: .25rem; }
 .team-heading-copy > p { line-height: 1.4; }
@@ -889,8 +903,9 @@
 .team-intro-footer > div { max-width: 54rem; }
 .team-lead { margin-top: 0; margin-bottom: var(--clinic-tight-gap); }
 .team-lead span { margin-top: 2px; }
+.sky-zone .team-heading-copy > p, .sky-zone .team-lead h3, .sky-zone .team-lead span { color: var(--clinic-credit-ink); }
 .team-intro-footer blockquote { line-height: 1.5; }
-.testimonials-section { padding-block: .75rem var(--clinic-compact-space); }
+.testimonials-section { padding-block: var(--clinic-section-gap); }
 .testimonials-section .grid { column-gap: 1.5rem; row-gap: 1rem; }
 .testimonials-section .space-y-6 > :not(:last-child) { margin-bottom: var(--clinic-tight-gap); }
 .testimonials-section .space-y-6 > p { line-height: 1.5; }
@@ -900,6 +915,17 @@
 .testimonials-section .testimonial-pagination { gap: 2px; }
 .testimonial-page-mark { display: block; height: 3px; width: 3px; border-radius: 999px; background: var(--clinic-review-mark); transition: width 180ms ease, background-color 180ms ease; }
 .testimonial-page[aria-pressed="true"] .testimonial-page-mark { width: 28px; height: 2px; background: var(--primary); }
+.sx-step:first-child { inset: auto; display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 12px; height: auto; }
+.sx-step:first-child > .sx-line:first-child { grid-column: 1; grid-row: 1 / 4; }
+.sx-step:first-child > .sx-line:not(:first-child) { grid-column: 2; }
+.sx-step:first-child > .sx-line:nth-child(2) { margin-top: 0; }
+.sx-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+.sx-actions .clinic-hero-cta { min-height: 46px; max-width: none; width: auto; font-size: 11px; padding: 10px 14px; }
+.sx-actions .clinic-hero-cta-book { background: var(--clinic-light); border-color: var(--clinic-light); color: var(--clinic-dark); }
+.sx-actions .clinic-hero-cta-book:hover { background: var(--clinic-pewter); }
+.sx-actions .clinic-hero-cta-call { border-color: var(--clinic-light); color: var(--clinic-light); background: transparent; }
+.sx-actions .clinic-hero-cta-call:hover { background: var(--clinic-light); color: var(--clinic-dark); }
+.sx-step:not(:first-child) { bottom: auto; }
 @media (min-width: 768px) {
   .sx .sx-grid { grid-template-columns: 42.5vw minmax(240px, 330px); }
   .team-intro-footer { padding-inline: 0; }
@@ -909,7 +935,14 @@
   .sx-grid { width: 100%; }
   .services-content { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
   .services-heading .clinic-section-title { font-size: 2.5rem; }
-  .services-content .service-list { max-width: none; }
+  .services-content .service-list { grid-column: 1; gap: 10px; }
+  .service-trigger { padding: 14px 10px; font-size: 12px; min-height: 76px; gap: 6px; }
+  .service-panel-content { padding: 0 10px 14px; font-size: 12px; }
+  .service-panel-content .btn { white-space: normal; height: auto; padding: 10px; font-size: 11px; }
+  .sx-step:first-child { grid-template-columns: 40px minmax(0, 1fr); gap: 8px; }
+  .sx-step:first-child .sx-num { font-size: 40px; }
+  .sx-step:first-child .sx-title { font-size: 18px; }
+  .sx-step:first-child .sx-desc { font-size: 12px; }
   .team-intro-heading h2 { font-size: 2.125rem; }
   .team-intro-heading, .team-intro-footer { margin-block: 0 var(--clinic-tight-gap); }
   .team-intro-footer { margin-top: var(--clinic-tight-gap); }
