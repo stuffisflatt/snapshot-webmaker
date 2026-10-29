@@ -11,5 +11,5 @@
 
 - Define the clinic's shared palette and section hierarchy through semantic tokens in `src/styles.css`; lower sections inherit the same dark-surface theme so presentation stays consistent without changing content or interactions.
 - Keep video-frame keyframes in pure scroll-progress helpers and apply them without elapsed-time smoothing; this makes forward and reverse scrolling deterministic and testable.
-- Position scene-01 copy from the rendered video bounds on each scroll update, and pass the page booking callback into the story so its CTA uses the existing booking sheet.
+- Preserve the story's fixed text column and scroll-driven frame geometry; place the media above the text with explicit stacking order, and pass the page booking callback into the story CTA.
 - Keep all six service accordions in one CSS grid with a shared active state so the two columns preserve existing single-panel behavior.

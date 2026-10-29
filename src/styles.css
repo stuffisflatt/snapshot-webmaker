@@ -915,10 +915,8 @@
 .testimonials-section .testimonial-pagination { gap: 2px; }
 .testimonial-page-mark { display: block; height: 3px; width: 3px; border-radius: 999px; background: var(--clinic-review-mark); transition: width 180ms ease, background-color 180ms ease; }
 .testimonial-page[aria-pressed="true"] .testimonial-page-mark { width: 28px; height: 2px; background: var(--primary); }
-.sx-step:first-child { inset: auto; display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 12px; height: auto; }
-.sx-step:first-child > .sx-line:first-child { grid-column: 1; grid-row: 1 / 4; }
-.sx-step:first-child > .sx-line:not(:first-child) { grid-column: 2; }
-.sx-step:first-child > .sx-line:nth-child(2) { margin-top: 0; }
+.sx-media { z-index: 2; }
+.sx-text { position: relative; z-index: 1; }
 .sx-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
 .sx-actions .clinic-hero-cta { min-height: 46px; max-width: none; width: auto; font-size: 11px; padding: 10px 14px; }
 .sx-actions .clinic-hero-cta-book { background: var(--clinic-light); border-color: var(--clinic-light); color: var(--clinic-dark); }
@@ -939,10 +937,6 @@
   .service-trigger { padding: 14px 10px; font-size: 12px; min-height: 76px; gap: 6px; }
   .service-panel-content { padding: 0 10px 14px; font-size: 12px; }
   .service-panel-content .btn { white-space: normal; height: auto; padding: 10px; font-size: 11px; }
-  .sx-step:first-child { grid-template-columns: 40px minmax(0, 1fr); gap: 8px; }
-  .sx-step:first-child .sx-num { font-size: 40px; }
-  .sx-step:first-child .sx-title { font-size: 18px; }
-  .sx-step:first-child .sx-desc { font-size: 12px; }
   .team-intro-heading h2 { font-size: 2.125rem; }
   .team-intro-heading, .team-intro-footer { margin-block: 0 var(--clinic-tight-gap); }
   .team-intro-footer { margin-top: var(--clinic-tight-gap); }
