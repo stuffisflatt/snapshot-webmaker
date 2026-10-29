@@ -6,7 +6,7 @@
 - [x] Verify scroll behavior and layouts.
 
 # Current layout updates
-- [ ] Place scene 01 copy below the video and add working header-style buttons to scene 03.
-- [ ] Arrange services in two columns of three with reversed light/dark states and lower the heading slightly.
-- [ ] Make team subtitle and doctor credit black and add at least 30px between sections.
-- [ ] Verify the updated page and booking interaction.
+- [x] Place scene 01 copy below the video and add working header-style buttons to scene 03.
+- [x] Arrange services in two columns of three with reversed light/dark states and lower the heading slightly.
+- [x] Make team subtitle and doctor credit black and add at least 30px between sections.
+- [x] Verify the updated page and booking interaction.
