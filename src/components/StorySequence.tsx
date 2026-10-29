@@ -65,8 +65,6 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
     const lines = [...section.querySelectorAll<HTMLElement>(".sx-step")].map(s => [...s.querySelectorAll<HTMLElement>(".sx-line > *")]);
     const shade = section.querySelector<HTMLElement>(".sx-shade");
     const frame = section.querySelector<HTMLElement>(".sx-video");
-    const firstCopy = section.querySelector<HTMLElement>(".sx-step:first-child");
-    const text = section.querySelector<HTMLElement>(".sx-text");
     const ext = section.querySelector<HTMLElement>(".sx-ext");
     const fillet = section.querySelector<HTMLElement>(".sx-fillet");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -97,27 +95,15 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
         if (media && stage) {
           const baseWidth = media.offsetWidth;
           const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
-          const stageStyle = getComputedStyle(stage);
-          const insetTop = parseFloat(stageStyle.paddingTop);
-          const insetBottom = parseFloat(stageStyle.paddingBottom);
-          const copyHeight = firstCopy?.offsetHeight ?? 160;
-          const availableHeight = Math.max(100, stage.offsetHeight - insetTop - insetBottom - copyHeight - 16);
-          const width = Math.min(baseWidth * scale, window.innerWidth - 40, availableHeight * pose.aspect);
+          const width = Math.min(baseWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           const mediaRect = media.getBoundingClientRect();
           const stageRect = stage.getBoundingClientRect();
           const x = (stageRect.left + stageRect.width / 2 - mediaRect.left - width / 2) * pose.center;
           const height = (width - 18) / pose.aspect + 18;
-          const y = (stageRect.top + insetTop + availableHeight / 2 - mediaRect.top - height / 2) * pose.center;
+          const y = (stageRect.top + stageRect.height / 2 - mediaRect.top - height / 2) * pose.center;
           frame.style.width = `${width}px`;
           frame.style.transform = `translate3d(${x}px, ${y}px, 0)`;
           section.style.setProperty("--sx-ar", String(pose.aspect));
-          if (firstCopy && text) {
-            const textRect = text.getBoundingClientRect();
-            const frameRect = frame.getBoundingClientRect();
-            firstCopy.style.left = `${frameRect.left - textRect.left}px`;
-            firstCopy.style.top = `${frameRect.bottom + 16 - textRect.top}px`;
-            firstCopy.style.width = `${frameRect.width}px`;
-          }
         }
       }
       // Photos travel up from below the screen into the row under the video; transform
