@@ -77,7 +77,7 @@ function Index() {
           </ul>
         </section>
 
-        <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" />
+        <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
 
         <div className="sky-zone">
           <div className="sky-ambient" aria-hidden="true"><span /><span /><span /><span /></div>
