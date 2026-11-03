@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Montserrat", "Noto Sans Armenian", system-ui, sans-serif;
-  --font-sans: "Noto Sans Armenian", "Montserrat", system-ui, sans-serif;
+  --font-display: "Noto Sans Armenian", system-ui, sans-serif;
+  --font-sans: "Noto Sans Armenian", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 8px);
   --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
@@ -181,7 +181,7 @@
 
 .clinic-hero-ctas { position: absolute; bottom: 18%; left: 50%; width: min(500px, calc(100% - 40px)); transform: translateX(-50%); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 @media (min-width: 901px) { .clinic-hero-ctas { width: min(532px, calc(100% - 40px)); gap: 52px; } }
-.clinic-hero-cta { display: flex; align-items: center; justify-content: center; justify-self: center; width: 100%; max-width: 240px; gap: 10px; min-height: 52px; padding: 12px 19px; border: 1px solid; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
+.clinic-hero-cta { display: flex; align-items: center; justify-content: center; justify-self: center; width: 100%; max-width: 240px; gap: 10px; min-height: 52px; padding: 12px 19px; border: 1px solid; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: url("/cursor-hand.svg") 11 3, pointer; transition: background-color 180ms ease, color 180ms ease; }
 .clinic-hero-cta svg { flex-shrink: 0; width: 18px; height: 18px; }
 .clinic-hero-cta svg:last-child { margin-left: auto; }
 .clinic-hero-cta span { margin-right: auto; white-space: nowrap; }
@@ -216,8 +216,8 @@
 .clinic-header-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 34px; height: 34px; border: 1px solid #ffffff70; border-radius: 9px; background: transparent; color: #fff; transition: background-color 160ms ease; }
 .clinic-header-icon:hover { background: #ffffff20; }
 .clinic-header-icon svg { width: 19px; height: 19px; }
-.clinic-nav-toggle { display: none; cursor: pointer; }
-.clinic-book { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-width: 150px; min-height: 42px; padding: 0 18px; border: 1px solid #ffffff70; border-radius: 10px; background: transparent; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
+.clinic-nav-toggle { display: none; cursor: url("/cursor-hand.svg") 11 3, pointer; }
+.clinic-book { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-width: 150px; min-height: 42px; padding: 0 18px; border: 1px solid #ffffff70; border-radius: 10px; background: transparent; color: #fff; font-size: 12px; font-weight: 600; cursor: url("/cursor-hand.svg") 11 3, pointer; transition: background-color 180ms ease, color 180ms ease; }
 .clinic-book:hover { background: #fff; color: #171717; }
 @media (max-width: 900px) {
   .clinic-topbar { max-width: calc(100% - 32px); padding: 8px 8px 8px 20px; gap: 28px; }
@@ -242,17 +242,7 @@
   .clinic-book svg { width: 19px; }
 }
 
-.clinic-facts { position: relative; width: 100%; background-color: #000; color: #fff; border-radius: 22px 22px 0 0; z-index: 1; }
 
-.clinic-facts ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: 100%; max-width: 1280px; min-height: 172px; margin: 0 auto; padding: 64px 28px; list-style: none; }
-.clinic-facts li { display: flex; align-items: center; justify-content: center; text-align: center; gap: 11px; min-height: 30px; padding: 0 22px; font-size: 13px; font-weight: 600; line-height: 1.4; transition: color 180ms ease; }
-.clinic-facts li:hover, .clinic-facts li:focus-within { color: #fff; }
-.clinic-facts li > span, .clinic-facts li > svg, .clinic-facts a { transition: transform 180ms ease; }
-.clinic-facts li:hover > span, .clinic-facts li:hover > svg, .clinic-facts li:hover a, .clinic-facts li:focus-within a { transform: scale(1.05); }
-.clinic-facts li + li { border-left: 1px solid #c4c4c430; }
-.clinic-facts svg { width: 19px; height: 19px; flex-shrink: 0; color: currentColor; }
-.clinic-facts a { display: flex; align-items: center; justify-content: center; gap: 11px; color: inherit; }
-.clinic-facts a:hover { opacity: 1; }
 
 /* Accordion rows stay visible; only their inner panels animate. */
 .services-section { background: #000; color: #f5f5f5; --muted-foreground: #999; }
@@ -263,7 +253,7 @@
 .services-section .btn-primary:hover { background: #333; }
 .service-item { overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--card); transition: background-color 200ms ease, border-color 200ms ease; }
 .service-item[data-open="true"] { border-color: var(--primary); background: var(--primary-soft); }
-.service-trigger { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 20px; text-align: left; font-size: 18px; font-weight: 600; cursor: pointer; }
+.service-trigger { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 20px; text-align: left; font-size: 18px; font-weight: 600; cursor: url("/cursor-hand.svg") 11 3, pointer; }
 .service-chevron { flex-shrink: 0; transition: transform 220ms cubic-bezier(.2,.7,.2,1), color 180ms ease; }
 .service-item[data-open="true"] .service-chevron { transform: rotate(180deg); color: var(--primary); }
 .service-panel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 220ms cubic-bezier(.2,.7,.2,1), visibility 0s 220ms; }
@@ -379,10 +369,6 @@
   .team-marquee::before, .team-marquee::after { display: none; }
 }
 @media (max-width: 700px) {
-  .clinic-facts ul { min-height: 168px; padding: 64px 10px; }
-  .clinic-facts li { gap: 7px; padding: 0 8px; font-size: 10px; }
-  .clinic-facts svg { width: 16px; height: 16px; }
-  .clinic-facts a { gap: 6px; }
 }
 
 
@@ -527,8 +513,8 @@
 /* Team, desktop: portraits on the inside of a cylinder (geometry in src/lib/curved-carousel.ts).
    Each card fills the band and is cut to its rounded quad per frame; the portrait, shade
    and caption inside are moved by transform only. Cards run off the section edges. */
-.team-curve { display: none; position: relative; width: 100%; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; }
-.team-curve[data-dragging="true"] { cursor: grabbing; }
+.team-curve { display: none; position: relative; width: 100%; overflow: hidden; cursor: url("/cursor-grab.svg") 14 14, grab; touch-action: pan-y; user-select: none; }
+.team-curve[data-dragging="true"] { cursor: url("/cursor-grabbing.svg") 14 14, grabbing; }
 .team-curve-card { position: absolute; inset: 0; margin: 0; background: #171717; will-change: clip-path; }
 .team-curve-media { position: absolute; left: 0; top: 0; max-width: none; object-fit: cover; transform-origin: 0 0; will-change: transform; pointer-events: none; }
 .team-curve-shade { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: linear-gradient(to top, rgb(0 0 0 / .72), rgb(0 0 0 / .35) 55%, transparent); will-change: transform; }
@@ -715,7 +701,6 @@
 .clinic-hero-cta { border-radius: 22px; }
 
 /* One surface, type scale and spacing rhythm from the facts through the footer. */
-.clinic-facts, .sx, .sx-stage, .services-section, .team-introduction,
 .testimonials-section, .faq-section, .contact-section, .clinic-footer {
   --background: var(--clinic-dark);
   --foreground: var(--clinic-light);
@@ -744,7 +729,6 @@
 .services-section .service-item[data-open="true"] .service-chevron { color: var(--clinic-dark); }
 .services-section .btn-primary { background: var(--clinic-dark); color: var(--clinic-light); }
 .services-section .btn-primary:hover { background: var(--clinic-line); }
-.clinic-facts li + li { border-color: var(--border); }
 .team-heading-copy > p, .team-intro-footer blockquote, .team-lead span,
 .team-profile-caption p, .team-curve-caption p { color: var(--muted-foreground); }
 .team-profile-photo, .team-curve-card { background: var(--card); }
@@ -942,3 +926,251 @@
   .team-intro-footer { margin-top: var(--clinic-tight-gap); }
   .testimonials-section .testimonial-window { min-height: 260px; }
 }
+
+/* Hero tagline sits on the white half under the headline; CTAs drop to the bottom edge. */
+.clinic-hero-tagline { position: absolute; top: calc(45svh + var(--hl-size) * 1 - 20px); left: 0; width: 50%; color: var(--hero-ink); text-align: center; }
+.clinic-hero-tagline p { margin: 0 0 .5rem; font-size: 1.375rem; font-weight: 300; line-height: 1.2; letter-spacing: -.01em; }
+.clinic-hero-tagline ul { display: flex; justify-content: center; gap: 1.25rem; margin: 0; padding: 0; list-style: none; font-size: .6875rem; font-weight: 700; line-height: 1.4; letter-spacing: .01em; }
+@media (min-width: 601px) { .clinic-hero-ctas { top: auto; bottom: calc(9% + 60px); } }
+@media (max-width: 600px) {
+  .clinic-hero-tagline { top: calc(27% + 44vw); width: 100%; color: #fff; text-shadow: 0 1px 8px rgb(0 0 0 / .45); }
+  .clinic-hero-ctas { bottom: calc(19% + 20px); }
+}
+
+/* The address block mirrors the right-hand hero note's type. */
+.clinic-location { font-size: clamp(11px, 0.9vw, 17px); line-height: 1.35; font-weight: 600; letter-spacing: -.03em; }
+.clinic-location > span, .clinic-location strong, .clinic-location small { display: block; margin: 0; font: inherit; letter-spacing: inherit; }
+.clinic-location small svg { display: inline; width: 1em; height: 1em; vertical-align: -.1em; }
+@media (max-width: 1250px) { .clinic-location { font-size: 11px; } }
+@media (max-width: 900px) { .clinic-location { font-size: 12px; } }
+@media (max-width: 600px) { .clinic-location { font-size: 10px; line-height: 1.5; } .clinic-location small svg { display: none; } .clinic-location > span, .clinic-location small { color: inherit; } }
+
+/* The address takes the right corner over the video; the tagline hugs the video's edge. */
+.clinic-location { left: auto; right: 2.25%; text-align: right; }
+.clinic-location, .clinic-location > span, .clinic-location small { color: #f5f2ef; }
+.clinic-hero-tagline { padding-right: 24px; text-align: right; }
+.clinic-hero-tagline ul { justify-content: flex-end; }
+@media (max-width: 900px) { .clinic-location { left: auto; right: 4%; } }
+@media (max-width: 600px) {
+  .clinic-location { left: auto; right: 14px; }
+  .clinic-hero-tagline { padding-right: 14px; }
+}
+
+/* Tagline scaled up 2px, with a monochrome Google rating row. */
+.clinic-hero-tagline p { font-size: 1.5rem; }
+.clinic-hero-tagline ul { font-size: .8125rem; }
+.clinic-hero-rating { display: flex; justify-content: flex-end; align-items: center; gap: .375rem; margin-top: .375rem; font-size: .8125rem; font-weight: 700; line-height: 1.4; letter-spacing: .01em; }
+.clinic-hero-rating svg { width: 1em; height: 1em; }
+
+/* Tagline order: proof first, promise last. Tight spacing groups the two facts; the larger gap sets off the closing line. */
+.clinic-hero-rating { margin: 0 0 .375rem; }
+.clinic-hero-tagline ul { margin-bottom: .75rem; }
+.clinic-hero-tagline p { margin: 0; letter-spacing: -.015em; }
+
+/* Hero button label: letters roll out upward as the alternate label rolls in, staggered left to right. */
+.clinic-hero-cta span.swap { display: inline-grid; position: relative; overflow: hidden; justify-items: start; }
+.clinic-hero-cta span.swap-line { grid-area: 1 / 1; display: block; margin: 0; white-space: pre; }
+.clinic-hero-cta span.swap-char { display: inline-block; margin: 0; white-space: pre; transition: transform 280ms cubic-bezier(0.23, 1, 0.32, 1); transition-delay: calc(var(--i) * 14ms); }
+.clinic-hero-cta span.swap-line + .swap-line .swap-char { transform: translateY(110%); }
+@media (hover: hover) and (pointer: fine) {
+  .clinic-hero-cta:hover span.swap-char { transform: translateY(-110%); }
+  .clinic-hero-cta:hover span.swap-line + .swap-line .swap-char { transform: translateY(0); }
+}
+.clinic-hero-cta:focus-visible span.swap-char { transform: translateY(-110%); }
+.clinic-hero-cta:focus-visible span.swap-line + .swap-line .swap-char { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .clinic-hero-cta span.swap-char, .clinic-hero-cta span.swap-line + .swap-line .swap-char, .clinic-hero-cta:hover span.swap-char, .clinic-hero-cta:focus-visible span.swap-char { transform: none; transition: none; }
+  .clinic-hero-cta span.swap-line { transition: opacity 180ms ease; }
+  .clinic-hero-cta span.swap-line + .swap-line { opacity: 0; }
+  .clinic-hero-cta:hover span.swap-line { opacity: 0; }
+  .clinic-hero-cta:hover span.swap-line + .swap-line { opacity: 1; }
+}
+
+/* Tagline rotator: right-aligned lines share one cell and roll upward letter by letter. */
+.tagline-rotator { display: grid; position: relative; justify-items: end; overflow: hidden; padding-block: .1em; }
+.tagline-line { grid-area: 1 / 1; white-space: pre; }
+.tagline-char { display: inline-block; white-space: pre; transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1); transition-delay: calc(var(--i) * 18ms); }
+.tagline-line[data-state="out"] .tagline-char { transform: translateY(-120%); }
+.tagline-line[data-state="below"] .tagline-char { transform: translateY(120%); transition: none; }
+
+/* PC hero group: headline, facts and buttons tightened and lifted; the rotating line mirrors the facts across the video seam. */
+@media (min-width: 601px) {
+  .clinic-headline { top: calc(36svh + 55px); }
+  .clinic-hero-tagline { top: calc(36svh + var(--hl-size) + 10px); }
+  .clinic-hero-ctas { top: calc(36svh + var(--hl-size) + 133px); bottom: auto; }
+  .tagline-rotator { position: absolute; top: .125rem; left: calc(100% + 24px); width: max-content; justify-items: start; color: #fff; }
+}
+
+/* PC: rotating line sits above the reviews, out of flow so nothing else shifts. */
+@media (min-width: 601px) {
+  .tagline-rotator { top: auto; left: auto; right: 24px; bottom: calc(100% + .375rem); justify-items: end; color: var(--hero-ink); }
+  .clinic-hero-tagline p.tagline-rotator { font-size: 1.25rem; }
+}
+
+/* PC: reviews mirror the facts line across the video seam, in white; the facts and rotating line settle lower. */
+@media (min-width: 601px) {
+  .clinic-hero-tagline { top: calc(36svh + var(--hl-size) + 89px); }
+  .clinic-hero-rating { position: absolute; top: 0; left: calc(100% + 24px); width: max-content; margin: 0; color: #fff; }
+}
+
+.clinic-hero-rating span:first-child { color: #fbbc04; }
+.clinic-hero-dots { opacity: .5; }
+
+/* PC: the part of the headline over the video keeps the difference blend in one light lilac, which reads deep blue over the lips. */
+@media (min-width: 601px) {
+  .clinic-headline.clinic-headline-light { color: #ffd8ff; mix-blend-mode: difference; }
+}
+
+/* PC: a third copy recolours the difference result. The color blend keeps its light and dark but limits hue to red and orange, so highlights stay white. */
+@media (min-width: 601px) {
+  .clinic-headline.clinic-headline-light.clinic-headline-tint { color: transparent; mix-blend-mode: color; background: linear-gradient(100deg, #ff1f00 52%, #ff7a00 80%); -webkit-background-clip: text; background-clip: text; }
+}
+
+/* Muted red dots fading out from the left edge toward the video. Per-dot fill attributes set in HeroDots need a CSS override. */
+.clinic-hero-dots { mask-image: linear-gradient(90deg, #000, transparent 50%); }
+.clinic-hero-dots > * { fill: #b0544c; }
+
+/* PC: a soft skin-toned glow anchored in the bottom-left corner, fading toward the top right of the field. */
+@media (min-width: 601px) {
+  .clinic-hero::before { background: radial-gradient(ellipse 55vw 125svh at 0% 100%, #f4c6b4d9 0%, #f4c6b480 40%, #f4c6b400 100%), var(--hero-field); }
+}
+
+/* PC: animated mesh on the white half; the corner glow on ::before remains as the no-WebGL fallback. */
+.clinic-hero-shader { position: absolute; inset: 0 50% 0 0; z-index: -2; pointer-events: none; }
+@media (max-width: 600px) { .clinic-hero-shader { display: none; } }
+
+/* PC: booking button matches the headline ink, with white text. */
+@media (min-width: 601px) {
+  .clinic-hero-ctas .clinic-hero-cta-book { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+  .clinic-hero-ctas .clinic-hero-cta-book:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+}
+
+/* Solid navigation bar floating over the page. */
+.site-nav { position: fixed; z-index: 45; top: 16px; left: 50%; transform: translateX(-50%); max-width: calc(100% - 16px); border-radius: 12px; background: var(--hero-ink); }
+@media (min-width: 768px) { .site-nav { border-radius: 15px; } }
+#how, #reviews, #faq { scroll-margin-top: 100px; }
+
+/* Step 01 is on screen before the scroll script first runs. */
+.sx-step:first-child .sx-line > * { transform: none; }
+
+/* Step text sits on the light mesh. */
+.sx .sx-num, .sx .sx-title { color: var(--hero-ink); }
+.sx .sx-desc { color: var(--hero-ink); }
+.sx .sx-tag { border-color: oklch(0.23 0.004 260 / .4); color: var(--hero-ink); }
+
+/* Invisible margin around the navbar so a small slip of the mouse keeps the hovered tab active. */
+.site-nav::after { content: ""; position: absolute; z-index: -1; inset: -16px -32px -32px; }
+
+.sx { z-index: 1; background: transparent; }
+
+/* macOS arrow: black with a white outline and soft shadow. Text fields keep the text cursor. */
+html, body, a, button, [role="button"], label, select, .cursor-pointer { cursor: url("/cursor.svg?v=2") 8 4, auto; }
+input:not([type="date"], [type="time"]), textarea { cursor: text; }
+
+/* Full Apple cursor set: arrow by default, hand on anything clickable, I-beam on text entry. */
+html, body, label { cursor: url("/cursor.svg?v=3") 7 3, default; }
+a, button, select, [role="button"], .cursor-pointer, .cursor-pointer * { cursor: url("/cursor-hand.svg") 11 3, pointer; }
+input:not([type="date"], [type="time"]), textarea { cursor: url("/cursor-text.svg") 10 12, text; }
+
+/* Tailwind cursor utilities use the same Apple set. */
+.cursor-grab, .cursor-grab * { cursor: url("/cursor-grab.svg") 14 14, grab !important; }
+.cursor-grabbing, .cursor-grabbing *, .cursor-grab:active, .cursor-grab:active * { cursor: url("/cursor-grabbing.svg") 14 14, grabbing !important; }
+
+.sx-video { background: var(--hero-ink); }
+.sx-stage { background: oklch(0.15 0.002 260); }
+
+.sx-mesh { position: absolute; inset: 0; pointer-events: none; }
+.sx-mesh::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #fff 0%, #ffffffd9 22%, #ffffff00 58%); }
+
+/* Step tags and buttons: solid card colour with white text. */
+.sx .sx-tag, .sx .sx-actions .clinic-hero-cta, .sx .sx-actions .clinic-hero-cta:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+
+/* Text masks leave room for Armenian descenders and the italic numerals. */
+.sx .sx-line { padding: .14em .12em .4rem; margin-inline: -.12em; margin-bottom: -.4rem; }
+.sx .sx-num { line-height: 1.15; }
+
+/* Step 03 buttons sit side by side. */
+.sx .sx-actions { display: flex; flex-wrap: nowrap; gap: 10px; }
+.sx .sx-actions .clinic-hero-cta { flex: 1 1 0; min-width: 0; padding-inline: 10px; gap: 6px; }
+.sx .sx-actions .clinic-hero-cta-call { background: transparent; border-color: var(--hero-ink); color: var(--hero-ink); }
+.sx .sx-actions .clinic-hero-cta-call:hover { background: var(--hero-ink); color: #fff; }
+
+/* ---- Sections 3–4 and reviews, Apple-style pass ----
+   Each block reads as its own section: full-height, generous space, one heading system
+   (bold tight sans, centred, medium subtitle). The sky gradient behind 3 and 4 is unchanged. */
+.sky-zone .services-section, .sky-zone .team-introduction { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(96px, 12vh, 160px); }
+.sky-zone .services-section > .services-content { width: 100%; }
+.services-content .services-heading { grid-column: 1 / -1; text-align: center; margin-bottom: 24px; }
+.services-heading .clinic-section-title, .team-intro-heading h2, .testimonials-section h2 {
+  font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 700; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.04; letter-spacing: -.045em; text-wrap: balance; }
+.services-heading > p, .team-heading-copy > p, .testimonials-section .space-y-6 > p {
+  margin-inline: auto; max-width: 34em; font-size: clamp(1.0625rem, 1.4vw, 1.3125rem); font-weight: 500; line-height: 1.4; letter-spacing: -.015em; }
+.services-heading > p { margin-top: 14px; }
+.team-intro-heading h2 { margin-bottom: 14px; }
+
+/* Service cards: frosted white surfaces, roomier, with press feedback. */
+.sky-zone .services-section .service-item:not([data-open="true"]) { background: rgb(255 255 255 / .72); border-color: rgb(255 255 255 / .8); box-shadow: 0 10px 30px -18px rgb(20 40 80 / .35); backdrop-filter: blur(16px) saturate(160%); }
+.sky-zone .services-section .service-trigger { padding: 22px 26px; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.02em; }
+.sky-zone .services-section .service-panel-content { padding: 0 26px 24px; }
+.service-trigger { transition: transform 120ms ease-out; }
+.service-trigger:active { transform: scale(.985); }
+
+/* Team: room above the carousel, soft edges, larger names, a centred pull quote. */
+.sky-zone .team-curve { margin-top: 56px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.team-curve-caption h3 { font-size: 16px; letter-spacing: -.02em; }
+.team-curve-caption p { font-size: 12.5px; }
+.sky-zone .team-intro-footer { justify-content: center; text-align: center; margin-top: 56px; }
+.sky-zone .team-intro-footer > div { display: flex; flex-direction: column-reverse; align-items: center; gap: 14px; max-width: 40rem; }
+.sky-zone .team-intro-footer blockquote { font-size: clamp(1.125rem, 1.6vw, 1.375rem); font-weight: 500; line-height: 1.45; letter-spacing: -.02em; }
+.sky-zone .team-lead { margin: 0; }
+
+/* Reviews leave the sky gradient for their own light surface. */
+.testimonials-section { background: #f5f5f7; color: var(--hero-ink); padding-block: clamp(96px, 12vh, 160px); --muted-foreground: oklch(0.45 0.01 260); --foreground: var(--hero-ink); }
+.testimonials-section .testimonial-card { background: #fff; border-color: rgb(0 0 0 / .06); }
+.testimonials-section .review-rating { color: var(--hero-ink); }
+
+@media (max-width: 767px) {
+  .sky-zone .services-section, .sky-zone .team-introduction { min-height: 0; padding-block: 80px; }
+  .services-heading > p, .team-heading-copy > p { font-size: 1.0625rem; }
+  .sky-zone .services-section .service-trigger { padding: 16px 14px; font-size: .875rem; }
+  .sky-zone .services-section .service-panel-content { padding: 0 14px 16px; }
+}
+.testimonials-section h2 { font-size: clamp(2.25rem, 3.6vw, 3.25rem); overflow-wrap: normal; word-break: normal; hyphens: none; }
+.testimonials-section .review-rating > span:first-child, .testimonials-section .review-rating svg { color: var(--hero-ink); }
+.testimonials-section .review-rating .fill-primary { fill: #fbbc04; color: #fbbc04; }
+@media (max-width: 767px) {
+  .services-heading .clinic-section-title, .team-intro-heading h2, .testimonials-section h2 { font-size: 2rem; letter-spacing: -.035em; }
+  .sky-zone .services-section .service-trigger { padding: 14px 10px; font-size: 12px; }
+  .sky-zone .services-section .service-trigger > span { overflow-wrap: break-word; hyphens: auto; }
+}
+
+/* Reviews: the same drifting mesh as the hero and story sections, in white with skin and soft red. */
+.testimonials-section { position: relative; isolation: isolate; }
+.reviews-mesh { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.testimonials-section > .reviews-mesh { width: auto; max-width: none; margin: 0; padding: 0; }
+
+/* Sky gradient keeps its white-to-blue run; a soft-light mesh drifts colour tones through it. */
+.sky-zone > div.sky-mesh { position: absolute; inset: 0; z-index: 0; mix-blend-mode: soft-light; opacity: .75; pointer-events: none; }
+
+/* Sections 3–4: titles and subtitles one fifth smaller, team heading lowered 40px, quote one seventh smaller. */
+.services-heading .clinic-section-title, .team-intro-heading h2 { font-size: clamp(2rem, 4vw, 3.6rem); }
+.services-heading > p, .team-heading-copy > p { font-size: clamp(.85rem, 1.12vw, 1.05rem); }
+.sky-zone .team-intro-heading { position: relative; top: 65px; }
+.sky-zone .team-intro-footer { position: relative; top: -50px; }
+.sky-zone .team-intro-footer blockquote { font-size: clamp(.964rem, 1.37vw, 1.18rem); }
+@media (max-width: 767px) {
+  .services-heading .clinic-section-title, .team-intro-heading h2 { font-size: 1.6rem; }
+  .services-heading > p, .team-heading-copy > p { font-size: .85rem; }
+}
+
+/* One type system site-wide, taken from the hero and story sections:
+   Noto Serif Armenian (regular) for headings, Noto Sans Armenian for everything else. */
+body, button, input, select, textarea { font-family: "Noto Sans Armenian", system-ui, sans-serif; }
+.clinic-section-title, .services-heading .clinic-section-title, .team-intro-heading h2, .testimonials-section h2, .faq-section h2, .contact-section h2 {
+  font-family: "Noto Serif Armenian", serif; font-weight: 400; letter-spacing: -.015em; line-height: 1.2; }
+
+/* Sections 3–4: the reference sky, flipped: pale sky at the top through azure and royal blue to indigo at the bottom. */
+.sky-zone { background: linear-gradient(0deg, #3a33c2 0%, #2147e0 9%, #1a6ff2 26%, #2e93fb 46%, #55b3ff 68%, #8bd0ff 88%, #a5dcff 100%); }
+.sky-zone > div.sky-mesh, .sky-zone .sky-ambient { display: none; }
+.sky-zone .services-heading .clinic-section-title { color: var(--hero-ink); }
+.sky-zone .services-heading > p { color: oklch(0.23 0.004 260 / .75); }

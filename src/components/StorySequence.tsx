@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShaderBackground } from "@/components/ui/7777";
+import { SwapText } from "@/components/HeroHeader";
 import { CLINIC } from "@/lib/clinic";
 import { storyScrollDelta } from "@/lib/story-scroll";
 import { activeStep, CORNER, frameTab, photoRise, sceneProgress, stepLine, videoFrame } from "@/lib/story-motion";
@@ -17,6 +19,9 @@ const PHOTOS = [
   { src: "/media/clinic/door.webp", alt: "Բուժասենյակի մուտք" },
   { src: "/media/clinic/treatment.webp", alt: "Բուժասենյակ" },
 ];
+
+// Reds sit in the same slots as the hero mesh skin tones, so they travel the same paths.
+const MESH_COLORS: [number, number, number][] = [[.79, .79, .8], [.56, .56, .57], [.79, .79, .8], [.69, .33, .3], [.77, .41, .36], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
 // The scrubbed video is encoded with a keyframe every few frames so any scroll
 // position decodes at once. Phones get a narrower crop of the same footage.
@@ -89,20 +94,12 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
       const p = sceneProgress(target), still = reduced.matches;
       // Stable grid: only the frame moves and resizes, exactly at scroll progress.
       if (frame) {
-        const pose = videoFrame(still ? .25 : target);
+        const pose = videoFrame(still ? 0 : p);
         const media = frame.parentElement;
-        const stage = section.querySelector<HTMLElement>(".sx-stage");
-        if (media && stage) {
-          const baseWidth = media.offsetWidth;
+        if (media) {
           const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
-          const width = Math.min(baseWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
-          const mediaRect = media.getBoundingClientRect();
-          const stageRect = stage.getBoundingClientRect();
-          const x = (stageRect.left + stageRect.width / 2 - mediaRect.left - width / 2) * pose.center;
-          const height = (width - 18) / pose.aspect + 18;
-          const y = (stageRect.top + stageRect.height / 2 - mediaRect.top - height / 2) * pose.center;
+          const width = Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           frame.style.width = `${width}px`;
-          frame.style.transform = `translate3d(${x}px, ${y}px, 0)`;
           section.style.setProperty("--sx-ar", String(pose.aspect));
         }
       }
@@ -196,6 +193,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   return (
     <section ref={ref} id="how" aria-label="Ինչպես ենք աշխատում" className="sx" data-step={step}>
       <div className="sx-stage">
+        <div className="sx-mesh" aria-hidden="true"><ShaderBackground colors={MESH_COLORS} /></div>
         <div className="sx-shade" aria-hidden="true" />
         <div className="sx-grid">
           <div className="sx-media">
@@ -212,8 +210,8 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
                   <div className="sx-line"><p className="sx-desc">{s.d}</p></div>
                   <div className="sx-line"><ul className="sx-tags">{s.tags.map(tag => <li key={tag} className="sx-tag">{tag}</li>)}</ul></div>
                   {i === 2 && <div className="sx-line"><div className="sx-actions">
-                    <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck /><span>Ամրագրել այցը</span><ArrowUpRight /></Button>
-                    <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call"><a href={CLINIC.mobileHref}><Phone /><span>Զանգահարել</span><ArrowUpRight /></a></Button>
+                    <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
+                    <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call"><a href={CLINIC.mobileHref}><Phone /><SwapText text="Զանգահարել" hover="Զանգել հիմա" /><ArrowUpRight /></a></Button>
                   </div></div>}
                 </div>
               ))}

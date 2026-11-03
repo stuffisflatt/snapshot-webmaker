@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Phone, CalendarCheck, ChevronDown, Star, MapPin, Instagram, ShieldCheck, Users, Clock3, ArrowUpRight } from "lucide-react";
+import { Phone, CalendarCheck, ChevronDown, Star, MapPin, Instagram, ShieldCheck, ArrowUpRight } from "lucide-react";
 import { CLINIC, DOCTORS } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
@@ -9,6 +9,7 @@ import { ServiceAccordion } from "@/components/ServiceAccordion";
 import Team from "@/components/ui/team";
 import { AnimatedTestimonials, type Testimonial } from "@/components/ui/animated-testimonials";
 import { Button } from "@/components/ui/button";
+import { ShaderBackground } from "@/components/ui/7777";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +45,12 @@ const SAMPLE_REVIEWS: Testimonial[] = [
     content: "Երեխայիս առաջին այցն էր, և թիմը շատ համբերատար էր։ Հիմա նա ինքն է ուզում նորից գալ։" },
 ];
 
+// White with drifting skin and soft red, matching the hero and story backgrounds.
+const REVIEWS_MESH: [number, number, number][] = [[1, 1, 1], [.93, .93, .94], [1, 1, 1], [.957, .776, .706], [.77, .41, .36], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+// Mid grey leaves the sky gradient untouched under soft-light; the blue, cyan and violet tones drift over it.
+const SKY_MESH: [number, number, number][] = [[.5, .5, .5], [.32, .48, .92], [.5, .5, .5], [.4, .76, .86], [.56, .44, .88], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
 const FAQ = [
   { q: "Ինչպե՞ս ամրագրել այցը", a: "Սեղմեք «Ամրագրել այցը», ընտրեք նախընտրելի ծառայությունը և ժամը, ապա ավարտեք ամրագրումն առցանց կամ զանգահարեք։ Կլինիկան կհաստատի այցը։" },
   { q: "Ինչ է լինում առաջին այցի ժամանակ", a: "Բժիշկը զննում է, քննարկում ձեր հարցերը և անհրաժեշտության դեպքում առաջարկում բուժման պլան։" },
@@ -64,22 +71,10 @@ function Index() {
       <main id="top">
         <HeroHeader onBook={() => book()} />
 
-        {/* Trust */}
-        <section aria-label="Փաստեր" className="clinic-facts">
-          <ul>
-            <li><Clock3 /><span>Հիմնադրված՝ 2002 թ.</span></li>
-            <li><Users /><span>Բազմապրոֆիլ թիմ</span></li>
-            <li>
-              <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer">
-                <Star /><span>{CLINIC.rating} · {CLINIC.ratingCount}+ գնահատական</span>
-              </a>
-            </li>
-          </ul>
-        </section>
-
         <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
 
         <div className="sky-zone">
+          <div className="sky-mesh" aria-hidden="true"><ShaderBackground colors={SKY_MESH} /></div>
           <div className="sky-ambient" aria-hidden="true"><span /><span /><span /><span /></div>
         {/* Services */}
         <section id="services" className="services-section scroll-mt-20 px-5 py-20">
@@ -94,6 +89,10 @@ function Index() {
 
         <Team members={DOCTORS} />
 
+
+
+        </div>
+
         {/* Feedback. The reviews below are placeholders, tagged as samples on screen;
             replace them with real patient reviews (from the clinic's review page) before launch. */}
         <AnimatedTestimonials
@@ -106,6 +105,7 @@ function Index() {
           shareLabel="Կիսվել"
           dotLabel={index => `Կարծիք ${index + 1}`}
           testimonials={SAMPLE_REVIEWS}
+          background={<div className="reviews-mesh" aria-hidden="true"><ShaderBackground colors={REVIEWS_MESH} /></div>}
           header={
             <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="review-rating flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors">
               <span className="font-display text-5xl font-extrabold text-primary-deep">4.8</span>
@@ -115,8 +115,6 @@ function Index() {
             </a>
           }
         />
-
-        </div>
 
         {/* FAQ */}
         <section id="faq" className="faq-section scroll-mt-20">

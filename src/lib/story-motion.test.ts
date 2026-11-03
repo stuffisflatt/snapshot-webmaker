@@ -2,18 +2,17 @@ import { describe, expect, it } from "vitest";
 import { activeStep, barWeight, photoRise, rise, sceneProgress, stepLine, videoFrame, VIDEO_FRAMES } from "./story-motion";
 
 describe("scroll-driven video frame", () => {
-  it("starts centered at exactly 1.5 times scene 01 size", () => {
-    expect(videoFrame(0).center).toBe(1);
-    expect(videoFrame(0).scale / videoFrame(.25).scale).toBe(1.5);
-    expect(videoFrame(.25).center).toBe(0);
+  it("starts on step 01", () => {
+    expect(videoFrame(0)).toEqual(VIDEO_FRAMES[0]);
+    expect(stepLine(0, 0, 0).y).toBe(0);
   });
-  it("has four movements with exact scroll keyframes", () => {
-    expect([0, .25, .5, .75, 1].map(videoFrame)).toEqual(VIDEO_FRAMES);
-    expect(videoFrame(.125).center).toBe(.5);
-    expect(videoFrame(.125).scale).toBe(1.25);
-    expect(videoFrame(.375).scale).toBe(.925);
-    expect(videoFrame(.625).aspect).toBe(1.375);
-    expect(videoFrame(.875).aspect).toBe(1.8);
+  it("rests on each pose between moves", () => {
+    expect(videoFrame(.48).scale).toBeCloseTo(VIDEO_FRAMES[1].scale);
+    expect(videoFrame(.8).aspect).toBeCloseTo(VIDEO_FRAMES[2].aspect);
+    expect(videoFrame(1).scale).toBeCloseTo(VIDEO_FRAMES[3].scale);
+  });
+  it("has no jump between neighbouring scroll positions", () => {
+    for (let p = 0; p < 1; p += .01) expect(Math.abs(videoFrame(p + .01).aspect - videoFrame(p).aspect)).toBeLessThan(.03);
   });
   it("returns the same frame when scrolling back to a position", () => {
     const frame = videoFrame(.375);
@@ -55,7 +54,7 @@ describe("photos", () => {
 
 describe("step text", () => {
   it("shows one step at a time", () => {
-    expect([0, 1, 2].map(s => stepLine(s, 1, 0.5).y)).toEqual([expect.any(Number), 0, 1.25]);
+    expect([0, 1, 2].map(s => stepLine(s, 1, 0.5).y)).toEqual([expect.any(Number), 0, 1.6]);
     expect(stepLine(0, 1, 0.5).y).toBeLessThan(-1.2);
     expect(activeStep(0.1)).toBe(0);
     expect(activeStep(0.5)).toBe(1);

@@ -31,6 +31,8 @@ export interface AnimatedTestimonialsProps {
   footer?: ReactNode
   /** Shown at the top of the left column, above the headline (e.g. an overall rating). */
   header?: ReactNode
+  /** Decorative layer rendered behind the content. */
+  background?: ReactNode
   shareLabel?: string
   shareUrl?: string
   sampleLabel?: string
@@ -40,6 +42,7 @@ export interface AnimatedTestimonialsProps {
 }
 
 export function AnimatedTestimonials({
+  background,
   title = "Loved by the community",
   subtitle = "Don't just take our word for it. See what developers and companies have to say about our starter template.",
   badgeText = "Trusted by developers",
@@ -111,6 +114,7 @@ export function AnimatedTestimonials({
 
   return (
     <section ref={sectionRef} id={id} className={`py-24 overflow-hidden bg-muted/30 ${className || ""}`}>
+      {background}
       <div className="px-4 md:px-6">
         <motion.div
           initial="hidden"

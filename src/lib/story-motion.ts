@@ -12,27 +12,32 @@ const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const seg = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
 const smooth = (t: number) => t * t * (3 - 2 * t);
 
-/** Four scroll intervals: center to 01, 01 to 02, 02 to 03, then final framing. */
+/** The frame's pose for steps 01, 02 and 03, then the final framing. Gentle on purpose: the shape shifts, it never jumps. */
 export const VIDEO_FRAMES = [
-  { scale: 1.5, aspect: 1.78, center: 1 },
-  { scale: 1, aspect: 1.78, center: 0 },
-  { scale: .85, aspect: 1.25, center: 0 },
-  { scale: .93, aspect: 1.5, center: 0 },
-  { scale: 1.06, aspect: 2.1, center: 0 },
+  { scale: 1.03, aspect: 1.9 },
+  { scale: .94, aspect: 1.55 },
+  { scale: .97, aspect: 1.66 },
+  { scale: 1.03, aspect: 1.9 },
 ] as const;
 
+/** Each move runs across a text hand-over, so the frame rests while a step is being read. */
+export const VIDEO_MOVES = [[.2, .44], [.53, .77], [.84, 1]] as const;
+
+/** Starts and stops at zero speed, so a move never kicks in or cuts off. */
+const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
+
+/** Frame pose at scene progress `p`. Each move eases on its own, so speed stays continuous. */
 export function videoFrame(p: number) {
-  const position = clamp01(p) * 4;
-  const index = Math.min(3, Math.floor(position));
-  const a = VIDEO_FRAMES[index];
-  const b = VIDEO_FRAMES[index + 1];
-  if (!a || !b) return VIDEO_FRAMES[0];
-  const t = position - index;
-  const mix = (x: number, y: number) => x + (y - x) * t;
-  return { scale: mix(a.scale, b.scale), aspect: mix(a.aspect, b.aspect), center: mix(a.center, b.center) };
+  let scale: number = VIDEO_FRAMES[0].scale, aspect: number = VIDEO_FRAMES[0].aspect;
+  VIDEO_MOVES.forEach(([start, end], i) => {
+    const t = smoother(seg(p, start, end));
+    scale += (VIDEO_FRAMES[i + 1]!.scale - VIDEO_FRAMES[i]!.scale) * t;
+    aspect += (VIDEO_FRAMES[i + 1]!.aspect - VIDEO_FRAMES[i]!.aspect) * t;
+  });
+  return { scale, aspect };
 }
 
-export const sceneProgress = (p: number) => clamp01((p - .1) / .75);
+export const sceneProgress = (p: number) => clamp01(p / .85);
 
 /** Ease-out with a gentle overshoot: fast start, soft landing just past rest. */
 const OVERSHOOT = 0.9;
@@ -68,7 +73,7 @@ export const STEP_IN = [0.02, 0.36, 0.69] as const;
 export const STEP_OUT = [0.3, 0.63, Infinity] as const;
 const LINE_IN = 0.09, LINE_OUT = 0.05, LINE_STAGGER = 0.025;
 /** Lines travel a little more than their own height so they fully clear the mask, overshoot room included. */
-const TRAVEL = 1.25;
+const TRAVEL = 1.6;
 
 /** A masked text line: `y` as a share of the line's own height (positive = below, negative = above). */
 export type Line = { y: number; scaleY: number; opacity: number };
@@ -76,7 +81,8 @@ export type Line = { y: number; scaleY: number; opacity: number };
 export function stepLine(step: number, line: number, p: number, reduced = false): Line {
   const start = STEP_IN[step]! + line * LINE_STAGGER;
   const leave = seg(p, STEP_OUT[step]! + line * LINE_STAGGER * 0.6, STEP_OUT[step]! + line * LINE_STAGGER * 0.6 + LINE_OUT);
-  const enter = seg(p, start, start + LINE_IN);
+  // Step 01 is already on screen when the section arrives.
+  const enter = step === 0 ? 1 : seg(p, start, start + LINE_IN);
   if (reduced) return { y: 0, scaleY: 1, opacity: Math.min(enter, 1 - leave) > 0.5 ? 1 : 0 };
   if (leave > 0) return { y: -smooth(leave) * TRAVEL, scaleY: 1, opacity: 1 };
   const r = rise(enter);
