@@ -1313,17 +1313,10 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { backdrop-filter: url(#glass-warp) blur(2px) saturate(130%); }
 }
 .sky-zone .services-section .service-item[data-open="true"] { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .42); }
-.sky-zone .services-section .service-item::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: radial-gradient(circle 220px at var(--glare-x, 20%) var(--glare-y, 0%), rgb(255 255 255 / .16), transparent 70%);
-  opacity: .55; transition: opacity 300ms ease; }
 .sky-zone .services-section .service-trigger, .sky-zone .services-section .service-panel { position: relative; z-index: 1; }
 .sky-zone .services-section .service-item .service-trigger > span { text-shadow: 0 1px 10px rgb(0 0 0 / .35); }
-@media (hover: hover) and (pointer: fine) {
-  .sky-zone .services-section .service-item:hover::after { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) { .sky-zone .services-section .service-item::after { transition: none; } }
 
-/* Glass cards, third pass: pill-round corners; the hover shadow pool is defined further down.
+/* Glass cards, third pass: pill-round corners, and no hover tint or pointer effect at all.
    The refraction filter is the costly part, so it runs only on desktop pointers; touch devices
    keep the plain blur. paint containment keeps each card's repaints to itself. */
 .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) {
@@ -1335,17 +1328,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   }
 }
 .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { transition: background-color 260ms cubic-bezier(.23, 1, .32, 1), border-color 260ms ease; }
-/* Hover keeps the card's own tint; only a soft shadow pool follows the pointer, darkening the glass
-   just around it. The pool moves by transform alone, so following the mouse never repaints the card
-   or re-runs the refraction filter behind it. */
-.sky-zone .services-section .service-item::after {
-  inset: auto; left: 0; top: 0; width: 320px; height: 320px; margin: -160px 0 0 -160px; border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(4 6 8 / .34), rgb(4 6 8 / .14) 55%, transparent);
-  transform: translate3d(var(--glare-x, -400px), var(--glare-y, -400px), 0);
-  opacity: 0; transition: opacity 320ms cubic-bezier(.23, 1, .32, 1); will-change: transform, opacity; }
-@media (hover: hover) and (pointer: fine) {
-  .sky-zone .services-section .service-item:hover::after { opacity: 1; }
-}
 
 /* Services grid: two independent columns, so an open card only pushes the cards below it. */
 .services-content .service-list { grid-auto-flow: row; grid-template-rows: none; align-items: start; }
