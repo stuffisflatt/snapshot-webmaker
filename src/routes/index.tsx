@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Phone, CalendarCheck, ChevronDown, Star, MapPin, Instagram, ShieldCheck, ArrowUpRight } from "lucide-react";
+import { Phone, CalendarCheck, ChevronDown, MapPin, Instagram, ShieldCheck } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
@@ -8,9 +8,10 @@ import { StoryBackdrop } from "@/components/StoryBackdrop";
 import { DoctorShowcase } from "@/components/DoctorShowcase";
 import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
-import { AnimatedTestimonials, type Testimonial } from "@/components/ui/animated-testimonials";
+import { DarkBackdrop } from "@/components/DarkBackdrop";
+import { Highlights } from "@/components/Highlights";
+import { Reviews, type Review } from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
-import { ShaderBackground } from "@/components/ui/7777";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +38,7 @@ function useReveal() {
 }
 
 // Placeholder reviews (shown with a "Նմուշ" tag): no invented patient names. Swap for real ones.
-const SAMPLE_REVIEWS: Testimonial[] = [
+const SAMPLE_REVIEWS: Review[] = [
   { id: 1, sample: true, name: "Պացիենտ", role: "Հիգիենա և մաքրում", rating: 5,
     content: "Մասնագիտական մաքրումն անցավ հանգիստ և առանց ցավի։ Բժիշկը մանրամասն բացատրեց, թե ինչպես խնամել ատամները տանը։" },
   { id: 2, sample: true, name: "Պացիենտ", role: "Իմպլանտացիա", rating: 5,
@@ -46,8 +47,6 @@ const SAMPLE_REVIEWS: Testimonial[] = [
     content: "Երեխայիս առաջին այցն էր, և թիմը շատ համբերատար էր։ Հիմա նա ինքն է ուզում նորից գալ։" },
 ];
 
-// White with drifting skin and soft red, matching the hero and story backgrounds.
-const REVIEWS_MESH: [number, number, number][] = [[1, 1, 1], [.93, .93, .94], [1, 1, 1], [.957, .776, .706], [.77, .41, .36], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
 
 const FAQ = [
@@ -92,28 +91,12 @@ function Index() {
 
         </div>
 
-        {/* Feedback. The reviews below are placeholders, tagged as samples on screen;
-            replace them with real patient reviews (from the clinic's review page) before launch. */}
-        <AnimatedTestimonials
-          id="reviews"
-          className="testimonials-section"
-          title="Պացիենտների կարծիքները"
-          subtitle="Ինչ են ասում մեզ մոտ բուժվողները՝ առաջին զննումից մինչև վերականգնված ժպիտ։"
-          badgeText=""
-          sampleLabel="Նմուշ"
-          shareLabel="Կիսվել"
-          dotLabel={index => `Կարծիք ${index + 1}`}
-          testimonials={SAMPLE_REVIEWS}
-          background={<div className="reviews-mesh" aria-hidden="true"><ShaderBackground colors={REVIEWS_MESH} /></div>}
-          header={
-            <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="review-rating flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors">
-              <span className="font-display text-5xl font-extrabold text-primary-deep">4.8</span>
-              <span className="text-left"><span className="flex gap-0.5" aria-label="5-ից 4.8 աստղ">{[0,1,2,3,4].map((i) => <Star key={i} className="size-4 fill-primary text-primary" />)}</span>
-                <span className="text-sm font-medium">Կարդալ բոլոր {CLINIC.ratingCount} կարծիքները</span></span>
-              <ArrowUpRight className="ml-auto size-5" />
-            </a>
-          }
-        />
+        {/* Why us and patient reviews share one dark mesh; the red drifts across both.
+            The reviews are placeholders, tagged as samples on screen: replace them before launch. */}
+        <DarkBackdrop>
+          <Highlights onBook={() => book()} />
+          <Reviews reviews={SAMPLE_REVIEWS} rating="4.8" ratingCount={CLINIC.ratingCount} ratingHref={CLINIC.yandex} sampleLabel="Նմուշ" />
+        </DarkBackdrop>
 
         {/* FAQ */}
         <section id="faq" className="faq-section scroll-mt-20">

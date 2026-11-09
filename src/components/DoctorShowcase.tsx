@@ -14,9 +14,9 @@ const DOCTORS = [
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-type Dir = "next" | "prev";
+export type Dir = "next" | "prev";
 
-function Arrow() {
+export function Arrow() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 }
 
@@ -55,7 +55,7 @@ function RollLine({ text, mode, byWord, delay }: { text: string; mode: "static" 
  * The hero's rotating-text motion applied to any text: letters (or words, for long copy) roll
  * out through a mask while the new text rolls in behind them, staggered left to right.
  */
-function Roll({ text, dir, byWord, delay = 0 }: { text: string; dir: Dir; byWord?: boolean; delay?: number }) {
+export function Roll({ text, dir, byWord, delay = 0 }: { text: string; dir: Dir; byWord?: boolean; delay?: number }) {
   const { current, previous, turn } = useHandover(text);
   return (
     <span className="roll" data-dir={dir}>

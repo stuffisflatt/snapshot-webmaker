@@ -1388,3 +1388,77 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .sky-zone .services-section::after { inset: -60px;
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0.35'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>") 0 0 / 480px 480px repeat;
   mix-blend-mode: overlay; opacity: .5; }
+
+/* ---- Why us + reviews: one dark mesh behind both, in the doctors section's type and controls ----
+   Shorter than the story and doctors sections; both share one height so they read as a pair. */
+.dark-backdrop { position: relative; isolation: isolate; background: #0e0e10; color: #f5f5f7; --dark-ink: #f5f5f7; --dark-soft: rgb(245 245 247 / .64); --doc-ink: #f5f5f7; }
+.dark-backdrop-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.dark-backdrop-pin { position: sticky; top: 0; height: 100svh; }
+.dark-sec { display: flex; align-items: center; min-height: clamp(640px, 84svh, 820px); padding: clamp(88px, 11vh, 120px) clamp(24px, 5.2vw, 100px); }
+.dark-inner { width: 100%; max-width: 1120px; margin-inline: auto; }
+.dark-caption { margin: 0 0 10px; font-size: clamp(.8125rem, .95vw, 1rem); font-weight: 500; letter-spacing: .02em; color: rgb(245 245 247 / .5); }
+.dark-title { margin: 0; font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 400; font-size: clamp(2.25rem, 3.2vw, 3.25rem); line-height: 1.08; letter-spacing: -.045em; color: var(--dark-ink); text-wrap: balance; }
+.dark-title-serif { font-family: "Noto Serif Armenian", serif; font-style: italic; letter-spacing: -.03em; }
+.dark-lede { margin: 0; font-size: clamp(.9375rem, 1.1vw, 1.1875rem); line-height: 1.45; letter-spacing: -.02em; color: var(--dark-soft); }
+
+/* The page's pill buttons, inverted for the dark ground. */
+.dark-sec .clinic-hero-cta { width: auto; min-width: 224px; max-width: none; justify-self: start; }
+.dark-sec .clinic-hero-cta-book { background: #f5f5f7; border-color: #f5f5f7; color: #121214; }
+.dark-sec .clinic-hero-cta-book:hover { background: transparent; color: #f5f5f7; }
+.dark-sec .clinic-hero-cta-call { background: transparent; border-color: rgb(245 245 247 / .55); color: #f5f5f7; }
+.dark-sec .clinic-hero-cta-call:hover { background: #f5f5f7; border-color: #f5f5f7; color: #121214; }
+.dark-sec .clinic-hero-cta:active { transform: scale(.97); }
+
+/* Content rises in once, staggered; reduced motion gets a plain fade. */
+.dark-rise { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity 700ms cubic-bezier(.23, 1, .32, 1), transform 900ms cubic-bezier(.16, 1, .3, 1); transition-delay: calc(var(--i, 0) * 70ms); }
+.dark-sec[data-in] .dark-rise { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .dark-rise { transform: none; transition: opacity 300ms ease; } }
+
+/* Why us: heading row, then four rounded square photos with a line of copy each. */
+.dark-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: clamp(36px, 5vh, 56px); }
+.dark-head-side { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; max-width: 24em; }
+.hl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); margin: 0; padding: 0; list-style: none; }
+.hl-card { --i: 0; }
+.hl-photo { margin: 0 0 18px; aspect-ratio: 1; overflow: hidden; border-radius: 28px; background: #1c1c1f; }
+.hl-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 900ms cubic-bezier(.16, 1, .3, 1); }
+@media (hover: hover) and (pointer: fine) { .hl-card:hover .hl-photo img { transform: scale(1.04); } }
+.hl-num { margin: 0 0 6px; font-size: .8125rem; font-weight: 500; font-variant-numeric: tabular-nums; color: rgb(245 245 247 / .45); }
+.hl-title { margin: 0 0 6px; font-size: clamp(1.0625rem, 1.25vw, 1.3125rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.25; }
+.hl-text { margin: 0; max-width: 22em; font-size: clamp(.875rem, .95vw, 1rem); line-height: 1.45; color: var(--dark-soft); }
+
+/* Reviews: intro and rating on the left; the quote, author, counter and round arrows on the right. */
+.rv-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: 1fr auto; column-gap: clamp(48px, 7vw, 120px); row-gap: 40px; min-height: min(540px, 60svh); }
+.rv-intro { grid-column: 1; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; }
+.rv-rating { display: flex; align-items: center; gap: 14px; margin-top: auto; padding-top: 40px; color: inherit; text-decoration: none; }
+.rv-score { font-size: clamp(2.75rem, 3.8vw, 3.75rem); font-weight: 300; line-height: 1; letter-spacing: -.05em; }
+.rv-stars { display: flex; gap: 3px; color: #f2a65a; }
+.rv-stars svg { width: 16px; height: 16px; fill: currentColor; stroke: none; }
+.rv-count { font-size: .875rem; color: var(--dark-soft); }
+.rv-cta { margin-top: 22px; }
+.rv-quote { grid-column: 2; grid-row: 1; margin: 0; }
+.rv-quote blockquote { margin: 0; }
+.rv-quote blockquote p { margin: 0; font-size: clamp(1.375rem, 2vw, 2rem); font-weight: 300; line-height: 1.3; letter-spacing: -.03em; }
+.rv-quote figcaption { display: flex; flex-direction: column; gap: 4px; margin-top: 28px; }
+.rv-name { display: flex; align-items: center; gap: 10px; font-size: 1.0625rem; font-weight: 500; }
+.rv-sample { padding: 2px 9px; border: 1px solid rgb(245 245 247 / .3); border-radius: 999px; font-size: .75rem; font-weight: 500; color: var(--dark-soft); }
+.rv-role { font-size: .9375rem; color: var(--dark-soft); }
+.rv .roll { display: block; }
+.rv .rv-name .roll, .rv .doc-count .roll { display: inline-block; }
+.rv-foot { grid-column: 2; grid-row: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.rv .doc-count { display: flex; margin: 0; line-height: 1; padding-bottom: 2px; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; font-variant-numeric: tabular-nums; }
+.rv .doc-nav { position: static; display: flex; gap: 12px; }
+.rv .doc-nav .doc-arrow { position: static; display: grid; place-items: center; width: clamp(88px, 6.5vw, 124px); aspect-ratio: 1; padding: 0; border: 1px solid rgb(245 245 247 / .3); border-radius: 50%; background: transparent; color: var(--dark-ink);
+  transition: transform 300ms cubic-bezier(.16, 1, .3, 1), border-color 300ms ease, opacity 250ms cubic-bezier(.23, 1, .32, 1), scale 250ms cubic-bezier(.23, 1, .32, 1); }
+.rv .doc-nav .doc-prev[data-shown="false"] { width: 0; margin-right: -12px; border-width: 0; }
+.rv .doc-nav .doc-next[data-shown="false"] { display: none; }
+
+@media (max-width: 900px) {
+  .dark-sec { min-height: 0; padding: 88px 20px; }
+  .dark-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .hl-photo { border-radius: 22px; }
+  .rv-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; min-height: 0; row-gap: 32px; }
+  .rv-intro, .rv-quote, .rv-foot { grid-column: 1; grid-row: auto; }
+  .rv-rating { margin-top: 28px; padding-top: 0; }
+  .rv .doc-nav .doc-arrow { width: 64px; }
+}
