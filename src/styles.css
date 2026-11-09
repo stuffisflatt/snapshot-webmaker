@@ -1288,9 +1288,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .sky-zone .services-section .service-item[data-open="true"] { background: rgb(255 255 255 / .2); border-color: rgb(255 255 255 / .38); color: #fff; --muted-foreground: rgb(255 255 255 / .86); }
 .sky-zone .services-section .service-item .service-chevron, .sky-zone .services-section .service-item[data-open="true"] .service-chevron { color: #fff; }
 .sky-zone .services-section .service-item .btn-primary { background: #fff; color: var(--hero-ink); }
-@media (hover: hover) and (pointer: fine) {
-  .sky-zone .services-section .service-item:not([data-open="true"]):hover { background: rgb(255 255 255 / .17); }
-}
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { background: rgb(20 26 30 / .9); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
@@ -1323,9 +1320,32 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .sky-zone .services-section .service-item .service-trigger > span { text-shadow: 0 1px 10px rgb(0 0 0 / .35); }
 @media (hover: hover) and (pointer: fine) {
   .sky-zone .services-section .service-item:hover::after { opacity: 1; }
-  .sky-zone .services-section .service-item:not([data-open="true"]):hover { background: rgb(255 255 255 / .07); }
 }
 @media (prefers-reduced-motion: reduce) { .sky-zone .services-section .service-item::after { transition: none; } }
+
+/* Glass cards, third pass: pill-round corners; the hover shadow pool is defined further down.
+   The refraction filter is the costly part, so it runs only on desktop pointers; touch devices
+   keep the plain blur. paint containment keeps each card's repaints to itself. */
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) {
+  border-radius: 38px; contain: layout paint; }
+.sky-zone .services-section .service-item[data-open="true"] { border-radius: 34px; }
+@supports (backdrop-filter: url(#glass-warp)) {
+  @media not ((hover: hover) and (pointer: fine)) {
+    .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { backdrop-filter: blur(3px) saturate(130%); }
+  }
+}
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { transition: background-color 260ms cubic-bezier(.23, 1, .32, 1), border-color 260ms ease; }
+/* Hover keeps the card's own tint; only a soft shadow pool follows the pointer, darkening the glass
+   just around it. The pool moves by transform alone, so following the mouse never repaints the card
+   or re-runs the refraction filter behind it. */
+.sky-zone .services-section .service-item::after {
+  inset: auto; left: 0; top: 0; width: 320px; height: 320px; margin: -160px 0 0 -160px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(4 6 8 / .34), rgb(4 6 8 / .14) 55%, transparent);
+  transform: translate3d(var(--glare-x, -400px), var(--glare-y, -400px), 0);
+  opacity: 0; transition: opacity 320ms cubic-bezier(.23, 1, .32, 1); will-change: transform, opacity; }
+@media (hover: hover) and (pointer: fine) {
+  .sky-zone .services-section .service-item:hover::after { opacity: 1; }
+}
 
 /* Services grid: two independent columns, so an open card only pushes the cards below it. */
 .services-content .service-list { grid-auto-flow: row; grid-template-rows: none; align-items: start; }
@@ -1352,7 +1372,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .services-content .service-list { grid-template-columns: minmax(0, 52fr) 300px minmax(0, 42fr); }
 }
 /* Softer glass cards: much rounder corners. */
-.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { border-radius: 26px; }
 
 /* PC: card widths vary a little and hug the opening, so the two columns curve around the smile
    like a pair of brackets instead of reading as two flat blocks. Mirrored left and right. */

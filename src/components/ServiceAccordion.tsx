@@ -1,4 +1,4 @@
-import { useEffect, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { ChevronDown } from "lucide-react";
 import { SERVICES } from "@/lib/clinic";
 import { Button } from "@/components/ui/button";
@@ -31,12 +31,23 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     setLensMap(canvas.toDataURL());
   }, []);
 
-  // The glass sheen tracks the pointer across each card, like light tilting over a pane.
+  // A soft shadow pool follows the pointer across each card, darkening the glass around it. Updates are
+  // batched to one per frame and move the pool by transform only, so the card itself never repaints.
+  const sheen = useRef({ frame: 0, card: null as HTMLElement | null, x: 0, y: 0 });
+  useEffect(() => () => cancelAnimationFrame(sheen.current.frame), []);
   const tilt = (event: PointerEvent<HTMLLIElement>) => {
     if (event.pointerType !== "mouse") return;
-    const card = event.currentTarget, box = card.getBoundingClientRect();
-    card.style.setProperty("--glare-x", `${((event.clientX - box.left) / box.width) * 100}%`);
-    card.style.setProperty("--glare-y", `${((event.clientY - box.top) / box.height) * 100}%`);
+    const s = sheen.current;
+    s.card = event.currentTarget; s.x = event.clientX; s.y = event.clientY;
+    if (s.frame) return;
+    s.frame = requestAnimationFrame(() => {
+      s.frame = 0;
+      const card = s.card;
+      if (!card) return;
+      const box = card.getBoundingClientRect();
+      card.style.setProperty("--glare-x", `${(s.x - box.left).toFixed(1)}px`);
+      card.style.setProperty("--glare-y", `${(s.y - box.top).toFixed(1)}px`);
+    });
   };
 
   return (
