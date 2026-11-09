@@ -7,7 +7,7 @@ type CursorPosition = { left: number; width: number; opacity: number };
 
 const LINKS = [
   { href: "#services", label: "Ծառայություններ" },
-  { href: "#team", label: "Մասնագետներ" },
+  { href: "#doctors", label: "Մասնագետներ" },
   { href: "#reviews", label: "Կարծիքներ" },
   { href: "#faq", label: "Հարցեր" },
 ];

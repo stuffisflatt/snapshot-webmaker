@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { Phone, CalendarCheck, ChevronDown, Star, MapPin, Instagram, ShieldCheck, ArrowUpRight } from "lucide-react";
-import { CLINIC, DOCTORS } from "@/lib/clinic";
+import { CLINIC } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
 import { StoryBackdrop } from "@/components/StoryBackdrop";
 import { DoctorShowcase } from "@/components/DoctorShowcase";
 import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
-import Team from "@/components/ui/team";
 import { AnimatedTestimonials, type Testimonial } from "@/components/ui/animated-testimonials";
 import { Button } from "@/components/ui/button";
 import { ShaderBackground } from "@/components/ui/7777";
@@ -88,7 +87,6 @@ function Index() {
           </div>
         </section>
 
-        <Team members={DOCTORS} />
 
 
 
