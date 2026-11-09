@@ -317,17 +317,19 @@ const UNIFORMS = {
 
 const pendingContextReleases = new WeakMap<HTMLCanvasElement, number>()
 
-export function ShaderBackground({ className, colors = UNIFORMS.colors }: { className?: string; colors?: [number, number, number][] }) {
+export function ShaderBackground({ className, colors = UNIFORMS.colors, offsetRef, colorsRef }: { className?: string; colors?: [number, number, number][]; offsetRef?: { current: [number, number] }; colorsRef?: { current: [number, number, number][] } }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const canvasEl = canvasRef.current
+    if (!canvasEl) return
+    const canvas: HTMLCanvasElement = canvasEl
     const pendingRelease = pendingContextReleases.get(canvas)
     if (pendingRelease !== undefined) window.clearTimeout(pendingRelease)
     pendingContextReleases.delete(canvas)
-    const gl = canvas.getContext("webgl", { antialias: false })
-    if (!gl) return
+    const context = canvas.getContext("webgl", { antialias: false })
+    if (!context) return
+    const gl: WebGLRenderingContext = context
 
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!
@@ -539,8 +541,8 @@ export function ShaderBackground({ className, colors = UNIFORMS.colors }: { clas
       )
       gl.uniform4f(
         uni.space,
-        UNIFORMS.offsetX,
-        UNIFORMS.offsetY,
+        UNIFORMS.offsetX + (offsetRef?.current[0] ?? 0),
+        UNIFORMS.offsetY + (offsetRef?.current[1] ?? 0),
         mouseX,
         mouseY,
       )
@@ -551,6 +553,7 @@ export function ShaderBackground({ className, colors = UNIFORMS.colors }: { clas
         UNIFORMS.cursorStrength,
         UNIFORMS.cursorRadius,
       )
+      if (colorsRef) gl.uniform3fv(uni.colors, new Float32Array(colorsRef.current.flat()))
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       const pointerSettling =
         Math.abs(targetX - mouseX) > 0.001 ||

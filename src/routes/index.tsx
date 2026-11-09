@@ -4,6 +4,8 @@ import { Phone, CalendarCheck, ChevronDown, Star, MapPin, Instagram, ShieldCheck
 import { CLINIC, DOCTORS } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
+import { StoryBackdrop } from "@/components/StoryBackdrop";
+import { DoctorShowcase } from "@/components/DoctorShowcase";
 import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
 import Team from "@/components/ui/team";
@@ -48,8 +50,6 @@ const SAMPLE_REVIEWS: Testimonial[] = [
 // White with drifting skin and soft red, matching the hero and story backgrounds.
 const REVIEWS_MESH: [number, number, number][] = [[1, 1, 1], [.93, .93, .94], [1, 1, 1], [.957, .776, .706], [.77, .41, .36], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
-// Mid grey leaves the sky gradient untouched under soft-light; the blue, cyan and violet tones drift over it.
-const SKY_MESH: [number, number, number][] = [[.5, .5, .5], [.32, .48, .92], [.5, .5, .5], [.4, .76, .86], [.56, .44, .88], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
 const FAQ = [
   { q: "Ինչպե՞ս ամրագրել այցը", a: "Սեղմեք «Ամրագրել այցը», ընտրեք նախընտրելի ծառայությունը և ժամը, ապա ավարտեք ամրագրումն առցանց կամ զանգահարեք։ Կլինիկան կհաստատի այցը։" },
@@ -71,11 +71,12 @@ function Index() {
       <main id="top">
         <HeroHeader onBook={() => book()} />
 
-        <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
+        <StoryBackdrop>
+          <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
+          <DoctorShowcase />
+        </StoryBackdrop>
 
         <div className="sky-zone">
-          <div className="sky-mesh" aria-hidden="true"><ShaderBackground colors={SKY_MESH} /></div>
-          <div className="sky-ambient" aria-hidden="true"><span /><span /><span /><span /></div>
         {/* Services */}
         <section id="services" className="services-section scroll-mt-20 px-5 py-20">
           <div className="services-content mx-auto max-w-3xl">

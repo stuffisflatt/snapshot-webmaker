@@ -782,7 +782,7 @@
     oklch(1 0 0) 0%, oklch(0.985 0.008 245) 14%, oklch(0.9 0.05 245) 26%,
     oklch(0.74 0.08 250) 38%, oklch(0.6 0.1 252) 55%, oklch(0.48 0.1 255) 100%);
 }
-.sky-zone > section, .sky-zone > div:not(.sky-ambient) { position: relative; z-index: 1; background: transparent !important; }
+.sky-zone > section, .sky-zone > div { position: relative; z-index: 1; background: transparent !important; }
 .sky-zone .services-section {
   --background: transparent; --foreground: oklch(0.2 0.01 255); --card: oklch(1 0 0 / 0.75);
   --card-foreground: oklch(0.2 0.01 255); --muted-foreground: oklch(0.45 0.015 255);
@@ -801,23 +801,6 @@
 .sky-zone .team-marquee::before, .sky-zone .team-marquee::after { display: none; }
 .sky-zone .review-rating { background: oklch(1 0 0 / 0.12); color: oklch(1 0 0); backdrop-filter: blur(8px); }
 
-/* Barely-there drifting light, like slow clouds. */
-.sky-ambient { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.sky-ambient span {
-  position: absolute; width: 70vmax; height: 40vmax; border-radius: 50%;
-  background: radial-gradient(closest-side, oklch(1 0 0 / 0.22), transparent);
-  filter: blur(40px); animation: sky-drift 60s ease-in-out infinite alternate;
-}
-.sky-ambient span:nth-child(1) { top: 30%; left: -20%; }
-.sky-ambient span:nth-child(2) { top: 50%; right: -25%; animation-duration: 75s; animation-delay: -20s; }
-.sky-ambient span:nth-child(3) { top: 70%; left: 10%; animation-duration: 90s; animation-delay: -40s; opacity: .7; }
-.sky-ambient span:nth-child(4) { top: 85%; right: 0; animation-duration: 68s; animation-delay: -10s; opacity: .6; }
-@keyframes sky-drift {
-  0% { transform: translate3d(0, 0, 0) scale(1); opacity: .5; }
-  50% { opacity: 1; }
-  100% { transform: translate3d(18vw, -4vh, 0) scale(1.15); opacity: .6; }
-}
-@media (prefers-reduced-motion: reduce) { .sky-ambient span { animation: none; } }
 
 /* Reviews: solid light cards in the familiar review-site style. */
 .sky-zone .testimonials-section .testimonial-card {
@@ -1079,8 +1062,6 @@ input:not([type="date"], [type="time"]), textarea { cursor: url("/cursor-text.sv
 .sx-video { background: var(--hero-ink); }
 .sx-stage { background: oklch(0.15 0.002 260); }
 
-.sx-mesh { position: absolute; inset: 0; pointer-events: none; }
-.sx-mesh::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #fff 0%, #ffffffd9 22%, #ffffff00 58%); }
 
 /* Step tags and buttons: solid card colour with white text. */
 .sx .sx-tag, .sx .sx-actions .clinic-hero-cta, .sx .sx-actions .clinic-hero-cta:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
@@ -1149,8 +1130,6 @@ input:not([type="date"], [type="time"]), textarea { cursor: url("/cursor-text.sv
 .reviews-mesh { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .testimonials-section > .reviews-mesh { width: auto; max-width: none; margin: 0; padding: 0; }
 
-/* Sky gradient keeps its white-to-blue run; a soft-light mesh drifts colour tones through it. */
-.sky-zone > div.sky-mesh { position: absolute; inset: 0; z-index: 0; mix-blend-mode: soft-light; opacity: .75; pointer-events: none; }
 
 /* Sections 3–4: titles and subtitles one fifth smaller, team heading lowered 40px, quote one seventh smaller. */
 .services-heading .clinic-section-title, .team-intro-heading h2 { font-size: clamp(2rem, 4vw, 3.6rem); }
@@ -1171,6 +1150,240 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 
 /* Sections 3–4: the reference sky, flipped: pale sky at the top through azure and royal blue to indigo at the bottom. */
 .sky-zone { background: linear-gradient(0deg, #3a33c2 0%, #2147e0 9%, #1a6ff2 26%, #2e93fb 46%, #55b3ff 68%, #8bd0ff 88%, #a5dcff 100%); }
-.sky-zone > div.sky-mesh, .sky-zone .sky-ambient { display: none; }
 .sky-zone .services-heading .clinic-section-title { color: var(--hero-ink); }
 .sky-zone .services-heading > p { color: oklch(0.23 0.004 260 / .75); }
+
+/* Story + doctors share one pinned mesh; the white top fades as the doctors section arrives. */
+.story-backdrop { position: relative; isolation: isolate; --story-white: 1; }
+.story-backdrop-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.story-backdrop-pin { position: sticky; top: 0; height: 100svh; }
+.story-backdrop-pin::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #fff 0%, #ffffffd9 22%, #ffffff00 58%); opacity: var(--story-white); }
+.story-backdrop .sx-stage { background: transparent; }
+
+/* Doctors: three columns around a centred portrait, after the reference layout. */
+.doc { --doc-ink: #222326; position: relative; display: flex; align-items: center; min-height: 100svh; padding: clamp(96px, 12vh, 140px) clamp(24px, 5.2vw, 100px); color: var(--doc-ink); }
+.doc-grid { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr) minmax(0, 533px) minmax(0, 1fr); grid-template-rows: auto 1fr auto; column-gap: clamp(28px, 2.7vw, 52px); min-height: min(600px, 70svh); }
+.doc-intro { grid-column: 1; grid-row: 1; }
+.doc-name { margin: 0; font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 400; font-size: clamp(2.25rem, 3.4vw, 3.5rem); line-height: 1.04; letter-spacing: -.045em; }
+.doc-title { display: block; margin-bottom: .1em; font-family: "Noto Serif Armenian", serif; font-style: italic; font-size: .92em; letter-spacing: -.03em; }
+.doc-role { margin: 22px 0 0; font-size: clamp(1rem, 1.2vw, 1.25rem); font-weight: 500; color: rgb(34 35 38 / .8); }
+.doc-specs { grid-column: 1; grid-row: 3; }
+.doc-caption { margin: 0 0 8px; font-size: clamp(.8125rem, .95vw, 1rem); font-weight: 500; letter-spacing: .02em; color: rgb(34 35 38 / .5); }
+.doc-specs ul { display: flex; flex-wrap: wrap; gap: 6px 26px; margin: 0; padding: 0; list-style: none; font-size: clamp(.9375rem, 1.1vw, 1.1875rem); font-weight: 500; color: rgb(34 35 38 / .8); }
+.doc-photo { grid-column: 2; grid-row: 1 / 4; margin: 0; overflow: hidden; border-radius: 22px; aspect-ratio: 533 / 600; background: #d9d9dc; }
+.doc-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.doc-bio { grid-column: 3; grid-row: 1; max-width: 27em; margin: 4px 0 0; font-size: clamp(.9375rem, 1.1vw, 1.1875rem); font-weight: 400; line-height: 1.45; letter-spacing: -.02em; color: rgb(34 35 38 / .8); }
+.doc-count { grid-column: 3; grid-row: 3; align-self: end; margin: 0; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; font-variant-numeric: tabular-nums; }
+.doc-next { position: absolute; right: clamp(24px, 5.2vw, 100px); bottom: max(clamp(96px, 12vh, 140px), calc(50% - min(300px, 35svh))); display: grid; place-items: center; width: clamp(88px, 6.5vw, 124px); aspect-ratio: 1; border: 1px solid rgb(34 35 38 / .3); border-radius: 50%; background: transparent; color: var(--doc-ink); transition: transform 300ms cubic-bezier(.16, 1, .3, 1), border-color 300ms ease; }
+.doc-next-arrows { position: relative; display: flex; width: 28px; height: 28px; overflow: hidden; }
+.doc-next-arrows svg { flex: 0 0 28px; width: 28px; height: 28px; transform: translateX(-100%); transition: transform 600ms cubic-bezier(.16, 1, .3, 1); }
+.doc-next:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) {
+  .doc-next:hover { border-color: var(--doc-ink); }
+  .doc-next:hover .doc-next-arrows svg { transform: translateX(0); }
+}
+.doc-next:focus-visible .doc-next-arrows svg { transform: translateX(0); }
+@media (max-width: 900px) {
+  .doc { min-height: 0; padding: 96px 20px; }
+  .doc-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: 22px; min-height: 0; }
+  .doc-intro, .doc-specs, .doc-photo, .doc-bio, .doc-count { grid-column: 1; grid-row: auto; }
+  .doc-photo { order: 2; }
+  .doc-bio { order: 3; }
+  .doc-specs { order: 4; }
+  .doc-count { order: 5; }
+  .doc-next { right: 20px; bottom: 90px; width: 72px; }
+}
+@media (min-width: 901px) { .doc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 480px) minmax(0, 1fr); } }
+.doc-name { font-size: clamp(2rem, 2.5vw, 3.25rem); }
+
+/* Doctor arrows: back slides in from the second profile; forward leaves on the last one. */
+.doc-nav { position: absolute; right: clamp(24px, 5.2vw, 100px); bottom: max(clamp(96px, 12vh, 140px), calc(50% - min(300px, 35svh))); display: flex; gap: 14px; }
+.doc .doc-nav .doc-arrow { position: static; transition: transform 300ms cubic-bezier(.16, 1, .3, 1), border-color 300ms ease, opacity 250ms cubic-bezier(.23, 1, .32, 1), scale 250ms cubic-bezier(.23, 1, .32, 1); }
+.doc-prev .doc-next-arrows { transform: scaleX(-1); }
+.doc-arrow[data-shown="false"] { opacity: 0; scale: .9; pointer-events: none; }
+.doc-prev[data-shown="false"] { width: 0; margin-right: -14px; border-width: 0; }
+.doc-next[data-shown="false"] { display: none; }
+.doc-arrow:disabled { cursor: default; }
+@media (max-width: 900px) { .doc-nav { right: 20px; bottom: 90px; } }
+.doc .doc-nav .doc-arrow { display: grid; place-items: center; width: clamp(88px, 6.5vw, 124px); aspect-ratio: 1; padding: 0; border: 1px solid rgb(34 35 38 / .3); border-radius: 50%; background: transparent; color: var(--doc-ink); }
+.doc .doc-nav .doc-prev[data-shown="false"] { width: 0; margin-right: -14px; border-width: 0; }
+.doc .doc-nav .doc-next[data-shown="false"] { display: none; }
+.doc-arrow:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) {
+  .doc-arrow:hover { border-color: var(--doc-ink); }
+  .doc-arrow:hover .doc-next-arrows svg { transform: translateX(0); }
+}
+.doc-arrow:focus-visible .doc-next-arrows svg { transform: translateX(0); }
+@media (max-width: 900px) { .doc .doc-nav .doc-arrow { width: 72px; } }
+
+/* ---- Doctors: alignment pass ----
+   The photo sets the block's height; the top row (name, bio) sits on its top edge and the bottom
+   row (specialties, counter, arrows) on its bottom edge, so all three columns share two lines. */
+.doc-grid { min-height: 0; grid-template-rows: auto 1fr auto; align-items: start; }
+.doc-photo { position: relative; grid-row: 1 / 4; }
+.doc-specs, .doc-foot { align-self: end; }
+.doc-bio { margin: 0; }
+.doc-name { line-height: 1.08; }
+.doc-title { line-height: 1; }
+.doc-role { margin-top: 18px; }
+.doc-foot { grid-column: 3; grid-row: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.doc-count { grid-column: auto; grid-row: auto; display: flex; line-height: 1; padding-bottom: 2px; }
+.doc .doc-nav { position: static; display: flex; gap: 12px; }
+.doc .doc-nav .doc-prev[data-shown="false"] { margin-right: -12px; }
+.doc-specs ul { gap: 4px 22px; }
+
+/* Rolling text, the hero tagline's motion: each letter (or word) rolls through its own mask. */
+.roll { position: relative; display: inline-block; vertical-align: top; }
+.roll-line { display: inline; }
+.roll-line[data-mode="out"] { position: absolute; inset: 0; pointer-events: none; }
+.roll-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; white-space: nowrap; }
+.roll-char { display: inline-block; white-space: pre; }
+.roll { --roll-from: 112%; --roll-to: -112%; }
+.roll[data-dir="prev"] { --roll-from: -112%; --roll-to: 112%; }
+.roll-line[data-mode="in"] .roll-char { animation: roll-in 620ms cubic-bezier(.23, 1, .32, 1) both; animation-delay: calc(var(--i) * 16ms + var(--d)); }
+.roll-line[data-mode="out"] .roll-char { animation: roll-out 420ms cubic-bezier(.77, 0, .175, 1) both; animation-delay: calc(var(--i) * 10ms); }
+@keyframes roll-in { from { transform: translateY(var(--roll-from)); } }
+@keyframes roll-out { to { transform: translateY(var(--roll-to)); } }
+
+/* Portrait slides through its frame with the same rhythm. */
+.doc-photo img { position: absolute; inset: 0; }
+.doc-photo { --photo-from: 100%; --photo-to: -30%; }
+.doc-photo[data-dir="prev"] { --photo-from: -100%; --photo-to: 30%; }
+.doc-photo img[data-mode="in"] { z-index: 1; animation: photo-in 820ms cubic-bezier(.77, 0, .175, 1) both; }
+.doc-photo img[data-mode="out"] { animation: photo-out 820ms cubic-bezier(.77, 0, .175, 1) both; }
+@keyframes photo-in { from { transform: translateY(var(--photo-from)); } }
+@keyframes photo-out { to { transform: translateY(var(--photo-to)); filter: brightness(.85); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .roll-line[data-mode="in"] .roll-char, .doc-photo img[data-mode="in"] { animation: roll-fade 240ms ease both; }
+  .roll-line[data-mode="out"], .doc-photo img[data-mode="out"] { display: none; }
+  @keyframes roll-fade { from { opacity: 0; } }
+}
+
+@media (max-width: 900px) {
+  .doc-photo { grid-row: auto; }
+  .doc-foot { grid-column: 1; grid-row: auto; order: 5; }
+  .doc .doc-nav .doc-arrow { width: 64px; }
+}
+/* Each rolling block spans its container, so the outgoing text wraps exactly as it did on screen. */
+.doc .roll { display: block; }
+.doc-count .roll { display: inline-block; }
+
+/* ---- Services: photo background with Apple-style glass cards ----
+   The photo is darkened and graded toward the reference's warm-skin / teal-shadow look so white text reads on it. */
+.sky-zone .services-section { position: relative; isolation: isolate; overflow: hidden; --foreground: #fff; --muted-foreground: rgb(255 255 255 / .82); color: #fff; }
+.sky-zone .services-section::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url("/media/services-bg.webp") 58% 45% / cover no-repeat; }
+.sky-zone .services-section::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 90% at 58% 45%, transparent 0%, rgb(6 14 18 / .35) 60%, rgb(6 14 18 / .7) 100%),
+    linear-gradient(180deg, rgb(8 16 20 / .55) 0%, rgb(8 16 20 / .35) 40%, rgb(8 16 20 / .55) 100%); }
+.sky-zone .services-heading .clinic-section-title { color: #fff; }
+.sky-zone .services-heading > p { color: rgb(255 255 255 / .82); }
+
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) {
+  background: rgb(255 255 255 / .12); border: 1px solid rgb(255 255 255 / .24); color: #fff; --muted-foreground: rgb(255 255 255 / .8);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .25), 0 18px 40px -24px rgb(0 0 0 / .55);
+  -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%);
+  transition: background-color 220ms ease, border-color 220ms ease; }
+.sky-zone .services-section .service-item[data-open="true"] { background: rgb(255 255 255 / .2); border-color: rgb(255 255 255 / .38); color: #fff; --muted-foreground: rgb(255 255 255 / .86); }
+.sky-zone .services-section .service-item .service-chevron, .sky-zone .services-section .service-item[data-open="true"] .service-chevron { color: #fff; }
+.sky-zone .services-section .service-item .btn-primary { background: #fff; color: var(--hero-ink); }
+@media (hover: hover) and (pointer: fine) {
+  .sky-zone .services-section .service-item:not([data-open="true"]):hover { background: rgb(255 255 255 / .17); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { background: rgb(20 26 30 / .9); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (max-width: 767px) {
+  .sky-zone .services-section::before { background-position: 55% 40%; }
+}
+/* Closer crop on her face, and only a light shade so the photo itself carries the section. */
+.sky-zone .services-section::before { transform: scale(1.3); transform-origin: 56% 42%; }
+.sky-zone .services-section::after { background: linear-gradient(180deg, rgb(8 14 18 / .45) 0%, rgb(8 14 18 / .12) 30%, rgb(8 14 18 / .12) 75%, rgb(8 14 18 / .35) 100%); }
+
+/* Services photo, second pass: no shading layers; cover-fit cropped from the left (blanket) side only, a touch brighter. */
+.sky-zone .services-section::before { transform: none; background-position: 100% 50%; filter: brightness(1.08); }
+.sky-zone .services-section::after { content: none; }
+
+/* Glass cards, second pass: far more transparent, a gentle refraction of the photo behind
+   (Chromium; other browsers keep the plain blur), and a soft sheen that follows the pointer. */
+.glass-filter { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) {
+  position: relative; background: rgb(255 255 255 / .04); border-color: rgb(255 255 255 / .3);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .35), inset 0 -1px 0 rgb(255 255 255 / .08), 0 14px 34px -24px rgb(0 0 0 / .45);
+  -webkit-backdrop-filter: blur(3px) saturate(130%); backdrop-filter: blur(3px) saturate(130%); }
+@supports (backdrop-filter: url(#glass-warp)) {
+  .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { backdrop-filter: url(#glass-warp) blur(2px) saturate(130%); }
+}
+.sky-zone .services-section .service-item[data-open="true"] { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .42); }
+.sky-zone .services-section .service-item::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(circle 220px at var(--glare-x, 20%) var(--glare-y, 0%), rgb(255 255 255 / .16), transparent 70%);
+  opacity: .55; transition: opacity 300ms ease; }
+.sky-zone .services-section .service-trigger, .sky-zone .services-section .service-panel { position: relative; z-index: 1; }
+.sky-zone .services-section .service-item .service-trigger > span { text-shadow: 0 1px 10px rgb(0 0 0 / .35); }
+@media (hover: hover) and (pointer: fine) {
+  .sky-zone .services-section .service-item:hover::after { opacity: 1; }
+  .sky-zone .services-section .service-item:not([data-open="true"]):hover { background: rgb(255 255 255 / .07); }
+}
+@media (prefers-reduced-motion: reduce) { .sky-zone .services-section .service-item::after { transition: none; } }
+
+/* Services grid: two independent columns, so an open card only pushes the cards below it. */
+.services-content .service-list { grid-auto-flow: row; grid-template-rows: none; align-items: start; }
+.service-col { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+@media (max-width: 767px) { .service-col { gap: 10px; } }
+
+/* Services size (Apple-style breathing room): taller than one screen so neither neighbouring
+   section edge shows while it is in view, even with a card open; the content stays centred and
+   eases into its new position as a card opens. */
+.sky-zone .services-section { min-height: 125svh; justify-content: center; padding-block: clamp(140px, 20svh, 220px); }
+/* No extra zoom: the photo is only cropped as much as cover needs to fill the section, evenly from both sides. */
+.sky-zone .services-section::before { transform: none; background-position: 50% 50%; }
+
+/* PC: the two card columns move to the sides so the smile in the middle of the photo stays open.
+   Each column is a calm, narrower stack; the empty centre is the photo's focal point. */
+@media (min-width: 1024px) {
+  .sky-zone .services-section .services-content { max-width: min(1240px, calc(100vw - 96px)); }
+  .services-content .service-list { grid-template-columns: minmax(0, 360px) minmax(260px, 1fr) minmax(0, 360px); column-gap: 0; }
+  .services-content .service-list > .service-col:first-child { grid-column: 1; }
+  .services-content .service-list > .service-col:last-child { grid-column: 3; }
+}
+/* Narrower opening: the cards may cover the face, only the smile stays clear. */
+@media (min-width: 1024px) {
+  .services-content .service-list { grid-template-columns: minmax(0, 52fr) 300px minmax(0, 42fr); }
+}
+/* Softer glass cards: much rounder corners. */
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { border-radius: 26px; }
+
+/* PC: card widths vary a little and hug the opening, so the two columns curve around the smile
+   like a pair of brackets instead of reading as two flat blocks. Mirrored left and right. */
+@media (min-width: 1024px) {
+  .services-content .service-col:first-child { align-items: flex-end; }
+  .services-content .service-col:last-child { align-items: flex-start; }
+  .services-content .service-col > .service-item { width: 100%; }
+  .services-content .service-col > .service-item:nth-child(1) { width: 92%; }
+  .services-content .service-col > .service-item:nth-child(2) { width: 84%; }
+  .services-content .service-col > .service-item:nth-child(3) { width: 100%; }
+}
+
+/* PC: break the shared inner edge with small, uneven offsets, always away from the smile, so the
+   stacks feel placed by hand rather than snapped to a grid. Left and right deliberately differ. */
+@media (min-width: 1024px) {
+  .services-content .service-col:first-child > .service-item:nth-child(1) { margin-right: 22px; }
+  .services-content .service-col:first-child > .service-item:nth-child(2) { margin-right: 0; }
+  .services-content .service-col:first-child > .service-item:nth-child(3) { margin-right: 46px; }
+  .services-content .service-col:last-child > .service-item:nth-child(1) { margin-left: 38px; }
+  .services-content .service-col:last-child > .service-item:nth-child(2) { margin-left: 8px; }
+  .services-content .service-col:last-child > .service-item:nth-child(3) { margin-left: 24px; }
+}
+
+/* Cinematic film grain over the services photo: fine monochrome noise, overlay-blended so it
+   reads as texture in the midtones without greying the image. Adjust the opacity to taste. */
+.sky-zone .services-section::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>") 0 0 / 240px 240px repeat;
+  mix-blend-mode: overlay; opacity: .32; }
+
+/* Grain matched to the hero film: coarser, faintly chromatic, more visible.
+   Held still: a moving grain read as flicker. */
+.sky-zone .services-section::after { inset: -60px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0.35'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>") 0 0 / 480px 480px repeat;
+  mix-blend-mode: overlay; opacity: .5; }

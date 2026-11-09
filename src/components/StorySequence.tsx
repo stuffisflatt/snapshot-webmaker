@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ShaderBackground } from "@/components/ui/7777";
 import { SwapText } from "@/components/HeroHeader";
 import { CLINIC } from "@/lib/clinic";
 import { storyScrollDelta } from "@/lib/story-scroll";
@@ -19,9 +18,6 @@ const PHOTOS = [
   { src: "/media/clinic/door.webp", alt: "Բուժասենյակի մուտք" },
   { src: "/media/clinic/treatment.webp", alt: "Բուժասենյակ" },
 ];
-
-// Reds sit in the same slots as the hero mesh skin tones, so they travel the same paths.
-const MESH_COLORS: [number, number, number][] = [[.79, .79, .8], [.56, .56, .57], [.79, .79, .8], [.69, .33, .3], [.77, .41, .36], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
 // The scrubbed video is encoded with a keyframe every few frames so any scroll
 // position decodes at once. Phones get a narrower crop of the same footage.
@@ -193,7 +189,6 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   return (
     <section ref={ref} id="how" aria-label="Ինչպես ենք աշխատում" className="sx" data-step={step}>
       <div className="sx-stage">
-        <div className="sx-mesh" aria-hidden="true"><ShaderBackground colors={MESH_COLORS} /></div>
         <div className="sx-shade" aria-hidden="true" />
         <div className="sx-grid">
           <div className="sx-media">
