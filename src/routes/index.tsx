@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { riseStyle, useScrollReveal, WordReveal } from "@/components/Reveal";
+import { useSmoothScroll } from "@/components/SmoothScroll";
 import { Phone, CalendarCheck, ChevronDown, MapPin, Instagram, ShieldCheck } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
@@ -9,6 +11,7 @@ import { DoctorShowcase } from "@/components/DoctorShowcase";
 import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
 import { DarkBackdrop } from "@/components/DarkBackdrop";
+import { MobileActionBar } from "@/components/MobileActionBar";
 import { Highlights } from "@/components/Highlights";
 import { Reviews, type Review } from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
@@ -27,15 +30,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("is-in"), io.unobserve(e.target))), { rootMargin: "0px 0px -10% 0px" });
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
 
 // Placeholder reviews (shown with a "Նմուշ" tag): no invented patient names. Swap for real ones.
 const SAMPLE_REVIEWS: Review[] = [
@@ -57,7 +51,8 @@ const FAQ = [
 ];
 
 function Index() {
-  useReveal();
+  useScrollReveal();
+  useSmoothScroll();
   const [open, setOpen] = useState(false);
   const [preset, setPreset] = useState<BookingPreset>({});
   const [faq, setFaq] = useState<number | null>(0);
@@ -77,10 +72,10 @@ function Index() {
         <div className="sky-zone">
         {/* Services */}
         <section id="services" className="services-section scroll-mt-20 px-5 py-20">
-          <div className="services-content mx-auto max-w-3xl">
+          <div className="services-content mx-auto max-w-3xl" data-reveal>
           <div className="services-heading">
-          <h2 className="clinic-section-title">Ծառայություններ</h2>
-          <p className="mt-3 text-muted-foreground">Ընտրեք ուղղությունը՝ մանրամասների համար։</p>
+          <WordReveal className="clinic-section-title" text="Ծառայություններ" />
+          <p className="rise mt-3 text-muted-foreground" style={riseStyle(1)}>Ընտրեք ուղղությունը՝ մանրամասների համար։</p>
           </div>
           <ServiceAccordion onBook={service => book({ service })} />
           </div>
@@ -100,11 +95,11 @@ function Index() {
 
         {/* FAQ */}
         <section id="faq" className="faq-section scroll-mt-20">
-          <div className="faq-content">
-          <h2 className="reveal clinic-section-title">Հաճախ տրվող հարցեր</h2>
+          <div className="faq-content" data-reveal>
+          <WordReveal className="clinic-section-title" text="Հաճախ տրվող հարցեր" />
           <ul className="mt-8 divide-y divide-border border-y border-border">
             {FAQ.map((f, i) => (
-              <li key={i}>
+              <li key={i} className="rise" style={riseStyle(i + 2)}>
                 <Button variant="ghost" aria-expanded={faq === i} onClick={() => setFaq(faq === i ? null : i)} className="h-auto whitespace-normal rounded-none flex w-full items-center justify-between gap-4 px-0 py-5 text-left font-semibold hover:bg-transparent hover:text-primary">
                   {f.q}<ChevronDown className={`size-5 shrink-0 transition-transform ${faq === i ? "rotate-180" : ""}`} />
                 </Button>
@@ -119,23 +114,23 @@ function Index() {
 
         {/* Contact */}
         <section id="contact" className="contact-section relative scroll-mt-16 overflow-hidden">
-          <div className="contact-content relative mx-auto max-w-6xl px-5 py-20">
-            <h2 className="reveal clinic-section-title max-w-xl">Պատրա՞ստ եք առաջին քայլին</h2>
-            <p className="reveal mt-4 max-w-md text-lg opacity-90">Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
-            <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="contact-content relative mx-auto max-w-6xl px-5 py-20" data-reveal>
+            <WordReveal className="clinic-section-title max-w-xl" text="Պատրա՞ստ եք առաջին քայլին" />
+            <p className="rise mt-4 max-w-md text-lg opacity-90" style={riseStyle(3)}>Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
+            <div className="rise mt-8 flex flex-col gap-3 sm:flex-row" style={riseStyle(4)}>
               <Button onClick={() => book()} className="btn btn-white"><CalendarCheck className="size-5" />Ամրագրել այցը</Button>
               <a href={CLINIC.mobileHref} className="btn btn-ghost-white"><Phone className="size-5" />{CLINIC.mobile}</a>
             </div>
             <div className="contact-details mt-14 grid gap-4 sm:grid-cols-3">
-              <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20">
+              <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(5)}>
                 <MapPin className="size-6" /><p className="mt-3 font-semibold">{CLINIC.address}</p><p className="mt-1 text-sm opacity-80">Ճանապարհը քարտեզի վրա ↗</p>
               </a>
-              <div className="rounded-xl bg-sky-foreground/10 p-5">
+              <div className="rise rounded-xl bg-sky-foreground/10 p-5" style={riseStyle(6)}>
                 <Phone className="size-6" />
                 <a href={CLINIC.mobileHref} className="mt-3 block font-semibold hover:underline">{CLINIC.mobile}</a>
                 <a href={CLINIC.landlineHref} className="mt-1 block font-semibold hover:underline">{CLINIC.landline}</a>
               </div>
-              <a href={CLINIC.instagram} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20">
+              <a href={CLINIC.instagram} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(7)}>
                 <Instagram className="size-6" /><p className="mt-3 font-semibold">@alphastom_mc</p><p className="mt-1 text-sm opacity-80">Instagram ↗</p>
               </a>
             </div>
@@ -143,11 +138,12 @@ function Index() {
         </section>
       </main>
 
-      <footer className="clinic-footer mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
-        <span>© ALPHASTOM Dental Clinic · 2002</span>
-        <span className="flex items-center gap-2"><ShieldCheck className="size-4" /><span className="rounded-sm border border-border px-2.5 py-0.5 text-xs font-medium">Concept preview</span></span>
+      <footer data-reveal className="clinic-footer mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
+        <span className="rise">© ALPHASTOM Dental Clinic · 2002</span>
+        <span className="rise flex items-center gap-2" style={riseStyle(1)}><ShieldCheck className="size-4" /><span className="rounded-sm border border-border px-2.5 py-0.5 text-xs font-medium">Concept preview</span></span>
       </footer>
 
+      <MobileActionBar onBook={() => book()} />
       <BookingSheet open={open} preset={preset} onClose={close} />
     </div>
   );

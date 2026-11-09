@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { SERVICES } from "@/lib/clinic";
 import { Button } from "@/components/ui/button";
+import { riseStyle } from "@/components/Reveal";
 
 export function ServiceAccordion({ onBook }: { onBook: (service: string) => void }) {
   const [active, setActive] = useState<string | null>(null);
@@ -53,10 +54,10 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     <div className="service-list">
       {[SERVICES.slice(0, 3), SERVICES.slice(3)].map((column, c) => (
       <ul key={c} className="service-col">
-      {column.map(service => {
+      {column.map((service, r) => {
         const open = active === service.id;
         return (
-          <li key={service.id} className="service-item" data-open={open}
+          <li key={service.id} className="service-item rise" style={riseStyle(2 + r * 2 + c)} data-open={open}
             onKeyDown={event => { if (event.key === "Escape") setActive(null); }}>
             <h3>
               <Button variant="ghost" id={`svc-trigger-${service.id}`} className="service-trigger" aria-expanded={open} aria-controls={`svc-${service.id}`}

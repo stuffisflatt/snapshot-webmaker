@@ -45,7 +45,7 @@ function NavHeader({ onBook }: { onBook: () => void }) {
             {link.label}
           </Tab>
         ))}
-        <li ref={bookTab} onMouseEnter={goHome} className={TAB_CLASS}>
+        <li ref={bookTab} onMouseEnter={goHome} className={`${TAB_CLASS} nav-book`}>
           <button type="button" onClick={onBook} onFocus={goHome} className={`${LABEL_CLASS} md:uppercase`}>
             Ամրագրել այցը
           </button>

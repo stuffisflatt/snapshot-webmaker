@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Phone, MapPin } from "lucide-react";
 import { CLINIC, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
+import { setSmoothScrollPaused } from "@/components/SmoothScroll";
 
 export type BookingPreset = { service?: string; doctor?: string };
 
@@ -15,11 +16,13 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
     setDoctor(preset.doctor ?? FIRST_AVAILABLE);
     const prev = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
+    setSmoothScrollPaused(true);
     setTimeout(() => ref.current?.querySelector<HTMLElement>("select, input")?.focus(), 50);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      setSmoothScrollPaused(false);
       window.removeEventListener("keydown", onKey);
       prev?.focus();
     };
@@ -32,7 +35,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="booking-title">
       <button aria-label="Փակել" onClick={onClose} className="absolute inset-0 bg-foreground/50 animate-in fade-in duration-200" />
-      <div ref={ref} className="relative max-h-[92svh] w-full overflow-y-auto rounded-t-2xl bg-background p-6 pb-8 shadow-card animate-in slide-in-from-bottom-8 duration-300 sm:max-w-lg sm:rounded-2xl">
+      <div ref={ref} data-lenis-prevent className="relative max-h-[92svh] w-full overflow-y-auto rounded-t-2xl bg-background p-6 pb-8 shadow-card animate-in slide-in-from-bottom-8 duration-300 sm:max-w-lg sm:rounded-2xl">
         <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-border sm:hidden" />
         <div className="flex items-start justify-between gap-4">
           <h2 id="booking-title" className="text-2xl font-bold">Ամրագրել այցը</h2>
