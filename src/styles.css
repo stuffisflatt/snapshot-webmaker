@@ -1601,3 +1601,15 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .doc-langs { display: inline-flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 4px 10px; border-radius: 8px; background: var(--hero-ink); color: rgb(235 235 240 / .78); font-size: 11.5px; line-height: 1.3; white-space: nowrap; }
 .doc-langs > span { display: inline-flex; align-items: center; gap: 8px; }
 .doc-langs-bar { color: rgb(255 255 255 / .18); }
+
+/* Doctors, spacing pass (group with space: gaps inside a group about half the gaps between groups).
+   Name block: name 8, role 12, tags 10, summary. Credentials: caption 6, lines 2, button 16, languages 10. */
+.doc .doc-role { margin-top: 8px; }
+.doc .doc-stats { margin-top: 12px; }
+.doc .doc-line { margin-top: 10px; }
+.doc .doc-caption { margin: 0 0 6px; }
+.doc .doc-specs ul { gap: 2px 18px; }
+.doc .doc-creds ul { gap: 2px; }
+.doc .doc-book { margin-top: 16px; }
+.doc .doc-langs { display: flex; width: fit-content; margin-top: 10px; color: #fff; }
+.doc .doc-langs-bar { color: rgb(255 255 255 / .2); }
