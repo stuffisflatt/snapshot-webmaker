@@ -1584,3 +1584,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* Doctors: the story section's booking button, under the credentials. */
 .doc .doc-book { width: auto; max-width: none; min-height: 46px; margin-top: 22px; padding: 10px 14px; font-size: 11px; justify-self: start; }
 .doc .doc-book:active { transform: scale(.97); }
+
+/* Credentials and the specialist button sit on the photo's vertical centre line, balancing the
+   name block (top-left) and the counter and arrows (bottom-right) around the portrait. */
+@media (min-width: 901px) { .doc-grid > .doc-creds { grid-column: 3; grid-row: 1 / 4; align-self: center; } }
