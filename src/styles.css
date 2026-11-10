@@ -1714,3 +1714,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .rv .rv-card .rv-name, .rv .rv-card blockquote p { color: #fff; }
 .rv .rv-card .rv-role { color: rgb(255 255 255 / .72); }
 .rv .rv-card .rv-sample { border-color: rgb(255 255 255 / .3); color: rgb(255 255 255 / .72); }
+
+/* Google mark, top-right of a review card; shown only for real reviews sourced from Google. */
+.rv .rv-card { position: relative; }
+.rv-google { position: absolute; top: 24px; right: 26px; width: 20px; height: 20px; }
