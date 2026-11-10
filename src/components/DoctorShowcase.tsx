@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { ArrowUpRight, CalendarCheck } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
 
@@ -117,7 +117,7 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
         <div className="doc-creds">
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
           <ul>{doctor.creds.map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
-          <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book doc-book" onClick={() => onBook(doctor.name)}><CalendarCheck /><SwapText text="Ընտրել մասնագետին" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
+          <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book doc-book" onClick={() => onBook(doctor.name)}><SwapText text="Ընտրել մասնագետին" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
         </div>
         <div className="doc-foot">
           <p className="doc-count" aria-live="polite"><Roll text={pad(index + 1)} dir={dir} />/{pad(DOCTORS.length)}</p>
