@@ -1741,3 +1741,18 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 @media (prefers-reduced-motion: reduce) {
   .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after, .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-after, .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-before { animation: none; }
 }
+
+/* Results squares, revised: the photos never move. A mask edge sweeps right to left across the
+   "after" photo to uncover the "before", then sweeps right to left again to bring the "after"
+   back. Both paired squares change together. */
+.hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after,
+.hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-after { transform: none; animation: hl-wipe 7s cubic-bezier(.77, 0, .175, 1) 1.2s infinite; }
+.hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-tag-after, .hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-tag-before { animation-delay: 1.2s; }
+.hl-after { will-change: clip-path; }
+@keyframes hl-wipe {
+  0%, 36% { clip-path: inset(0 0 0 0); }
+  48% { clip-path: inset(0 100% 0 0); }
+  48.01%, 84% { clip-path: inset(0 0 0 100%); }
+  96%, 100% { clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) { .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after { animation: none; } }
