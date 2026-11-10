@@ -53,6 +53,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
             <select className={field} value={doctor} onChange={(e) => setDoctor(e.target.value)}>
               <option>{FIRST_AVAILABLE}</option>
               {DOCTORS.map((d) => <option key={d.name}>{d.name}</option>)}
+              {preset.doctor && !DOCTORS.some((d) => d.name === preset.doctor) && <option>{preset.doctor}</option>}
             </select>
           </label>
           <div className="grid grid-cols-2 gap-3">

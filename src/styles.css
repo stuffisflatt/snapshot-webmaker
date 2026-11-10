@@ -1580,3 +1580,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .doc-card[data-mode="in"] { animation: roll-fade 240ms ease both; }
   .doc-card[data-mode="out"] { display: none; }
 }
+
+/* Doctors: the story section's booking button, under the credentials. */
+.doc .doc-book { width: auto; max-width: none; min-height: 46px; margin-top: 22px; padding: 10px 14px; font-size: 11px; justify-self: start; }
+.doc .doc-book:active { transform: scale(.97); }

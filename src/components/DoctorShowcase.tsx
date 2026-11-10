@@ -1,4 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
+import { ArrowUpRight, CalendarCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SwapText } from "@/components/HeroHeader";
 
 // Sample profiles with AI-generated portraits. The one-line summaries, stats and credentials are
 // realistic placeholders: replace every name, number and certificate with the clinic's real ones.
@@ -84,7 +87,7 @@ function PhotoRoll({ src, alt, dir }: { src: string; alt: string; dir: Dir }) {
   );
 }
 
-export function DoctorShowcase() {
+export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void }) {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState<Dir>("next");
   const doctor = DOCTORS[index]!;
@@ -114,6 +117,7 @@ export function DoctorShowcase() {
         <div className="doc-creds">
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
           <ul>{doctor.creds.map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
+          <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book doc-book" onClick={() => onBook(doctor.name)}><CalendarCheck /><SwapText text="Ընտրել մասնագետին" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
         </div>
         <div className="doc-foot">
           <p className="doc-count" aria-live="polite"><Roll text={pad(index + 1)} dir={dir} />/{pad(DOCTORS.length)}</p>

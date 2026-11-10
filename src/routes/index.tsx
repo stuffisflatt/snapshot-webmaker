@@ -66,7 +66,7 @@ function Index() {
 
         <StoryBackdrop>
           <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
-          <DoctorShowcase />
+          <DoctorShowcase onBook={doctor => book({ doctor })} />
         </StoryBackdrop>
 
         <div className="sky-zone">
