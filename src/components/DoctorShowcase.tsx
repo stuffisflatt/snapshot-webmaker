@@ -104,10 +104,10 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
         <div className="doc-intro">
           <h2 className="doc-name"><span className="doc-title">Բժ․</span><Roll text={doctor.name} dir={dir} /></h2>
           <p className="doc-role"><Roll text={doctor.role} dir={dir} delay={60} /></p>
-          <p className="doc-line"><Roll text={doctor.line} dir={dir} byWord delay={90} /></p>
           <ul className="doc-stats" aria-label="Փորձ">
             {doctor.stats.map((stat, i) => <li key={i} className="doc-chip"><Roll text={stat} dir={dir} delay={120 + i * 50} /></li>)}
           </ul>
+          <p className="doc-line"><Roll text={doctor.line} dir={dir} byWord delay={90} /></p>
         </div>
         <div className="doc-specs">
           <p className="doc-caption">(Մասնագիտացում)</p>
@@ -116,7 +116,8 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
         <PhotoRoll src={doctor.photo} alt={doctor.name} dir={dir} />
         <div className="doc-creds">
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
-          <ul>{doctor.creds.map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
+          <ul>{doctor.creds.slice(0, 2).map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
+          <p className="doc-langs" aria-label={doctor.creds[2]}>{doctor.creds[2]!.split(" · ").map((lang, i) => <span key={i} aria-hidden="true">{i > 0 && <span className="doc-langs-bar">|</span>}{lang}</span>)}</p>
           <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book doc-book" onClick={() => onBook(doctor.name)}><SwapText text="Ընտրել մասնագետին" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
         </div>
         <div className="doc-foot">
