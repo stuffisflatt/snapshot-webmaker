@@ -1929,3 +1929,32 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
 /* Story stills on touch screens take the video's exact place and shape. */
 .sx-video .sx-still { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: #e8e8ed; clip-path: inset(0 round 4px); }
 .sx .sx-video .sx-still { aspect-ratio: var(--sx-ar, 1.78); }
+
+/* ---- Phones: story steps without numbers, tags before the sentence, tight under the video ---- */
+@media (max-width: 767px) {
+  .sx .sx-text { margin-top: 14px; }
+  .sx .sx-step { display: flex; flex-direction: column; }
+  .sx .sx-step .sx-line:has(.sx-num) { display: none; }
+  .sx .sx-step .sx-line:has(.sx-title) { order: 1; }
+  .sx .sx-step .sx-line:has(.sx-tags) { order: 2; }
+  .sx .sx-step .sx-line:has(.sx-desc) { order: 3; }
+  .sx .sx-step .sx-line:has(.sx-actions) { order: 4; }
+}
+
+/* ---- Phones and small tablets: doctor card with overlapping chips and controls ----
+   One column; the photo spans it. The stat chips straddle the photo's top edge and the language tag
+   its bottom edge (each overlapping by half its height, horizontal position unchanged). The arrows
+   sit inside the photo's bottom-right corner with the counter just below the photo on the right. */
+@media (max-width: 900px) {
+  .doc .doc-grid { grid-template-columns: minmax(0, 1fr) auto; row-gap: 22px; }
+  .doc .doc-intro { grid-column: 1 / -1; order: 1; position: relative; z-index: 3; margin-bottom: -33px; }
+  .doc .doc-line, .doc .doc-specs { display: none; }
+  .doc .doc-photo { grid-column: 1 / -1; order: 2; }
+  .doc .doc-creds { grid-column: 1; order: 3; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 3; margin-top: -33px; }
+  .doc .doc-creds .doc-langs { order: -1; margin: 0 0 18px; }
+  .doc .doc-foot { grid-column: 2; order: 3; align-self: start; display: flex; flex-direction: column; align-items: flex-end; gap: 20px; position: relative; z-index: 3; margin-top: -98px; margin-right: 12px; }
+  .doc .doc-foot .doc-nav { order: 0; }
+  .doc .doc-foot .doc-count { order: 1; margin-right: -12px; }
+  .doc .doc-actions { grid-column: 1 / -1; order: 4; }
+}
+@media (max-width: 767px) { .sx .sx-text { margin-top: 4px; } }
