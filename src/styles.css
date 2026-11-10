@@ -1646,3 +1646,17 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 
 /* Languages tag now follows the credentials it belongs to. */
 .doc .doc-creds .doc-langs { margin: 12px 0 0; }
+
+/* ---- Results (before/after): photo grid on the left, copy on the right ----
+   The squares are 70% of their former size, two by two; no captions, so the photos lead. */
+.hl-layout { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: clamp(48px, 7vw, 120px); }
+.hl .hl-grid { grid-template-columns: repeat(2, clamp(150px, 13vw, 190px)); gap: clamp(10px, 1.1vw, 16px); }
+.hl .hl-photo { margin: 0; border-radius: 22px; }
+.hl-copy { display: flex; flex-direction: column; align-items: flex-start; max-width: 30em; }
+.hl-copy .dark-title { margin-bottom: 16px; }
+.hl-copy .dark-lede { margin-bottom: 26px; }
+@media (max-width: 900px) {
+  .hl-layout { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
+  .hl .hl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hl-copy { order: -1; }
+}

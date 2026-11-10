@@ -1,15 +1,10 @@
 import { useEffect, useRef, type CSSProperties } from "react";
-import { ArrowUpRight, CalendarCheck } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
 
-// Sample copy and placeholder photos: confirm the wording with the clinic and swap in its own pictures.
-const ITEMS = [
-  { title: "2002 թվականից", text: "Քսան տարուց ավելի խնամում ենք երևանցիների ժպիտները։", photo: "/media/clinic/door.webp" },
-  { title: "Առանց շտապելու", text: "Ամեն քայլ բացատրում ենք մինչև բուժումը սկսելը։", photo: "/media/clinic/waiting.webp" },
-  { title: "Ամեն ինչ մեկ վայրում", text: "Հիգիենայից մինչև իմպլանտ՝ նույն կլինիկայում։", photo: "/media/clinic/reception.webp" },
-  { title: "Ժամանակակից կաբինետներ", text: "Ճշգրիտ ախտորոշում և հարմարավետ բուժում։", photo: "/media/clinic/treatment.webp" },
-];
+// Placeholder photos: swap in the clinic's own before/after pairs (with patient consent).
+const PHOTOS = ["/media/clinic/door.webp", "/media/clinic/waiting.webp", "/media/clinic/reception.webp", "/media/clinic/treatment.webp"];
 
 /** Adds data-in once the element is a fifth of the way into view, so its children can rise in. */
 export function useRevealOnce<T extends HTMLElement>() {
@@ -26,33 +21,27 @@ export function useRevealOnce<T extends HTMLElement>() {
   return ref;
 }
 
+/** Results: a 2×2 grid of before/after photos on the left, the story of the results on the right. */
 export function Highlights({ onBook }: { onBook: () => void }) {
   const ref = useRevealOnce<HTMLElement>();
   return (
-    <section ref={ref} id="why" className="hl dark-sec" aria-labelledby="why-title">
-      <div className="dark-inner">
-        <header className="dark-head">
-          <div>
-            <p className="dark-caption dark-rise">(Ինչու մենք)</p>
-            <h2 id="why-title" className="dark-title dark-rise"><span className="dark-title-serif">Ինչու՞</span> Ալֆաստոմ</h2>
-          </div>
-          <div className="dark-head-side dark-rise">
-            <p className="dark-lede">Արդեն քսան տարի մարդիկ մեզ են վստահում իրենց ժպիտը։</p>
-            <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}>
-              <CalendarCheck /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight />
-            </Button>
-          </div>
-        </header>
-        <ul className="hl-grid">
-          {ITEMS.map((item, i) => (
-            <li key={item.title} className="hl-card dark-rise" style={{ "--i": i } as CSSProperties}>
-              <figure className="hl-photo"><img src={item.photo} alt="" width={600} height={750} loading="lazy" decoding="async" /></figure>
-              <p className="hl-num">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="hl-title">{item.title}</h3>
-              <p className="hl-text">{item.text}</p>
+    <section ref={ref} id="results" className="hl dark-sec" aria-labelledby="results-title">
+      <div className="dark-inner hl-layout">
+        <ul className="hl-grid" aria-label="Արդյունքների օրինակներ">
+          {PHOTOS.map((photo, i) => (
+            <li key={photo} className="hl-card dark-rise" style={{ "--i": i } as CSSProperties}>
+              <figure className="hl-photo"><img src={photo} alt="" width={600} height={750} loading="lazy" decoding="async" /></figure>
             </li>
           ))}
         </ul>
+        <div className="hl-copy">
+          <p className="dark-caption dark-rise" style={{ "--i": 1 } as CSSProperties}>(Արդյունքներ)</p>
+          <h2 id="results-title" className="dark-title dark-rise" style={{ "--i": 2 } as CSSProperties}>Ժպիտներ՝ <span className="dark-title-serif">առաջ և հետո</span></h2>
+          <p className="dark-lede dark-rise" style={{ "--i": 3 } as CSSProperties}>Յուրաքանչյուր արդյունք սկսվել է մեկ հանգիստ խորհրդատվությունից։ Տեսեք, թե ինչ է փոխում մանրակրկիտ աշխատանքը։</p>
+          <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book dark-rise" style={{ "--i": 4 } as CSSProperties} onClick={onBook}>
+            <SwapText text="Սկսել խորհրդատվությունից" hover="Ընտրել ժամը" /><ArrowUpRight />
+          </Button>
+        </div>
       </div>
     </section>
   );
