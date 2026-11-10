@@ -1548,3 +1548,18 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .doc-creds { grid-column: 1; grid-row: auto; order: 3; }
   .doc-stats { margin-top: 16px; }
 }
+
+/* Doctor portraits as a reel: the outgoing photo travels fully up and out while the next one rises
+   from below in lockstep (reversed when going back). Transform only; same strong ease-in-out and
+   timing as the rolling text, so photo and copy move as one. Reduced motion keeps the plain fade. */
+.doc-photo { --photo-from: 100%; --photo-to: -100%; }
+.doc-photo[data-dir="prev"] { --photo-from: -100%; --photo-to: 100%; }
+.doc-photo img { will-change: transform; }
+.doc-photo img[data-mode="in"] { animation: photo-reel-in 760ms cubic-bezier(.77, 0, .175, 1) both; }
+.doc-photo img[data-mode="out"] { animation: photo-reel-out 760ms cubic-bezier(.77, 0, .175, 1) both; }
+@keyframes photo-reel-in { from { transform: translate3d(0, var(--photo-from), 0); } to { transform: none; } }
+@keyframes photo-reel-out { from { transform: none; } to { transform: translate3d(0, var(--photo-to), 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .doc-photo img[data-mode="in"] { animation: roll-fade 240ms ease both; }
+  .doc-photo img[data-mode="out"] { display: none; }
+}
