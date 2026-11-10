@@ -1698,3 +1698,10 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 @media (min-width: 901px) {
   #results.dark-sec { min-height: 0; padding-top: 179px; padding-bottom: 187px; }
 }
+
+/* Results and reviews belong together, so they read as one block: 96px of space (8pt grid)
+   between the photo group and the reviews caption, instead of 371px. */
+@media (min-width: 901px) {
+  #results.dark-sec { padding-bottom: 40px; }
+  #reviews.dark-sec { min-height: 0; padding-top: 8px; }
+}
