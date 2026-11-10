@@ -60,7 +60,7 @@ export function ContactSheet() {
   return (
     <div className="bk" data-state={closing ? "closing" : "open"} role="dialog" aria-modal="true" aria-labelledby="contact-title">
       <button className="bk-scrim" aria-label="Փակել" tabIndex={-1} onClick={close} />
-      <div ref={ref} className="bk-sheet" data-lenis-prevent>
+      <div ref={ref} className="bk-sheet ct-sheet" data-lenis-prevent>
         <span className="bk-grabber" aria-hidden="true" />
         <header className="bk-head">
           <div>

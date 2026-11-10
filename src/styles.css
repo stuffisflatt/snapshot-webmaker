@@ -1855,3 +1855,16 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 @media (max-width: 640px) {
   .ct-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Contact cards back to the wide shape (icon left, text right); the window widens to fit three. */
+.bk-sheet.ct-sheet { width: min(820px, 100%); }
+.ct-row { flex-direction: row; align-items: center; gap: 12px; min-height: 64px; padding: 12px 14px; }
+.ct-arrow { position: static; }
+.ct-text span { font-size: 14px; }
+@media (max-width: 760px) { .ct-list { grid-template-columns: 1fr; } }
+
+/* Contact cards: two columns, each read top to bottom (1, 2, 3): calls and Instagram on the left,
+   messengers and Facebook on the right. */
+.bk-sheet.ct-sheet { width: min(620px, 100%); }
+.ct-list { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); grid-auto-flow: column; }
+@media (max-width: 640px) { .ct-list { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; } }
