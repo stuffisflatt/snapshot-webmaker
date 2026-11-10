@@ -1,13 +1,21 @@
 import { useEffect, useState, type CSSProperties } from "react";
 
-// Sample profiles in the team section's order, with AI-generated portraits; replace names, bios and photos with the clinic's own.
+// Sample profiles with AI-generated portraits. The one-line summaries, stats and credentials are
+// realistic placeholders: replace every name, number and certificate with the clinic's real ones.
+// creds: [university, year] · certification · languages spoken.
 const DOCTORS = [
-  { name: "Անահիտ Սարգսյան", role: "Գլխավոր բժիշկ", bio: "Բժիշկ Սարգսյանն ունի ավելի քան 20 տարվա փորձ և ղեկավարում է կլինիկայի բժշկական թիմը։ Նա կարևորում է հանգիստ միջավայրը, պարզ բացատրությունները և կանխարգելումը։", specs: ["Ախտորոշում", "Բուժման պլան", "Խորհրդատվություն"] },
-  { name: "Արամ Հարությունյան", role: "Ստոմատոլոգ-իմպլանտոլոգ", bio: "Բժիշկ Հարությունյանը 12 տարի զբաղվում է իմպլանտացիայով։ Նա յուրաքանչյուր քայլ պլանավորում է ռենտգենով և բացատրում պացիենտին մինչև բուժումը սկսելը։", specs: ["Իմպլանտացիա", "Ոսկրային պլաստիկա", "Վերականգնում"] },
-  { name: "Մարիամ Պետրոսյան", role: "Ստոմատոլոգ-թերապևտ", bio: "Բժիշկ Պետրոսյանն ունի ավելի քան 10 տարվա փորձ և մասնագիտացած է անհատական բուժման մեջ։ Նա կարևորում է հանգիստ միջավայրը և բերանի խոռոչի հիգիենան։", specs: ["Կարիեսի բուժում", "Էնդոդոնտիա", "Լցոնում"] },
-  { name: "Հայկ Մանուկյան", role: "Ստոմատոլոգ-վիրաբույժ", bio: "Բժիշկ Մանուկյանը կատարում է ատամների հեռացում և վիրաբուժական միջամտություններ՝ նվազագույն անհանգստությամբ և մանրակրկիտ հետբուժական հսկողությամբ։", specs: ["Ատամի հեռացում", "Վիրաբուժություն", "Հսկողություն"] },
-  { name: "Նարե Գրիգորյան", role: "Մանկական ստոմատոլոգ", bio: "Բժիշկ Գրիգորյանն աշխատում է երեխաների հետ՝ առաջին այցը դարձնելով հանգիստ և ընկերական։ Նա ծնողներին սովորեցնում է տնային խնամքի պարզ կանոններ։", specs: ["Մանկական բուժում", "Կանխարգելում", "Հերմետիկացում"] },
-  { name: "Դավիթ Ավետիսյան", role: "Օրթոպեդ-ստոմատոլոգ", bio: "Բժիշկ Ավետիսյանը վերականգնում է ատամների ձևն ու ֆունկցիան պսակներով և պրոթեզներով՝ ընտրելով տարբերակ յուրաքանչյուր դեպքի համար։", specs: ["Պսակներ", "Պրոթեզավորում", "Վինիրներ"] },
+  { name: "Անահիտ Սարգսյան", role: "Գլխավոր բժիշկ", line: "Ղեկավարում է թիմն ու բարդ դեպքերը։",
+    stats: ["23 տարվա փորձ", "12 000+ պացիենտ"], creds: ["ԵՊԲՀ, 2003", "Digital Smile Design", "Հայ · Ռուս · Անգլ"], specs: ["Ախտորոշում", "Բուժման պլան", "Խորհրդատվություն"] },
+  { name: "Արամ Հարությունյան", role: "Ստոմատոլոգ-իմպլանտոլոգ", line: "Մեկ իմպլանտից մինչև ամբողջ ծնոտ։",
+    stats: ["12 տարվա փորձ", "3 000+ իմպլանտ"], creds: ["ԵՊԲՀ, 2013", "Straumann սերտիֆիկատ", "Հայ · Ռուս"], specs: ["Իմպլանտացիա", "Ոսկրային պլաստիկա", "Վերականգնում"] },
+  { name: "Մարիամ Պետրոսյան", role: "Ստոմատոլոգ-թերապևտ", line: "Փրկում է ատամները մանրադիտակի տակ։",
+    stats: ["10 տարվա փորձ", "6 000+ բուժված ատամ"], creds: ["ԵՊԲՀ, 2015", "Մանրադիտակային էնդոդոնտիա", "Հայ · Ռուս · Անգլ"], specs: ["Կարիեսի բուժում", "Էնդոդոնտիա", "Լցոնում"] },
+  { name: "Հայկ Մանուկյան", role: "Ստոմատոլոգ-վիրաբույժ", line: "Նուրբ հեռացում՝ հանգիստ ապաքինմամբ։",
+    stats: ["14 տարվա փորձ", "5 000+ վիրահատություն"], creds: ["ԵՊԲՀ, 2011", "Պիեզովիրաբուժություն", "Հայ · Ռուս"], specs: ["Ատամի հեռացում", "Վիրաբուժություն", "Հսկողություն"] },
+  { name: "Նարե Գրիգորյան", role: "Մանկական ստոմատոլոգ", line: "Առաջին այցը՝ հանգիստ ու առանց վախի։",
+    stats: ["9 տարվա փորձ", "4 000+ փոքր պացիենտ"], creds: ["ԵՊԲՀ, 2016", "EAPD անդամ", "Հայ · Ռուս · Անգլ"], specs: ["Մանկական բուժում", "Կանխարգելում", "Հերմետիկացում"] },
+  { name: "Դավիթ Ավետիսյան", role: "Օրթոպեդ-ստոմատոլոգ", line: "Պսակներ ու վինիրներ՝ ճիշտ կծվածքով։",
+    stats: ["15 տարվա փորձ", "2 500+ պսակ և վինիր"], creds: ["ԵՊԲՀ, 2010", "Ivoclar սերտիֆիկատ", "Հայ · Ռուս · Անգլ"], specs: ["Պսակներ", "Պրոթեզավորում", "Վինիրներ"] },
 ].map((doctor, i) => ({ ...doctor, photo: `/team/doctor-${i + 1}.webp` }))
   // Shown order: Davit, Mariam, Hayk, Aram, Nare, Anahit.
   .map((_, i, all) => all[[5, 2, 3, 1, 4, 0][i]!]!);
@@ -93,13 +101,20 @@ export function DoctorShowcase() {
         <div className="doc-intro">
           <h2 className="doc-name"><span className="doc-title">Բժ․</span><Roll text={doctor.name} dir={dir} /></h2>
           <p className="doc-role"><Roll text={doctor.role} dir={dir} delay={60} /></p>
+          <p className="doc-line"><Roll text={doctor.line} dir={dir} byWord delay={90} /></p>
+          <ul className="doc-stats" aria-label="Փորձ">
+            {doctor.stats.map((stat, i) => <li key={i} className="doc-chip"><Roll text={stat} dir={dir} delay={120 + i * 50} /></li>)}
+          </ul>
         </div>
         <div className="doc-specs">
           <p className="doc-caption">(Մասնագիտացում)</p>
           <ul>{[0, 1, 2].map(i => <li key={i}><Roll text={doctor.specs[i] ?? ""} dir={dir} delay={90 + i * 50} /></li>)}</ul>
         </div>
         <PhotoRoll src={doctor.photo} alt={doctor.name} dir={dir} />
-        <p className="doc-bio"><Roll text={doctor.bio} dir={dir} byWord delay={80} /></p>
+        <div className="doc-creds">
+          <p className="doc-caption">(Կրթություն և լեզուներ)</p>
+          <ul>{doctor.creds.map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
+        </div>
         <div className="doc-foot">
           <p className="doc-count" aria-live="polite"><Roll text={pad(index + 1)} dir={dir} />/{pad(DOCTORS.length)}</p>
           {/* Back appears from the second profile; forward disappears on the last, leaving only back. */}
