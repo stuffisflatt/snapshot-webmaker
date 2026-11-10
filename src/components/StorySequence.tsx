@@ -187,10 +187,11 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   }, [phone, blobSrc]);
 
   return (
-    <section ref={ref} id="how" aria-label="Ինչպես ենք աշխատում" className="sx" data-step={step}>
+    <section ref={ref} id="how" aria-labelledby="how-title" className="sx" data-step={step}>
       <div className="sx-stage">
         <div className="sx-shade" aria-hidden="true" />
         <div className="sx-grid">
+          <h2 id="how-title" className="sx-heading">Ինչպես ենք <span className="sx-heading-serif">աշխատում</span></h2>
           <div className="sx-media">
             <div className="sx-video">
               {src && <video ref={videoRef} src={blobSrc} poster={posterSrc} muted playsInline preload="auto" aria-hidden="true" disablePictureInPicture />}
