@@ -1613,3 +1613,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .doc .doc-book { margin-top: 16px; }
 .doc .doc-langs { display: flex; width: fit-content; margin-top: 10px; color: #fff; }
 .doc .doc-langs-bar { color: rgb(255 255 255 / .2); }
+
+/* Credentials and the actions below them are separate groups: 28px apart, against 10px between
+   the button and the language tag, so each group reads as one unit. */
+.doc .doc-book { margin-top: 28px; }
