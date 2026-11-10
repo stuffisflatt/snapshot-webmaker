@@ -1563,3 +1563,20 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .doc-photo img[data-mode="in"] { animation: roll-fade 240ms ease both; }
   .doc-photo img[data-mode="out"] { display: none; }
 }
+
+/* Doctor cards fly: the frame is now just a slot, and each portrait is a whole rounded card. The
+   outgoing card travels up past the top of the screen while the next rises from below the screen
+   into the slot (mirrored when going back). One shared strong ease-in-out; the incoming card trails
+   by 70ms so the two read as separate cards. Transform only. Reduced motion: a plain fade. */
+.doc-photo { overflow: visible; background: none; border-radius: 0; --card-from: 110svh; --card-to: -110svh; }
+.doc-photo[data-dir="prev"] { --card-from: -110svh; --card-to: 110svh; }
+.doc-card { position: absolute; inset: 0; margin: 0; overflow: hidden; border-radius: 22px; background: #d9d9dc; }
+.doc-card img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; animation: none; transform: none; }
+.doc-card[data-mode="in"] { z-index: 2; animation: doc-card-in 900ms cubic-bezier(.77, 0, .175, 1) 70ms both; }
+.doc-card[data-mode="out"] { z-index: 1; animation: doc-card-out 900ms cubic-bezier(.77, 0, .175, 1) both; }
+@keyframes doc-card-in { from { transform: translate3d(0, var(--card-from), 0); } to { transform: none; } }
+@keyframes doc-card-out { from { transform: none; } to { transform: translate3d(0, var(--card-to), 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .doc-card[data-mode="in"] { animation: roll-fade 240ms ease both; }
+  .doc-card[data-mode="out"] { display: none; }
+}

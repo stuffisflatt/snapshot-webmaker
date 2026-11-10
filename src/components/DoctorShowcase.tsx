@@ -73,14 +73,14 @@ export function Roll({ text, dir, byWord, delay = 0 }: { text: string; dir: Dir;
   );
 }
 
-/** The portrait slides through its frame the same way: the old one up and out, the new one up and in. */
+/** Each portrait is its own card: the old card flies up off the screen while the next rises from below into its place. */
 function PhotoRoll({ src, alt, dir }: { src: string; alt: string; dir: Dir }) {
   const { current, previous, turn } = useHandover(src);
   return (
-    <figure className="doc-photo" data-dir={dir}>
-      <img key={`in-${turn}`} src={current} alt={alt} width={800} height={898} data-mode={turn ? "in" : "static"} />
-      {previous !== null && <img key={`out-${turn}`} src={previous} alt="" aria-hidden="true" width={800} height={898} data-mode="out" />}
-    </figure>
+    <div className="doc-photo" data-dir={dir}>
+      <figure key={`in-${turn}`} className="doc-card" data-mode={turn ? "in" : "static"}><img src={current} alt={alt} width={800} height={898} /></figure>
+      {previous !== null && <figure key={`out-${turn}`} className="doc-card" data-mode="out" aria-hidden="true"><img src={previous} alt="" width={800} height={898} /></figure>}
+    </div>
   );
 }
 
