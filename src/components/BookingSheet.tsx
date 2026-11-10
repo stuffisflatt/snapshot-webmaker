@@ -1,72 +1,130 @@
-import { useEffect, useRef, useState } from "react";
-import { X, Phone, MapPin } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, Phone, X } from "lucide-react";
 import { CLINIC, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
 import { setSmoothScrollPaused } from "@/components/SmoothScroll";
+import { SwapText } from "@/components/HeroHeader";
 
 export type BookingPreset = { service?: string; doctor?: string };
 
+const CONSULT = "Խորհրդատվություն";
+const TIMES = [{ id: "morning", label: "Առավոտ", hint: "09–12" }, { id: "midday", label: "Կեսօր", hint: "12–15" }, { id: "evening", label: "Երեկո", hint: "15–19" }];
+/** How long the sheet takes to leave; it must match the CSS exit animation. */
+const EXIT_MS = 260;
+
+// Our own Armenian names: browsers' built-in Armenian date formatting is missing in several engines.
+const WEEKDAYS = ["Կիր", "Երկ", "Երք", "Չրք", "Հնգ", "Ուրբ", "Շբթ"];
+const MONTHS = ["հունվ", "փետր", "մարտ", "ապր", "մայիս", "հունիս", "հուլիս", "օգոստ", "սեպտ", "հոկտ", "նոյ", "դեկ"];
+
+/** The next seven days, starting today, labelled in Armenian. */
+function nextDays() {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    return { key, day: i === 0 ? "Այսօր" : i === 1 ? "Վաղը" : WEEKDAYS[d.getDay()]!, date: d.getDate(), month: MONTHS[d.getMonth()]! };
+  });
+}
+
+function Chips<T extends string>({ label, options, value, onChange }: { label: string; options: { id: T; text: string; hint?: string }[]; value: T; onChange: (v: T) => void }) {
+  return (
+    <fieldset className="bk-group">
+      <legend className="bk-label">{label}</legend>
+      <div className="bk-chips">
+        {options.map(o => (
+          <button key={o.id} type="button" className="bk-chip" aria-pressed={value === o.id} onClick={() => onChange(o.id)}>
+            <span>{o.text}</span>{o.hint && <small>{o.hint}</small>}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/**
+ * Booking as a frosted sheet: it rises from the bottom on phones and settles in the centre on
+ * larger screens, over a dimmed, blurred page. Choices are tappable chips rather than dropdowns.
+ * This concept build sends nothing: the visitor finishes online or by phone.
+ */
 export function BookingSheet({ open, preset, onClose }: { open: boolean; preset: BookingPreset; onClose: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [service, setService] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const [service, setService] = useState(CONSULT);
   const [doctor, setDoctor] = useState(FIRST_AVAILABLE);
+  const [day, setDay] = useState("");
+  const [time, setTime] = useState("morning");
+  const days = useMemo(() => (mounted ? nextDays() : []), [mounted]);
+
+  const close = useCallback(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { onClose(); return; }
+    setClosing(true);
+    window.setTimeout(onClose, EXIT_MS);
+  }, [onClose]);
 
   useEffect(() => {
-    if (!open) return;
-    setService(preset.service ?? "");
+    if (!open) { setMounted(false); setClosing(false); return; }
+    setMounted(true);
+    setService(preset.service ?? CONSULT);
     setDoctor(preset.doctor ?? FIRST_AVAILABLE);
+    setDay("");
     const prev = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     setSmoothScrollPaused(true);
-    setTimeout(() => ref.current?.querySelector<HTMLElement>("select, input")?.focus(), 50);
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const focus = window.setTimeout(() => ref.current?.querySelector<HTMLElement>(".bk-close")?.focus(), 60);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(focus);
       document.body.style.overflow = "";
       setSmoothScrollPaused(false);
       window.removeEventListener("keydown", onKey);
       prev?.focus();
     };
-  }, [open, preset, onClose]);
+  }, [open, preset, close]);
 
   if (!open) return null;
-  const field = "mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-3 text-base outline-none focus:border-primary";
-  const label = "block text-sm font-medium";
+  const doctors = [FIRST_AVAILABLE, ...DOCTORS.map(d => d.name), ...(preset.doctor && !DOCTORS.some(d => d.name === preset.doctor) ? [preset.doctor] : [])];
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="booking-title">
-      <button aria-label="Փակել" onClick={onClose} className="absolute inset-0 bg-foreground/50 animate-in fade-in duration-200" />
-      <div ref={ref} data-lenis-prevent className="relative max-h-[92svh] w-full overflow-y-auto rounded-t-2xl bg-background p-6 pb-8 shadow-card animate-in slide-in-from-bottom-8 duration-300 sm:max-w-lg sm:rounded-2xl">
-        <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-border sm:hidden" />
-        <div className="flex items-start justify-between gap-4">
-          <h2 id="booking-title" className="text-2xl font-bold">Ամրագրել այցը</h2>
-          <button onClick={onClose} aria-label="Փակել" className="grid size-10 place-items-center rounded-lg bg-muted hover:bg-accent"><X className="size-5" /></button>
-        </div>
-        <p className="mt-2 text-sm text-muted-foreground">Ամսաթիվը և ժամը նախընտրելի են․ այցը հաստատում է կլինիկան։</p>
-        <form className="mt-5 space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <label className={label}>Ծառայություն
-            <select className={field} value={service} onChange={(e) => setService(e.target.value)}>
-              <option value="">Դեռ չգիտեմ / խորհրդատվություն</option>
-              {SERVICES.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
-            </select>
-          </label>
-          <label className={label}>Նախընտրելի բժիշկ
-            <select className={field} value={doctor} onChange={(e) => setDoctor(e.target.value)}>
-              <option>{FIRST_AVAILABLE}</option>
-              {DOCTORS.map((d) => <option key={d.name}>{d.name}</option>)}
-              {preset.doctor && !DOCTORS.some((d) => d.name === preset.doctor) && <option>{preset.doctor}</option>}
-            </select>
-          </label>
-          <div className="grid grid-cols-2 gap-3">
-            <label className={label}>Նախընտրելի օր<input type="date" className={field} /></label>
-            <label className={label}>Ժամ<input type="time" className={field} /></label>
+    <div className="bk" data-state={closing ? "closing" : "open"} role="dialog" aria-modal="true" aria-labelledby="booking-title">
+      <button className="bk-scrim" aria-label="Փակել" tabIndex={-1} onClick={close} />
+      <div ref={ref} className="bk-sheet" data-lenis-prevent>
+        <span className="bk-grabber" aria-hidden="true" />
+        <header className="bk-head">
+          <div>
+            <p className="bk-caption">(Ամրագրում)</p>
+            <h2 id="booking-title" className="bk-title">Ամրագրել <span className="bk-serif">այցը</span></h2>
           </div>
-          <label className={label}>Անուն<input autoComplete="name" className={field} /></label>
-          <label className={label}>Հեռախոս<input type="tel" autoComplete="tel" inputMode="tel" className={field} placeholder="+374" /></label>
-          <div className="grid gap-3 pt-2 sm:grid-cols-2">
-            <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="btn btn-primary"><MapPin className="size-4" />Ամրագրել առցանց</a>
-            <a href={CLINIC.mobileHref} className="btn btn-outline"><Phone className="size-4" />Զանգահարել</a>
+          <button type="button" className="bk-close" aria-label="Փակել" onClick={close}><X /></button>
+        </header>
+
+        <form className="bk-form" onSubmit={e => e.preventDefault()}>
+          <Chips label="Ծառայություն" value={service} onChange={setService}
+            options={[{ id: CONSULT, text: CONSULT }, ...SERVICES.map(s => ({ id: s.title, text: s.title }))]} />
+          <Chips label="Բժիշկ" value={doctor} onChange={setDoctor} options={doctors.map(d => ({ id: d, text: d }))} />
+
+          <fieldset className="bk-group">
+            <legend className="bk-label">Նախընտրելի օր</legend>
+            <div className="bk-days">
+              {days.map(d => (
+                <button key={d.key} type="button" className="bk-day" aria-pressed={day === d.key} onClick={() => setDay(d.key)}>
+                  <small>{d.day}</small><strong>{d.date}</strong><small>{d.month}</small>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          <Chips label="Ժամ" value={time} onChange={setTime} options={TIMES.map(t => ({ id: t.id, text: t.label, hint: t.hint }))} />
+
+          <div className="bk-fields">
+            <label className="bk-field"><span className="bk-label">Անուն</span><input autoComplete="name" placeholder="Ձեր անունը" /></label>
+            <label className="bk-field"><span className="bk-label">Հեռախոս</span><input type="tel" autoComplete="tel" inputMode="tel" placeholder="+374" /></label>
           </div>
-          <p className="text-xs text-muted-foreground">Կոնցեպտ տարբերակում տվյալները չեն ուղարկվում․ ամրագրումն ավարտեք առցանց կամ զանգով։</p>
+
+          <div className="bk-actions">
+            <a className="clinic-hero-cta clinic-hero-cta-book" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><SwapText text="Ամրագրել առցանց" hover="Բացել քարտեզում" /><ArrowUpRight /></a>
+            <a className="clinic-hero-cta clinic-hero-cta-call" href={CLINIC.mobileHref}><Phone /><SwapText text="Զանգահարել" hover={CLINIC.mobile} /><ArrowUpRight /></a>
+          </div>
+          <p className="bk-note">Կլինիկան կհաստատի օրը և ժամը։ Այս տարբերակում տվյալները չեն ուղարկվում․ ավարտեք առցանց կամ զանգով։</p>
         </form>
       </div>
     </div>
