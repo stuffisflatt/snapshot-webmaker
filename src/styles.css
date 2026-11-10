@@ -1756,3 +1756,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   96%, 100% { clip-path: inset(0 0 0 0); }
 }
 @media (prefers-reduced-motion: reduce) { .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after { animation: none; } }
+
+/* Sample tags on the results squares stay quiet. */
+.hl-sample { opacity: .3; }
