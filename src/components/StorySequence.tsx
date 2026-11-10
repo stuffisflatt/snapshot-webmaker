@@ -206,7 +206,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
                   <div className="sx-line"><ul className="sx-tags">{s.tags.map(tag => <li key={tag} className="sx-tag">{tag}</li>)}</ul></div>
                   {i === 2 && <div className="sx-line"><div className="sx-actions">
                     <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
-                    <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call"><a href={CLINIC.mobileHref}><Phone /><SwapText text="Զանգահարել" hover="Զանգել հիմա" /><ArrowUpRight /></a></Button>
+                    <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call"><a href="#contact"><Phone /><SwapText text="Կապվել մեզ հետ" hover="Գրել կամ զանգել" /><ArrowUpRight /></a></Button>
                   </div></div>}
                 </div>
               ))}

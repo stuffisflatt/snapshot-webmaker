@@ -88,7 +88,7 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
       <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>Երևան, Կենտրոն<br />Պռոշյան 28/2</strong><small>Ձեր կողքին՝ 2002 թվականից <ArrowUpRight size={14} /></small></a>
       <div className="clinic-hero-ctas">
         <button className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck size={21} /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight size={21} /></button>
-        <a className="clinic-hero-cta clinic-hero-cta-call" href={CLINIC.mobileHref}><Phone size={21} /><SwapText text="Զանգահարել" hover="Զանգել հիմա" /><ArrowUpRight size={21} /></a>
+        <a className="clinic-hero-cta clinic-hero-cta-call" href="#contact"><Phone size={21} /><SwapText text="Կապվել մեզ հետ" hover="Գրել կամ զանգել" /><ArrowUpRight size={21} /></a>
       </div>
     </section>
     </>
