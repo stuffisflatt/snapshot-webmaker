@@ -1660,3 +1660,8 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .hl .hl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hl-copy { order: -1; }
 }
+
+/* Results: photos and copy form one group, centred in the section on both axes. */
+@media (min-width: 901px) {
+  .hl-layout { grid-template-columns: auto minmax(0, 28em); justify-content: center; column-gap: clamp(48px, 5vw, 88px); }
+}
