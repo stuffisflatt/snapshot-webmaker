@@ -1685,3 +1685,10 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 @media (max-width: 900px) { .rv .rv-card { padding: 20px; border-radius: 18px; } }
 .rv .rv-quote figcaption.rv-head { flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; margin: 0; text-align: left; }
 .rv .rv-card .rv-who { align-items: flex-start; gap: 1px; }
+
+/* Reviews: caption, title and the card drop 48px (8pt grid) for more air under the menu; the
+   rating, button, counter and arrows keep their places. */
+@media (min-width: 901px) {
+  .rv .rv-intro > .dark-caption { margin-top: 48px; }
+  .rv .rv-quote.rv-card { margin-top: 48px; }
+}
