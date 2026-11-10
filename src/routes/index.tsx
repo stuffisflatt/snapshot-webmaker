@@ -12,6 +12,7 @@ import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
 import { DarkBackdrop } from "@/components/DarkBackdrop";
 import { MobileActionBar } from "@/components/MobileActionBar";
+import { ContactSheet } from "@/components/ContactSheet";
 import { Highlights } from "@/components/Highlights";
 import { Reviews, type Review } from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
@@ -145,6 +146,7 @@ function Index() {
 
       <MobileActionBar onBook={() => book()} />
       <BookingSheet open={open} preset={preset} onClose={close} />
+      <ContactSheet />
     </div>
   );
 }

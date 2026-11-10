@@ -26,7 +26,7 @@ export function useSmoothScroll() {
       const link = (event.target as Element | null)?.closest?.<HTMLAnchorElement>('a[href^="#"]');
       const id = link?.getAttribute("href")?.slice(1);
       const target = id ? document.getElementById(id) : null;
-      if (!target) return;
+      if (!target || event.defaultPrevented) return;
       event.preventDefault();
       instance.scrollTo(target, { duration: 1.2 });
       history.replaceState(null, "", `#${id}`);
