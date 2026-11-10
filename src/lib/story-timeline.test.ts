@@ -33,3 +33,22 @@ describe("single clip scroll sequence", () => {
     expect(storyLayers(.5, true)).toEqual([{src: STORY_STILLS[1], opacity: 1}]);
   });
 });
+
+import { STORY_VIDEO_FRAMES, storyFrameIndex, storyFrameSrc } from "./story-timeline";
+
+describe("story stills on touch screens", () => {
+  it("maps the scroll range onto first through last frame", () => {
+    expect(storyFrameIndex(0)).toBe(0);
+    expect(storyFrameIndex(1)).toBe(STORY_VIDEO_FRAMES - 1);
+    expect(storyFrameIndex(.5)).toBe(Math.round(.5 * (STORY_VIDEO_FRAMES - 1)));
+  });
+  it("clamps out-of-range and invalid progress", () => {
+    expect(storyFrameIndex(-1)).toBe(0);
+    expect(storyFrameIndex(2)).toBe(STORY_VIDEO_FRAMES - 1);
+    expect(storyFrameIndex(Number.NaN)).toBe(0);
+  });
+  it("names frames 001..074", () => {
+    expect(storyFrameSrc(0)).toBe("/media/story-frames/001.webp");
+    expect(storyFrameSrc(STORY_VIDEO_FRAMES - 1)).toBe("/media/story-frames/074.webp");
+  });
+});

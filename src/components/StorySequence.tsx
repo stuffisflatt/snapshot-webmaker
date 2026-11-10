@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
 import { CLINIC } from "@/lib/clinic";
 import { storyScrollDelta } from "@/lib/story-scroll";
+import { STORY_VIDEO_FRAMES, storyFrameIndex, storyFrameSrc } from "@/lib/story-timeline";
 import { activeStep, CORNER, frameTab, photoRise, sceneProgress, stepLine, videoFrame } from "@/lib/story-motion";
 
 const STEPS = [
@@ -28,6 +29,11 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   const [step, setStep] = useState(0);
   const [phone, setPhone] = useState(false);
   const [blobSrc, setBlobSrc] = useState<string>();
+  // Touch screens show stills cut from the clip instead of scrubbing the video: iOS can refuse to
+  // paint a video it may not play (Low Power Mode, data saver), while an image always shows.
+  const [stills, setStills] = useState(false);
+  const frameRef = useRef<HTMLImageElement>(null);
+  useEffect(() => { setStills(window.matchMedia("(pointer: coarse)").matches); }, []);
   const src = phone && phoneVideoSrc ? phoneVideoSrc : videoSrc;
   useEffect(() => {
     const media = window.matchMedia("(max-width: 767px)");
@@ -39,7 +45,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   // on a network range request. Starts about a screen and a half before the section.
   useEffect(() => {
     const section = ref.current;
-    if (!src || !section) return;
+    if (!src || !section || stills) return;
     let url: string | undefined, cancelled = false;
     const controller = new AbortController();
     const observer = new IntersectionObserver(entries => {
@@ -57,7 +63,19 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
       if (url) URL.revokeObjectURL(url);
       setBlobSrc(undefined);
     };
-  }, [src]);
+  }, [src, stills]);
+  // Stills: warm the browser cache with every frame shortly before the section arrives.
+  useEffect(() => {
+    const section = ref.current;
+    if (!stills || !section) return;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries[0]?.isIntersecting) return;
+      observer.disconnect();
+      for (let i = 0; i < STORY_VIDEO_FRAMES; i++) { const img = new Image(); img.decoding = "async"; img.src = storyFrameSrc(i); }
+    }, { rootMargin: "150% 0px" });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [stills]);
   // iOS Safari draws no frame for a video that has never played, so scrubbing currentTime leaves the
   // frame blank. Once the file is in, play it muted for an instant and pause: from then on, seeks
   // paint. Harmless elsewhere; the scroll position sets the real time right after.
@@ -93,7 +111,14 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
     const scrollMetrics = () => ({ range: Math.max(1, section.offsetHeight - window.innerHeight) });
     // Keep only the latest seek target. A slow decoder can never queue old seeks
     // or block the motion, scrolling, or leaving this section.
+    const still = frameRef.current;
+    let shownFrame = -1;
     const syncVideo = () => {
+      if (still) {
+        const index = storyFrameIndex(reduced.matches ? ([0, .5, 1][currentStep] ?? 0) : target);
+        if (index !== shownFrame) { shownFrame = index; still.src = storyFrameSrc(index); }
+        return;
+      }
       if (!video || video.seeking || !visible || !Number.isFinite(video.duration) || video.duration <= 0) return;
       // Map the whole scroll range onto the whole clip, last frame included.
       // Reduced motion swaps the walk-through for one still per step.
@@ -202,7 +227,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
       video?.removeEventListener("loadedmetadata", syncVideo);
       video?.removeEventListener("seeked", syncVideo);
     };
-  }, [phone, blobSrc]);
+  }, [phone, blobSrc, stills]);
 
   return (
     <section ref={ref} id="how" aria-label="Ինչպես ենք աշխատում" className="sx" data-step={step}>
@@ -211,7 +236,9 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
         <div className="sx-grid">
           <div className="sx-media">
             <div className="sx-video">
-              {src && <video ref={videoRef} src={blobSrc} poster={posterSrc} muted playsInline preload="auto" aria-hidden="true" disablePictureInPicture />}
+              {stills
+                ? <img ref={frameRef} className="sx-still" src={storyFrameSrc(0)} alt="" aria-hidden="true" width={720} height={405} decoding="async" />
+                : src && <video ref={videoRef} src={blobSrc} poster={posterSrc} muted playsInline preload="auto" aria-hidden="true" disablePictureInPicture />}
             </div>
           </div>
           <div className="sx-text">

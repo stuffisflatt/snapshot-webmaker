@@ -13,3 +13,12 @@ export function storyLayers(progress: number, reducedMotion = false, _phone = fa
   if (base === STORY_FRAME_COUNT - 1 || frame === base) return [{ src: src(base), opacity: 1 }];
   return [{ src: src(base), opacity: 1 }, { src: src(base + 1), opacity: frame - base }];
 }
+
+/** Stills cut from story.mp4 (every second frame), used on touch screens instead of scrubbing video. */
+export const STORY_VIDEO_FRAMES = 74;
+export const storyFrameSrc = (index: number) => `/media/story-frames/${String(index + 1).padStart(3, "0")}.webp`;
+/** Scroll progress (0..1) to the still that shows it; the whole range spans first to last frame. */
+export function storyFrameIndex(progress: number, count = STORY_VIDEO_FRAMES) {
+  const p = Math.min(1, Math.max(0, Number.isFinite(progress) ? progress : 0));
+  return Math.round(p * (count - 1));
+}

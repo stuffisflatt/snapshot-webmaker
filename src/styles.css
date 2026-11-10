@@ -1925,3 +1925,7 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
 .sx-stage, .story-backdrop-pin, .dark-backdrop-pin { height: 100lvh; }
 .sx .sx-stage { padding-bottom: calc(40px + (100lvh - 100svh)); }
 @media (max-width: 767px) { .sx .sx-stage { padding-bottom: calc(32px + (100lvh - 100svh)); } }
+
+/* Story stills on touch screens take the video's exact place and shape. */
+.sx-video .sx-still { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: #e8e8ed; clip-path: inset(0 round 4px); }
+.sx .sx-video .sx-still { aspect-ratio: var(--sx-ar, 1.78); }
