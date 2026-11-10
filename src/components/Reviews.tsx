@@ -42,12 +42,16 @@ export function Reviews({ reviews, rating, ratingCount, ratingHref, sampleLabel 
           </a>
         </div>
 
-        <figure className="rv-quote dark-rise" aria-live="polite">
-          <blockquote><p><Roll text={`«${review.content}»`} dir={dir} byWord delay={60} /></p></blockquote>
-          <figcaption>
-            <span className="rv-name"><Roll text={review.name} dir={dir} />{review.sample && <span className="rv-sample">{sampleLabel}</span>}</span>
-            <span className="rv-role"><Roll text={review.role} dir={dir} delay={40} /></span>
+        <figure className="rv-quote rv-card dark-rise" aria-live="polite">
+          <figcaption className="rv-head">
+            <span className="rv-avatar" aria-hidden="true">{review.name.charAt(0)}</span>
+            <span className="rv-who">
+              <span className="rv-name"><Roll text={review.name} dir={dir} />{review.sample && <span className="rv-sample">{sampleLabel}</span>}</span>
+              <span className="rv-role"><Roll text={review.role} dir={dir} delay={40} /></span>
+            </span>
           </figcaption>
+          <span className="rv-card-stars" aria-label={`${review.rating} / 5`}>{Array.from({ length: review.rating }, (_, i) => <Star key={i} />)}</span>
+          <blockquote><p><Roll text={review.content} dir={dir} byWord delay={60} /></p></blockquote>
         </figure>
 
         <div className="rv-foot dark-rise">

@@ -1668,3 +1668,20 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 
 /* Results group sits ~60px below the section's centre, clear of the floating menu above. */
 @media (min-width: 901px) { #results.dark-sec { padding-top: calc(clamp(88px, 11vh, 120px) + 120px); } #results .hl-layout { margin-inline: auto; } }
+
+/* Reviews: each quote is a white review card (avatar, name and treatment, stars, then the text),
+   floating on the dark mesh. Text is about half its former size, as on a real review card. */
+.rv .rv-card { align-self: start; max-width: 560px; padding: 24px 26px 26px; border-radius: 22px; background: #fff; color: #1f1f1f;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .12), 0 18px 44px -18px rgb(0 0 0 / .55); }
+.rv .rv-head { display: flex; align-items: center; gap: 12px; margin: 0; }
+.rv-avatar { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: #7a3b34; color: #fff; font-size: 17px; font-weight: 500; }
+.rv-who { display: flex; flex-direction: column; min-width: 0; }
+.rv .rv-card .rv-name { gap: 8px; font-size: 15px; font-weight: 500; color: #1f1f1f; }
+.rv .rv-card .rv-role { font-size: 13px; color: #5f6368; }
+.rv .rv-card .rv-sample { padding: 1px 8px; border-color: #dadce0; color: #5f6368; font-size: 11px; }
+.rv-card-stars { display: flex; gap: 2px; margin: 14px 0 10px; color: #f5a524; }
+.rv-card-stars svg { width: 15px; height: 15px; fill: currentColor; stroke: none; }
+.rv .rv-card blockquote p { font-size: clamp(.9375rem, 1.05vw, 1.0625rem); font-weight: 400; line-height: 1.55; letter-spacing: -.01em; color: #3c4043; }
+@media (max-width: 900px) { .rv .rv-card { padding: 20px; border-radius: 18px; } }
+.rv .rv-quote figcaption.rv-head { flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; margin: 0; text-align: left; }
+.rv .rv-card .rv-who { align-items: flex-start; gap: 1px; }
