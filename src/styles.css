@@ -1588,3 +1588,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* Credentials and the specialist button sit on the photo's vertical centre line, balancing the
    name block (top-left) and the counter and arrows (bottom-right) around the portrait. */
 @media (min-width: 901px) { .doc-grid > .doc-creds { grid-column: 3; grid-row: 1 / 4; align-self: center; } }
+
+/* Doctors: small text takes the story description's style (13px, regular, full ink, 1.6 leading). */
+.doc .doc-role, .doc .doc-line, .doc .doc-caption, .doc .doc-specs ul, .doc .doc-creds ul {
+  font-family: "Noto Sans Armenian", system-ui, sans-serif; font-size: 13px; font-weight: 400; line-height: 1.6; letter-spacing: normal; color: var(--hero-ink); }
