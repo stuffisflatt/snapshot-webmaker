@@ -1643,3 +1643,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .doc .doc-actions .doc-contact:hover { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
 .doc .doc-actions .doc-book { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
 .doc .doc-actions .doc-book:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+
+/* Languages tag now follows the credentials it belongs to. */
+.doc .doc-creds .doc-langs { margin: 12px 0 0; }
