@@ -1632,3 +1632,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .doc .doc-contact:active { transform: scale(.97); }
 .doc .doc-actions .clinic-hero-cta { min-width: 210px; }
 @media (max-width: 900px) { .doc-actions { order: 4; } .doc-creds { order: 3; } }
+
+/* The two actions drop about 60px below the photo's centre, to its golden section (≈62% down),
+   which reads more settled than dead centre and leaves the top group clear room. */
+@media (min-width: 901px) { .doc-grid > .doc-actions { margin-top: 120px; } }
