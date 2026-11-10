@@ -58,6 +58,23 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
       setBlobSrc(undefined);
     };
   }, [src]);
+  // iOS Safari draws no frame for a video that has never played, so scrubbing currentTime leaves the
+  // frame blank. Once the file is in, play it muted for an instant and pause: from then on, seeks
+  // paint. Harmless elsewhere; the scroll position sets the real time right after.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !blobSrc) return;
+    let primed = false;
+    const prime = () => {
+      if (primed) return;
+      primed = true;
+      const time = video.currentTime;
+      video.play().then(() => { video.pause(); video.currentTime = time; }).catch(() => {});
+    };
+    if (video.readyState >= 2) prime();
+    video.addEventListener("loadeddata", prime);
+    return () => video.removeEventListener("loadeddata", prime);
+  }, [blobSrc]);
   useEffect(() => {
     setStep(0);
     const section = ref.current;
