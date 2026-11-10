@@ -1918,3 +1918,10 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-footer svg { display: none; }
   .clinic-footer .rounded-sm { border: 0; padding: 0; font-size: 11.5px; font-weight: 400; }
 }
+
+/* Pinned full-screen layers run behind Safari's floating toolbar (iOS 26) instead of stopping above
+   it: they take the large viewport height. The story's content stays centred on the visible area by
+   padding the bottom with the toolbar's height (large minus small viewport). */
+.sx-stage, .story-backdrop-pin, .dark-backdrop-pin { height: 100lvh; }
+.sx .sx-stage { padding-bottom: calc(40px + (100lvh - 100svh)); }
+@media (max-width: 767px) { .sx .sx-stage { padding-bottom: calc(32px + (100lvh - 100svh)); } }
