@@ -1705,3 +1705,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   #results.dark-sec { padding-bottom: 40px; }
   #reviews.dark-sec { min-height: 0; padding-top: 8px; }
 }
+
+/* The results + reviews block ends with the same 179px of space it starts with. */
+@media (min-width: 901px) { #reviews.dark-sec { padding-bottom: 179px; } }

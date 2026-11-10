@@ -55,7 +55,7 @@ function Index() {
   useSmoothScroll();
   const [open, setOpen] = useState(false);
   const [preset, setPreset] = useState<BookingPreset>({});
-  const [faq, setFaq] = useState<number | null>(0);
+  const [faq, setFaq] = useState<number | null>(null);
   const book = useCallback((p: BookingPreset = {}) => { setPreset(p); setOpen(true); }, []);
   const close = useCallback(() => setOpen(false), []);
 
