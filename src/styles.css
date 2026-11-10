@@ -1660,11 +1660,3 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .hl .hl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hl-copy { order: -1; }
 }
-
-/* Story headline: the page's section-title size, sans with an italic serif accent, sitting on the
-   video's left edge one row above it; video and step text stay level with each other below. */
-.sx .sx-heading { grid-column: 1; grid-row: 1; margin: 0 0 clamp(16px, 2.4vh, 28px); font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 400;
-  font-size: clamp(2.25rem, 3.2vw, 3.25rem); line-height: 1.08; letter-spacing: -.045em; color: var(--hero-ink); }
-.sx .sx-heading-serif { font-family: "Noto Serif Armenian", serif; font-style: italic; letter-spacing: -.03em; }
-@media (min-width: 901px) { .sx .sx-media, .sx .sx-text { grid-row: 2; } }
-@media (max-width: 900px) { .sx .sx-heading { font-size: 2rem; letter-spacing: -.035em; margin-bottom: 12px; } }
