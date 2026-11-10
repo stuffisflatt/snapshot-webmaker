@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { SERVICES } from "@/lib/clinic";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,42 @@ import { riseStyle } from "@/components/Reveal";
 export function ServiceAccordion({ onBook }: { onBook: (service: string) => void }) {
   const [active, setActive] = useState<string | null>(null);
   const [lensMap, setLensMap] = useState<string>();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Performance: each card paints its own copy of the section photo, lined up exactly with the photo
+  // behind it, and the glass filter runs on that copy. Unlike a backdrop filter, which re-runs on
+  // every frame while scrolling, a filter on still content is drawn once and reused. Positions come
+  // from layout offsets (not transforms), so the cards' rise-in animation never skews them.
+  useEffect(() => {
+    const list = listRef.current;
+    const section = list?.closest<HTMLElement>("section");
+    if (!list || !section) return;
+    const IMAGE_W = 2880, IMAGE_H = 1608, BLEED = 40;
+    let raf = 0;
+    const offsetIn = (el: HTMLElement) => {
+      let x = 0, y = 0, node: HTMLElement | null = el;
+      while (node && node !== section) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent as HTMLElement | null; }
+      return { x, y };
+    };
+    const place = () => {
+      raf = 0;
+      const sw = section.clientWidth, sh = section.clientHeight;
+      const scale = Math.max(sw / IMAGE_W, sh / IMAGE_H);
+      const w = IMAGE_W * scale, h = IMAGE_H * scale;
+      const ox = (sw - w) / 2, oy = (sh - h) / 2;
+      list.querySelectorAll<HTMLElement>(".service-item").forEach(card => {
+        const { x, y } = offsetIn(card);
+        card.style.setProperty("--glass-pos", `${(ox - x + BLEED).toFixed(1)}px ${(oy - y + BLEED).toFixed(1)}px`);
+        card.style.setProperty("--glass-size", `${w.toFixed(1)}px ${h.toFixed(1)}px`);
+      });
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(place); };
+    const resize = new ResizeObserver(schedule);
+    resize.observe(section);
+    list.querySelectorAll(".service-item").forEach(card => resize.observe(card));
+    schedule();
+    return () => { resize.disconnect(); cancelAnimationFrame(raf); };
+  }, []);
 
   // Build the displacement map once: neutral grey in the middle, ramping smoothly toward each edge so
   // the backdrop near the rim is pulled inward (R = horizontal, G = vertical), as a curved edge would.
@@ -51,7 +87,7 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
       </filter>
     </svg>
     {/* Two independent columns sharing one open state: opening a card only grows its own column. */}
-    <div className="service-list">
+    <div ref={listRef} className="service-list">
       {[SERVICES.slice(0, 3), SERVICES.slice(3)].map((column, c) => (
       <ul key={c} className="service-col">
       {column.map((service, r) => {

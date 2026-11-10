@@ -1515,3 +1515,22 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   /* Leave room above the thumb bar at the end of the page. */
   .clinic-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 }
+
+/* ---- Services glass, performance pass ----
+   The glass used backdrop-filter, which re-runs the refraction on every scrolled frame. Each card
+   now carries a copy of the section photo, lined up with the photo behind it (positions set in
+   ServiceAccordion), and the same filters run on that still copy, so they are drawn once and reused.
+   The copy bleeds 40px past the card so the bending and blur sample real photo at the rim. */
+.sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) {
+  -webkit-backdrop-filter: none; backdrop-filter: none; --glass-tint: rgb(255 255 255 / .04); }
+.sky-zone .services-section .service-item[data-open="true"] { --glass-tint: rgb(255 255 255 / .08); }
+.sky-zone .services-section .service-item::before { content: ""; position: absolute; inset: -40px; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(var(--glass-tint), var(--glass-tint)), url("/media/services-bg.webp");
+  background-repeat: no-repeat; background-position: 40px 40px, var(--glass-pos, 50% 50%); background-size: calc(100% - 80px) calc(100% - 80px), var(--glass-size, cover);
+  filter: brightness(1.08) blur(3px) saturate(130%); }
+@media (hover: hover) and (pointer: fine) {
+  .sky-zone .services-section .service-item::before { filter: brightness(1.08) url(#glass-warp) blur(2px) saturate(130%); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .sky-zone .services-section .service-item::before { background: rgb(20 26 30 / .9); filter: none; inset: 0; }
+}
