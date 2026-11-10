@@ -1692,3 +1692,9 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .rv .rv-intro > .dark-caption { margin-top: 48px; }
   .rv .rv-quote.rv-card { margin-top: 48px; }
 }
+
+/* Results: top gap trimmed by 64px (8pt grid) and given to the bottom, so the space above (179px)
+   and below (187px) the group nearly match; section height unchanged at 1440x900. */
+@media (min-width: 901px) {
+  #results.dark-sec { min-height: 0; padding-top: 179px; padding-bottom: 187px; }
+}
