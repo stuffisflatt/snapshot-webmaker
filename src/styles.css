@@ -1636,3 +1636,10 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* The two actions drop about 60px below the photo's centre, to its golden section (≈62% down),
    which reads more settled than dead centre and leaves the top group clear room. */
 @media (min-width: 901px) { .doc-grid > .doc-actions { margin-top: 120px; } }
+
+/* Doctors: the two actions swap styles. Contact is solid ink and clears on hover; booking is
+   outlined and fills on hover. Outlines use the round arrows' soft border, not full ink. */
+.doc .doc-actions .doc-contact { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+.doc .doc-actions .doc-contact:hover { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
+.doc .doc-actions .doc-book { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
+.doc .doc-actions .doc-book:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
