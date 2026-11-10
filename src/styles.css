@@ -1708,3 +1708,9 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 
 /* The results + reviews block ends with the same 179px of space it starts with. */
 @media (min-width: 901px) { #reviews.dark-sec { padding-bottom: 179px; } }
+
+/* Review card, outline version: transparent with a fine white border; all text white. */
+.rv .rv-card { background: transparent; border: 1px solid rgb(255 255 255 / .28); box-shadow: none; color: #fff; }
+.rv .rv-card .rv-name, .rv .rv-card blockquote p { color: #fff; }
+.rv .rv-card .rv-role { color: rgb(255 255 255 / .72); }
+.rv .rv-card .rv-sample { border-color: rgb(255 255 255 / .3); color: rgb(255 255 255 / .72); }
