@@ -1665,3 +1665,6 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 @media (min-width: 901px) {
   .hl-layout { grid-template-columns: auto minmax(0, 28em); justify-content: center; column-gap: clamp(48px, 5vw, 88px); }
 }
+
+/* Results group sits ~60px below the section's centre, clear of the floating menu above. */
+@media (min-width: 901px) { #results.dark-sec { padding-top: calc(clamp(88px, 11vh, 120px) + 120px); } #results .hl-layout { margin-inline: auto; } }
