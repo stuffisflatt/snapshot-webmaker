@@ -40,7 +40,7 @@ export function Highlights({ onBook }: { onBook: () => void }) {
                 {item.before && <img className="hl-before" src={item.before} alt="" width={1024} height={1024} loading="lazy" decoding="async" />}
                 <img className="hl-after" src={item.after} alt="" width={1024} height={1024} loading="lazy" decoding="async" />
                 {item.before && <span className="hl-tag hl-tag-before">Առաջ</span>}
-                <span className="hl-tag hl-tag-after">Հետո</span>
+                {item.before && <span className="hl-tag hl-tag-after">Հիմա</span>}
                 <span className="hl-sample">Նմուշ</span>
               </figure>
             </li>
