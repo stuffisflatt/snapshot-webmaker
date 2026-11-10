@@ -3,8 +3,14 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
 
-// Placeholder photos: swap in the clinic's own before/after pairs (with patient consent).
-const PHOTOS = ["/media/clinic/door.webp", "/media/clinic/waiting.webp", "/media/clinic/reception.webp", "/media/clinic/treatment.webp"];
+// AI-generated sample results, tagged "Նմուշ" on screen: replace with the clinic's own before/after
+// photos (with patient consent). A square with a "before" slides its "after" photo aside to reveal it.
+const RESULTS: { after: string; before?: string; alt: string }[] = [
+  { after: "/media/results/woman-38-after.webp", alt: "Պացիենտը բուժումից հետո" },
+  { after: "/media/results/man-68-after.webp", before: "/media/results/man-68-before.webp", alt: "Պացիենտը բուժումից առաջ և հետո" },
+  { after: "/media/results/man-closeup-after.webp", before: "/media/results/man-closeup-before.webp", alt: "Ժպիտը բուժումից առաջ և հետո" },
+  { after: "/media/results/smile-after.webp", alt: "Ատամների վերականգնումից հետո" },
+];
 
 /** Adds data-in once the element is a fifth of the way into view, so its children can rise in. */
 export function useRevealOnce<T extends HTMLElement>() {
@@ -28,9 +34,15 @@ export function Highlights({ onBook }: { onBook: () => void }) {
     <section ref={ref} id="results" className="hl dark-sec" aria-labelledby="results-title">
       <div className="dark-inner hl-layout">
         <ul className="hl-grid" aria-label="Արդյունքների օրինակներ">
-          {PHOTOS.map((photo, i) => (
-            <li key={photo} className="hl-card dark-rise" style={{ "--i": i } as CSSProperties}>
-              <figure className="hl-photo"><img src={photo} alt="" width={600} height={750} loading="lazy" decoding="async" /></figure>
+          {RESULTS.map((item, i) => (
+            <li key={item.after} className="hl-card dark-rise" style={{ "--i": i } as CSSProperties}>
+              <figure className="hl-photo" data-pair={item.before ? (i % 2 ? "right" : "left") : undefined} aria-label={item.alt} role="img">
+                {item.before && <img className="hl-before" src={item.before} alt="" width={1024} height={1024} loading="lazy" decoding="async" />}
+                <img className="hl-after" src={item.after} alt="" width={1024} height={1024} loading="lazy" decoding="async" />
+                {item.before && <span className="hl-tag hl-tag-before">Առաջ</span>}
+                <span className="hl-tag hl-tag-after">Հետո</span>
+                <span className="hl-sample">Նմուշ</span>
+              </figure>
             </li>
           ))}
         </ul>

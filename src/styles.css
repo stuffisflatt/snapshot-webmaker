@@ -1718,3 +1718,26 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* Google mark, top-right of a review card; shown only for real reviews sourced from Google. */
 .rv .rv-card { position: relative; }
 .rv-google { position: absolute; top: 24px; right: 26px; width: 20px; height: 20px; }
+
+/* Results squares: the "after" photo sits on top; on paired squares it slides out to the side
+   (left on one, right on the other), holds on the "before" behind it, then slides back. Transform
+   only, strong ease-in-out; starts once the section is in view. Labels follow the photo shown. */
+.hl .hl-photo { position: relative; aspect-ratio: 1; overflow: hidden; }
+.hl .hl-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hl-after { z-index: 1; will-change: transform; }
+.hl-tag, .hl-sample { position: absolute; z-index: 2; padding: 3px 8px; border-radius: 7px; font-size: 10.5px; font-weight: 500; line-height: 1.3; pointer-events: none; }
+.hl-tag { left: 10px; bottom: 10px; background: rgb(18 18 20 / .72); color: #fff; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.hl-sample { right: 10px; top: 10px; background: rgb(255 255 255 / .82); color: #222326; }
+.hl-tag-before { opacity: 0; }
+.hl [data-in] .hl-photo[data-pair] .hl-after, .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after { animation: hl-slide 7s cubic-bezier(.77, 0, .175, 1) 1.2s infinite; }
+.hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-after { animation-name: hl-slide-right; animation-delay: 4.7s; }
+.hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-after { animation: hl-tag-after 7s linear 1.2s infinite; }
+.hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-before { animation: hl-tag-before 7s linear 1.2s infinite; }
+.hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-tag-after, .hl.dark-sec[data-in] .hl-photo[data-pair="right"] .hl-tag-before { animation-delay: 4.7s; }
+@keyframes hl-slide { 0%, 36% { transform: none; } 48%, 84% { transform: translate3d(-101%, 0, 0); } 96%, 100% { transform: none; } }
+@keyframes hl-slide-right { 0%, 36% { transform: none; } 48%, 84% { transform: translate3d(101%, 0, 0); } 96%, 100% { transform: none; } }
+@keyframes hl-tag-after { 0%, 40% { opacity: 1; } 44%, 88% { opacity: 0; } 92%, 100% { opacity: 1; } }
+@keyframes hl-tag-before { 0%, 44% { opacity: 0; } 48%, 86% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-after, .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-after, .hl.dark-sec[data-in] .hl-photo[data-pair] .hl-tag-before { animation: none; }
+}
