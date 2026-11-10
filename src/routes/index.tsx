@@ -12,7 +12,7 @@ import { HeroHeader } from "@/components/HeroHeader";
 import { ServiceAccordion } from "@/components/ServiceAccordion";
 import { DarkBackdrop } from "@/components/DarkBackdrop";
 import { MobileActionBar } from "@/components/MobileActionBar";
-import { ContactSheet } from "@/components/ContactSheet";
+import { ContactCards, ContactSheet } from "@/components/ContactSheet";
 import { Highlights } from "@/components/Highlights";
 import { Reviews, type Review } from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
@@ -97,6 +97,7 @@ function Index() {
         {/* FAQ */}
         <section id="faq" className="faq-section scroll-mt-20">
           <div className="faq-content" data-reveal>
+          <p className="m-caption rise" style={riseStyle(0)}>(Հարցեր)</p>
           <WordReveal className="clinic-section-title" text="Հաճախ տրվող հարցեր" />
           <ul className="mt-8 divide-y divide-border border-y border-border">
             {FAQ.map((f, i) => (
@@ -116,12 +117,14 @@ function Index() {
         {/* Contact */}
         <section id="contact" className="contact-section relative scroll-mt-16 overflow-hidden">
           <div className="contact-content relative mx-auto max-w-6xl px-5 py-20" data-reveal>
+            <p className="m-caption rise" style={riseStyle(0)}>(Կապ)</p>
             <WordReveal className="clinic-section-title max-w-xl" text="Պատրա՞ստ եք առաջին քայլին" />
             <p className="rise mt-4 max-w-md text-lg opacity-90" style={riseStyle(3)}>Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
             <div className="rise mt-8 flex flex-col gap-3 sm:flex-row" style={riseStyle(4)}>
               <Button onClick={() => book()} className="btn btn-white"><CalendarCheck className="size-5" />Ամրագրել այցը</Button>
               <a href={CLINIC.mobileHref} className="btn btn-ghost-white"><Phone className="size-5" />{CLINIC.mobile}</a>
             </div>
+            <ContactCards className="m-contact-cards rise" />
             <div className="contact-details mt-14 grid gap-4 sm:grid-cols-3">
               <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(5)}>
                 <MapPin className="size-6" /><p className="mt-3 font-semibold">{CLINIC.address}</p><p className="mt-1 text-sm opacity-80">Ճանապարհը քարտեզի վրա ↗</p>

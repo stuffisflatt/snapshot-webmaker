@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { MobileNav } from "@/components/MobileNav";
 import { openContact } from "@/components/ContactSheet";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
@@ -70,6 +71,7 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
     <>
     <NavHeader onBook={onBook} />
     <section ref={hero} className="clinic-hero" aria-labelledby="clinic-hero-title">
+      <MobileNav />
       <div className="clinic-hero-shader" aria-hidden="true"><ShaderBackground /></div>
       <HeroDots containerRef={hero} />
       <div className="clinic-hero-film" aria-hidden="true">

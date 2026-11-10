@@ -86,3 +86,20 @@ export function ContactSheet() {
     </div>
   );
 }
+
+/** The same contact cards, inline (used by the contact section on phones). */
+export function ContactCards({ className = "" }: { className?: string }) {
+  return (
+    <ul className={`ct-list ${className}`}>
+      {ROWS.map(row => (
+        <li key={row.label}>
+          <a className="ct-row" href={row.href} {...(row.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+            <span className="ct-icon" aria-hidden="true">{row.icon}</span>
+            <span className="ct-text"><small>{row.label}</small><span>{row.value}</span></span>
+            <ArrowUpRight className="ct-arrow" aria-hidden="true" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}

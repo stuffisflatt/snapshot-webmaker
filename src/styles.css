@@ -186,9 +186,9 @@
 .clinic-hero-cta svg:last-child { margin-left: auto; }
 .clinic-hero-cta span { margin-right: auto; white-space: nowrap; }
 .clinic-hero-cta-book { background: #171717; border-color: #171717; color: #fff; }
-.clinic-hero-cta-book:hover { background: transparent; color: #171717; }
+@media (hover: hover) and (pointer: fine) { .clinic-hero-cta-book:hover { background: transparent; color: #171717; } }
 .clinic-hero-cta-call { background: transparent; border-color: #fff; color: #fff; }
-.clinic-hero-cta-call:hover { background: #fff; color: #171717; }
+@media (hover: hover) and (pointer: fine) { .clinic-hero-cta-call:hover { background: #fff; color: #171717; } }
 @media (max-width: 900px) {
   .clinic-hero-cta { min-height: 50px; padding: 11px 16px; font-size: 12px; gap: 8px; }
 }
@@ -211,14 +211,14 @@
 .clinic-topbar { position: fixed; z-index: 45; top: 16px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 40px); display: flex; align-items: center; gap: 44px; padding: 6px 6px 6px 20px; border-radius: 14px; border: 0; background: rgb(0 0 0 / .65); color: #fff; font-family: "Montserrat", "Noto Sans Armenian", sans-serif; }
 .clinic-nav { display: flex; align-items: center; gap: 24px; }
 .clinic-nav a { display: inline-block; font-size: 12px; font-weight: 500; white-space: nowrap; text-decoration: none; transition: transform 180ms ease; }
-.clinic-nav a:hover { text-decoration: none; transform: scale(1.07); }
+@media (hover: hover) and (pointer: fine) { .clinic-nav a:hover { text-decoration: none; transform: scale(1.07); } }
 .clinic-header-actions { display: flex; align-items: center; gap: 8px; }
 .clinic-header-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 34px; height: 34px; border: 1px solid #ffffff70; border-radius: 9px; background: transparent; color: #fff; transition: background-color 160ms ease; }
-.clinic-header-icon:hover { background: #ffffff20; }
+@media (hover: hover) and (pointer: fine) { .clinic-header-icon:hover { background: #ffffff20; } }
 .clinic-header-icon svg { width: 19px; height: 19px; }
 .clinic-nav-toggle { display: none; cursor: url("/cursor-hand.svg") 11 3, pointer; }
 .clinic-book { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-width: 150px; min-height: 42px; padding: 0 18px; border: 1px solid #ffffff70; border-radius: 10px; background: transparent; color: #fff; font-size: 12px; font-weight: 600; cursor: url("/cursor-hand.svg") 11 3, pointer; transition: background-color 180ms ease, color 180ms ease; }
-.clinic-book:hover { background: #fff; color: #171717; }
+@media (hover: hover) and (pointer: fine) { .clinic-book:hover { background: #fff; color: #171717; } }
 @media (max-width: 900px) {
   .clinic-topbar { max-width: calc(100% - 32px); padding: 8px 8px 8px 20px; gap: 28px; }
   .clinic-nav { gap: 20px; }
@@ -250,7 +250,7 @@
 .services-section .service-item[data-open="true"] { background: #fff; border-color: #fff; color: #171717; --muted-foreground: #666; }
 .services-section .service-item[data-open="true"] .service-chevron { color: #171717; }
 .services-section .btn-primary { background: #171717; color: #fff; box-shadow: none; }
-.services-section .btn-primary:hover { background: #333; }
+@media (hover: hover) and (pointer: fine) { .services-section .btn-primary:hover { background: #333; } }
 .service-item { overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--card); transition: background-color 200ms ease, border-color 200ms ease; }
 .service-item[data-open="true"] { border-color: var(--primary); background: var(--primary-soft); }
 .service-trigger { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 20px; text-align: left; font-size: 18px; font-weight: 600; cursor: url("/cursor-hand.svg") 11 3, pointer; }
@@ -377,7 +377,7 @@
 /* Agreed monochrome palette for reviews and contact. */
 .reviews-section { background: #fff; color: #171717; }
 .review-rating { --primary: #fff; --primary-deep: #fff; background: #000; color: #fff; }
-.review-rating:hover { background: #242424; }
+@media (hover: hover) and (pointer: fine) { .review-rating:hover { background: #242424; } }
 .contact-section { --primary-deep: #000; --primary-soft: #ededed; --sky-foreground: #fff; background: #000; color: #fff; }
 
 /* Shared Armenian heading hierarchy: optical size, tracking and leading together. */
@@ -529,7 +529,7 @@
 /* Reviews inherit the shared clinic theme rather than introducing a separate palette. */
 .testimonials-section { background: var(--clinic-dark); color: var(--clinic-light); }
 .testimonials-section .review-rating { background: transparent; color: var(--foreground); border-bottom: 1px solid var(--border); border-radius: 0; padding: 0 0 24px; }
-.testimonials-section .review-rating:hover { color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .testimonials-section .review-rating:hover { color: var(--primary); } }
 .testimonials-section h2 { font-family: "Noto Serif Armenian", serif; font-weight: 400; letter-spacing: 0; }
 @media (min-width: 768px) { .testimonials-section > div { width: calc(100% - var(--page-gutter) * 2); max-width: var(--content-width); margin-inline: auto; padding-inline: 0; } }
 /* Reviews: the heading group sits flush right, against the rating and card column. */
@@ -728,7 +728,7 @@
 .services-section .service-item[data-open="true"] { background: var(--clinic-light); border-color: var(--clinic-light); color: var(--clinic-dark); --muted-foreground: oklch(0.44 0.006 250); }
 .services-section .service-item[data-open="true"] .service-chevron { color: var(--clinic-dark); }
 .services-section .btn-primary { background: var(--clinic-dark); color: var(--clinic-light); }
-.services-section .btn-primary:hover { background: var(--clinic-line); }
+@media (hover: hover) and (pointer: fine) { .services-section .btn-primary:hover { background: var(--clinic-line); } }
 .team-heading-copy > p, .team-intro-footer blockquote, .team-lead span,
 .team-profile-caption p, .team-curve-caption p { color: var(--muted-foreground); }
 .team-profile-photo, .team-curve-card { background: var(--card); }
@@ -752,7 +752,7 @@
 .contact-content { padding-bottom: var(--section-space); }
 .contact-content > p { color: var(--muted-foreground); opacity: 1; font-size: 1rem; line-height: 1.75; }
 .contact-details > * { background: transparent; border-radius: 0; border-top: 1px solid var(--border); padding: 1.5rem 0 0; }
-.contact-details > a:hover { background: transparent; color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .contact-details > a:hover { background: transparent; color: var(--primary); } }
 .contact-details svg { color: var(--primary); width: 20px; height: 20px; }
 .contact-details p:last-child { color: var(--muted-foreground); opacity: 1; }
 .clinic-footer { width: 100%; max-width: none; margin: 0; padding: 2rem max(var(--page-gutter), calc((100% - var(--content-width)) / 2)); border-top: 1px solid var(--border); color: var(--muted-foreground); }
@@ -820,7 +820,7 @@
   background: oklch(0.975 0.004 250); color: oklch(0.22 0.01 255); backdrop-filter: none; border-radius: 16px;
   border: 1px solid oklch(0.9 0.006 250); --primary: oklch(0.8 0.15 80); --primary-deep: oklch(0.22 0.01 255);
 }
-.sky-zone .review-rating:hover { background: oklch(1 0 0); color: var(--clinic-blue); }
+@media (hover: hover) and (pointer: fine) { .sky-zone .review-rating:hover { background: oklch(1 0 0); color: var(--clinic-blue); } }
 .sky-zone .testimonials-section .review-rating { padding: 1rem 1.25rem !important; }
 
 /* Story video: about 42% of the screen wide; its shape follows the scroll (set from script). */
@@ -857,7 +857,7 @@
 .sky-zone .services-section .service-item[data-open="true"] .service-chevron { color: var(--clinic-service-active-ink); }
 .sky-zone .services-section .service-item .btn-primary { background: var(--clinic-light); color: var(--clinic-dark); }
 .service-trigger { height: auto; min-height: 76px; white-space: normal; border-radius: inherit; }
-.service-trigger:hover { background: transparent; color: inherit; }
+@media (hover: hover) and (pointer: fine) { .service-trigger:hover { background: transparent; color: inherit; } }
 .service-trigger > span { min-width: 0; overflow-wrap: anywhere; }
 .services-heading > p { margin-top: var(--clinic-tight-gap); }
 .team-introduction { padding-block: var(--clinic-section-gap); }
@@ -887,9 +887,9 @@
 .sx-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
 .sx-actions .clinic-hero-cta { min-height: 46px; max-width: none; width: auto; font-size: 11px; padding: 10px 14px; }
 .sx-actions .clinic-hero-cta-book { background: var(--clinic-light); border-color: var(--clinic-light); color: var(--clinic-dark); }
-.sx-actions .clinic-hero-cta-book:hover { background: var(--clinic-pewter); }
+@media (hover: hover) and (pointer: fine) { .sx-actions .clinic-hero-cta-book:hover { background: var(--clinic-pewter); } }
 .sx-actions .clinic-hero-cta-call { border-color: var(--clinic-light); color: var(--clinic-light); background: transparent; }
-.sx-actions .clinic-hero-cta-call:hover { background: var(--clinic-light); color: var(--clinic-dark); }
+@media (hover: hover) and (pointer: fine) { .sx-actions .clinic-hero-cta-call:hover { background: var(--clinic-light); color: var(--clinic-dark); } }
 .sx-step:not(:first-child) { bottom: auto; }
 @media (min-width: 768px) {
   .sx .sx-grid { grid-template-columns: 42.5vw minmax(240px, 330px); }
@@ -1074,7 +1074,7 @@ input:not([type="date"], [type="time"]), textarea { cursor: url("/cursor-text.sv
 .sx .sx-actions { display: flex; flex-wrap: nowrap; gap: 10px; }
 .sx .sx-actions .clinic-hero-cta { flex: 1 1 0; min-width: 0; padding-inline: 10px; gap: 6px; }
 .sx .sx-actions .clinic-hero-cta-call { background: transparent; border-color: var(--hero-ink); color: var(--hero-ink); }
-.sx .sx-actions .clinic-hero-cta-call:hover { background: var(--hero-ink); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .sx .sx-actions .clinic-hero-cta-call:hover { background: var(--hero-ink); color: #fff; } }
 
 /* ---- Sections 3–4 and reviews, Apple-style pass ----
    Each block reads as its own section: full-height, generous space, one heading system
@@ -1404,9 +1404,9 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* The page's pill buttons, inverted for the dark ground. */
 .dark-sec .clinic-hero-cta { width: auto; min-width: 224px; max-width: none; justify-self: start; }
 .dark-sec .clinic-hero-cta-book { background: #f5f5f7; border-color: #f5f5f7; color: #121214; }
-.dark-sec .clinic-hero-cta-book:hover { background: transparent; color: #f5f5f7; }
+@media (hover: hover) and (pointer: fine) { .dark-sec .clinic-hero-cta-book:hover { background: transparent; color: #f5f5f7; } }
 .dark-sec .clinic-hero-cta-call { background: transparent; border-color: rgb(245 245 247 / .55); color: #f5f5f7; }
-.dark-sec .clinic-hero-cta-call:hover { background: #f5f5f7; border-color: #f5f5f7; color: #121214; }
+@media (hover: hover) and (pointer: fine) { .dark-sec .clinic-hero-cta-call:hover { background: #f5f5f7; border-color: #f5f5f7; color: #121214; } }
 .dark-sec .clinic-hero-cta:active { transform: scale(.97); }
 
 /* Content rises in once, staggered; reduced motion gets a plain fade. */
@@ -1628,7 +1628,7 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .doc-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .doc .doc-actions .doc-book { margin-top: 0; }
 .doc .doc-contact { width: auto; max-width: none; min-height: 46px; padding: 10px 14px; font-size: 11px; background: transparent; border-color: var(--hero-ink); color: var(--hero-ink); }
-.doc .doc-contact:hover { background: var(--hero-ink); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .doc .doc-contact:hover { background: var(--hero-ink); color: #fff; } }
 .doc .doc-contact:active { transform: scale(.97); }
 .doc .doc-actions .clinic-hero-cta { min-width: 210px; }
 @media (max-width: 900px) { .doc-actions { order: 4; } .doc-creds { order: 3; } }
@@ -1640,9 +1640,9 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 /* Doctors: the two actions swap styles. Contact is solid ink and clears on hover; booking is
    outlined and fills on hover. Outlines use the round arrows' soft border, not full ink. */
 .doc .doc-actions .doc-contact { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
-.doc .doc-actions .doc-contact:hover { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
+@media (hover: hover) and (pointer: fine) { .doc .doc-actions .doc-contact:hover { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); } }
 .doc .doc-actions .doc-book { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
-.doc .doc-actions .doc-book:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .doc .doc-actions .doc-book:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; } }
 
 /* Languages tag now follows the credentials it belongs to. */
 .doc .doc-creds .doc-langs { margin: 12px 0 0; }
@@ -1811,9 +1811,9 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .bk-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 4px; }
 .bk-actions .clinic-hero-cta { width: 100%; max-width: none; min-height: 48px; font-size: 12px; justify-self: stretch; }
 .bk-actions .clinic-hero-cta-book { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
-.bk-actions .clinic-hero-cta-book:hover { background: transparent; color: var(--hero-ink); border-color: rgb(34 35 38 / .3); }
+@media (hover: hover) and (pointer: fine) { .bk-actions .clinic-hero-cta-book:hover { background: transparent; color: var(--hero-ink); border-color: rgb(34 35 38 / .3); } }
 .bk-actions .clinic-hero-cta-call { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
-.bk-actions .clinic-hero-cta-call:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .bk-actions .clinic-hero-cta-call:hover { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; } }
 .bk-note { margin: 0; font-size: 12px; line-height: 1.5; color: rgb(34 35 38 / .55); }
 
 @media (max-width: 640px) {
@@ -1868,3 +1868,53 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .bk-sheet.ct-sheet { width: min(620px, 100%); }
 .ct-list { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); grid-auto-flow: column; }
 @media (max-width: 640px) { .ct-list { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; } }
+
+/* ---- Native feel on touch screens (mobile-native) ---- */
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+a, button, [role="button"], summary, label { touch-action: manipulation; }
+button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-btn, .doc-arrow, .mobile-bar a, .mobile-bar button {
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+@media (pointer: coarse) { input, textarea, select, .bk-field input { font-size: 16px; } }
+
+/* ---- Phone navbar: two frosted icons in the hero only; the pill menu is gone on phones ---- */
+.m-nav, .m-caption, .m-contact-cards { display: none; }
+@media (max-width: 767px) {
+  .site-nav { display: none; }
+  .m-nav { position: absolute; z-index: 5; top: calc(14px + env(safe-area-inset-top, 0px)); left: 16px; right: 16px; display: flex; justify-content: space-between; pointer-events: none; }
+  .m-nav-btn { pointer-events: auto; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .55); border-radius: 50%;
+    background: rgb(255 255 255 / .42); color: var(--hero-ink); -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: 0 6px 18px -10px rgb(0 0 0 / .45); transition: transform 120ms ease-out, background-color 160ms ease; }
+  .m-nav-btn svg { width: 20px; height: 20px; }
+  .m-nav-btn:active { transform: scale(.94); background: rgb(255 255 255 / .7); }
+}
+.m-menu { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.m-menu a { display: flex; align-items: center; gap: 14px; padding: 16px 2px; border-bottom: 1px solid rgb(34 35 38 / .1); color: var(--hero-ink); font-size: 17px; letter-spacing: -.02em; text-decoration: none; }
+.m-menu li:last-child a { border-bottom: 0; }
+.m-menu a svg { width: 18px; height: 18px; margin-left: auto; opacity: .4; }
+.m-menu a:active { opacity: .6; }
+.m-menu-num { width: 22px; font-size: 12px; font-weight: 500; color: rgb(34 35 38 / .45); font-variant-numeric: tabular-nums; }
+
+/* ---- Phones: FAQ, contact and footer in the site's own style ---- */
+@media (max-width: 767px) {
+  .m-caption { display: block; margin: 0 0 10px; font-size: 13px; font-weight: 500; letter-spacing: .02em; color: rgb(245 245 247 / .5); }
+  .faq-section, .contact-section { background: #0e0e10; color: #f5f5f7; }
+  .faq-section { padding: 72px 20px 40px; }
+  .faq-section .clinic-section-title, .contact-section .clinic-section-title { font-family: "Noto Sans Armenian", system-ui, sans-serif; font-size: 2rem; font-weight: 400; line-height: 1.1; letter-spacing: -.045em; color: #f5f5f7; }
+  .faq-section ul { margin-top: 24px; border-color: rgb(255 255 255 / .1); }
+  .faq-section ul > li { border-color: rgb(255 255 255 / .1); }
+  .faq-section li button { padding-block: 18px; font-size: 15px; font-weight: 500; line-height: 1.4; letter-spacing: -.01em; color: #f5f5f7; }
+  .faq-section li button svg { box-sizing: content-box; padding: 5px; border: 1px solid rgb(255 255 255 / .2); border-radius: 50%; width: 14px; height: 14px; }
+  .faq-section li p { font-size: 14px; line-height: 1.6; color: rgb(245 245 247 / .64); }
+  .contact-section .contact-content { padding: 56px 20px 40px; }
+  .contact-section .contact-content > p { font-size: 14px; line-height: 1.6; color: rgb(245 245 247 / .64); opacity: 1; }
+  .contact-section .btn-ghost-white, .contact-section .contact-details { display: none; }
+  .contact-section .btn-white { width: 100%; height: 50px; border-radius: 12px; font-size: 15px; font-weight: 500; }
+  .m-contact-cards { display: grid; margin-top: 28px; }
+  .m-contact-cards .ct-row { background: rgb(255 255 255 / .05); border-color: rgb(255 255 255 / .1); color: #f5f5f7; }
+  .m-contact-cards .ct-icon { background: #f5f5f7; color: #121214; }
+  .m-contact-cards .ct-text small { color: rgb(245 245 247 / .55); }
+  .clinic-footer { justify-content: center; gap: 8px; padding-top: 22px; border-top: 1px solid rgb(255 255 255 / .08); background: #0e0e10; font-size: 11.5px; color: rgb(245 245 247 / .45); text-align: center; }
+  .clinic-footer > span { display: inline-flex; align-items: center; gap: 6px; }
+  .clinic-footer svg { display: none; }
+  .clinic-footer .rounded-sm { border: 0; padding: 0; font-size: 11.5px; font-weight: 400; }
+}
