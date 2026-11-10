@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowUpRight, Instagram, MapPin, MessageCircle, MessagesSquare, Phone, X } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram, MessageCircle, MessagesSquare, Phone, X } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
 import { setSmoothScrollPaused } from "@/components/SmoothScroll";
 
@@ -10,14 +10,15 @@ export const openContact = () => window.dispatchEvent(new Event(CONTACT_EVENT));
 const EXIT_MS = 260;
 const DIGITS = CLINIC.mobileHref.replace("tel:+", "");
 
+// Two rows of three: calls and Instagram, then the messengers and Facebook.
 // WhatsApp and Viber assume the mobile number is registered on both: confirm with the clinic.
 const ROWS: { icon: ReactNode; label: string; value: string; href: string; external?: boolean }[] = [
-  { icon: <Phone />, label: "Զանգահարել", value: CLINIC.mobile, href: CLINIC.mobileHref },
-  { icon: <MessageCircle />, label: "WhatsApp", value: "Գրել հաղորդագրություն", href: `https://wa.me/${DIGITS}`, external: true },
-  { icon: <MessagesSquare />, label: "Viber", value: "Գրել հաղորդագրություն", href: `viber://chat?number=%2B${DIGITS}` },
+  { icon: <Phone />, label: "Բջջային", value: CLINIC.mobile, href: CLINIC.mobileHref },
   { icon: <Phone />, label: "Քաղաքային", value: CLINIC.landline, href: CLINIC.landlineHref },
   { icon: <Instagram />, label: "Instagram", value: "@alphastom_mc", href: CLINIC.instagram, external: true },
-  { icon: <MapPin />, label: "Հասցե", value: CLINIC.address, href: CLINIC.yandex, external: true },
+  { icon: <MessagesSquare />, label: "Viber", value: "Հաղորդագրություն", href: `viber://chat?number=%2B${DIGITS}` },
+  { icon: <MessageCircle />, label: "WhatsApp", value: "Հաղորդագրություն", href: `https://wa.me/${DIGITS}`, external: true },
+  { icon: <Facebook />, label: "Facebook", value: "Alphastom", href: CLINIC.facebook, external: true },
 ];
 
 /** Contact as the same frosted sheet as booking: every way to reach the clinic, one tap each. */
@@ -80,6 +81,7 @@ export function ContactSheet() {
             </li>
           ))}
         </ul>
+        <p className="ct-address">{CLINIC.address}</p>
       </div>
     </div>
   );

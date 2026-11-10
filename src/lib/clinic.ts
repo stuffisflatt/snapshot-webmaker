@@ -7,6 +7,8 @@ export const CLINIC = {
   landline: "+374 10 279227",
   landlineHref: "tel:+37410279227",
   instagram: "https://www.instagram.com/alphastom_mc/",
+  // Replace with the clinic's Facebook page; until then this opens a Facebook search for the clinic.
+  facebook: "https://www.facebook.com/search/top?q=Alphastom%20Dental%20Clinic",
   yandex: "https://yandex.com/maps/org/alphastom/33222583956/",
   rating: "4.8/5",
   ratingCount: 149,

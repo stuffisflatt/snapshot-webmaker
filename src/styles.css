@@ -1845,3 +1845,13 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
 .ct-text span { font-size: 14px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
 .ct-arrow { flex: none; width: 16px; height: 16px; opacity: .45; transition: opacity 160ms ease, transform 160ms ease; }
 @media (max-width: 640px) { .ct-list { grid-template-columns: 1fr; } }
+
+/* Contact sheet: two rows of three; the address is a quiet line of text at the bottom. */
+.ct-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ct-row { flex-direction: column; align-items: flex-start; gap: 10px; min-height: 0; padding: 14px; position: relative; }
+.ct-arrow { position: absolute; top: 14px; right: 14px; }
+.ct-text span { font-size: 13.5px; }
+.ct-address { margin: 18px 0 0; font-size: 11.5px; line-height: 1.5; color: rgb(34 35 38 / .5); text-align: center; }
+@media (max-width: 640px) {
+  .ct-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
