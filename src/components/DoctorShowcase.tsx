@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
 
@@ -115,10 +115,13 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
         </div>
         <PhotoRoll src={doctor.photo} alt={doctor.name} dir={dir} />
         <div className="doc-creds">
+          <p className="doc-langs" aria-label={doctor.creds[2]}>{doctor.creds[2]!.split(" · ").map((lang, i) => <span key={i} aria-hidden="true">{i > 0 && <span className="doc-langs-bar">|</span>}{lang}</span>)}</p>
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
           <ul>{doctor.creds.slice(0, 2).map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>
+        </div>
+        <div className="doc-actions">
           <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book doc-book" onClick={() => onBook(doctor.name)}><SwapText text="Ընտրել մասնագետին" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
-          <p className="doc-langs" aria-label={doctor.creds[2]}>{doctor.creds[2]!.split(" · ").map((lang, i) => <span key={i} aria-hidden="true">{i > 0 && <span className="doc-langs-bar">|</span>}{lang}</span>)}</p>
+          <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call doc-contact"><a href="#contact"><Phone /><SwapText text="Կապվել մեզ հետ" hover="Գրել կամ զանգել" /><ArrowUpRight /></a></Button>
         </div>
         <div className="doc-foot">
           <p className="doc-count" aria-live="polite"><Roll text={pad(index + 1)} dir={dir} />/{pad(DOCTORS.length)}</p>
