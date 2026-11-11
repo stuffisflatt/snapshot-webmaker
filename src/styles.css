@@ -2011,3 +2011,9 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-hero-tagline p.tagline-rotator { align-self: flex-start; margin-left: calc((100% - min(320px, 100% - 56px)) / 2); justify-items: start; text-align: left; }
 }
 @media (max-width: 767px) { .clinic-hero .clinic-hero-tagline p.tagline-rotator { align-self: center; margin-left: 0; justify-items: center; text-align: center; } }
+
+/* Phones: the address wears the headline's treatment too (white, difference blend over the photo). */
+@media (max-width: 767px) {
+  .clinic-hero .clinic-location { color: #fff; mix-blend-mode: difference; text-shadow: none; }
+  .clinic-hero .clinic-location > span, .clinic-hero .clinic-location strong, .clinic-hero .clinic-location small { color: inherit; text-shadow: none; }
+}
