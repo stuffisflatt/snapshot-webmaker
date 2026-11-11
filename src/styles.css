@@ -2010,3 +2010,4 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-hero-ctas { top: calc(var(--hero-base) + 174px); }
   .clinic-hero .clinic-hero-tagline p.tagline-rotator { align-self: flex-start; margin-left: calc((100% - min(320px, 100% - 56px)) / 2); justify-items: start; text-align: left; }
 }
+@media (max-width: 767px) { .clinic-hero .clinic-hero-tagline p.tagline-rotator { align-self: center; margin-left: 0; justify-items: center; text-align: center; } }
