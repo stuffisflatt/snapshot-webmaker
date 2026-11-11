@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { openContact } from "@/components/ContactSheet";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -91,6 +91,20 @@ function PhotoRoll({ src, alt, dir }: { src: string; alt: string; dir: Dir }) {
 export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void }) {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState<Dir>("next");
+  const root = useRef<HTMLElement>(null);
+  const shownIndex = useRef(0);
+  // Phones: the photo changes sideways, and the chips, language tag and arrows that sit on it slide
+  // in with it from the same side, on the photo's timing (900ms, strong ease-in-out, 70ms after).
+  useEffect(() => {
+    if (shownIndex.current === index) return;
+    shownIndex.current = index;
+    if (!window.matchMedia("(max-width: 900px)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const from = dir === "next" ? "100vw" : "-100vw";
+    root.current?.querySelectorAll<HTMLElement>(".doc-stats, .doc-langs, .doc-nav").forEach(el => {
+      el.animate([{ transform: `translate3d(${from}, 0, 0)` }, { transform: "none" }], { duration: 900, delay: 70, easing: "cubic-bezier(.77, 0, .175, 1)", fill: "backwards" });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
   const doctor = DOCTORS[index]!;
   const last = DOCTORS.length - 1;
   const go = (to: number) => {
@@ -100,7 +114,7 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
   };
 
   return (
-    <section id="doctors" className="doc" aria-roledescription="carousel" aria-label="Մեր բժիշկները">
+    <section ref={root} id="doctors" className="doc" aria-roledescription="carousel" aria-label="Մեր բժիշկները">
       <div className="doc-grid">
         <div className="doc-intro">
           <h2 className="doc-name"><span className="doc-title">Բժ․</span><Roll text={doctor.name} dir={dir} /></h2>

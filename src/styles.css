@@ -2029,3 +2029,28 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 98px); }
   .clinic-hero .clinic-hero-ctas { top: calc(var(--hero-base) + 154px); }
 }
+
+/* Buttons keep our own look: iOS 26 Safari otherwise paints its "liquid glass" over native buttons. */
+button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance: none; }
+
+/* ---- Phones: story frame is one large square ---- */
+@media (max-width: 767px) {
+  .sx .sx-video .sx-still, .sx .sx-video video { aspect-ratio: 1; object-fit: cover; }
+}
+
+/* ---- Phones and small tablets: doctors ---- */
+@media (max-width: 900px) {
+  /* The photo changes sideways: next comes in from the right, back from the left. */
+  .doc-photo { --card-x-from: 110vw; --card-x-to: -110vw; }
+  .doc-photo[data-dir="prev"] { --card-x-from: -110vw; --card-x-to: 110vw; }
+  .doc-card[data-mode="in"] { animation-name: doc-card-in-x; }
+  .doc-card[data-mode="out"] { animation-name: doc-card-out-x; }
+  /* One action, smaller, beside the credentials; the contact button is gone here. */
+  .doc .doc-actions .doc-contact { display: none; }
+  .doc .doc-creds { grid-row: span 2; }
+  .doc .doc-actions { grid-column: 2; order: 4; align-self: end; justify-self: end; }
+  .doc .doc-actions .clinic-hero-cta.doc-book { min-width: 0; min-height: 40px; padding: 8px 12px; gap: 6px; font-size: 11px; }
+  .doc .doc-arrow { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@keyframes doc-card-in-x { from { transform: translate3d(var(--card-x-from), 0, 0); } to { transform: none; } }
+@keyframes doc-card-out-x { from { transform: none; } to { transform: translate3d(var(--card-x-to), 0, 0); } }

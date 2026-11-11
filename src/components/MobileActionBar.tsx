@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
-import { CLINIC } from "@/lib/clinic";
+import { openContact } from "@/components/ContactSheet";
 
 /**
  * Phones only: booking and calling stay within thumb reach once the hero's own buttons have
@@ -25,7 +25,7 @@ export function MobileActionBar({ onBook }: { onBook: () => void }) {
   return (
     <div className="mobile-bar" data-shown={shown} inert={!shown}>
       <button type="button" className="mobile-bar-book" onClick={onBook}><CalendarCheck />Ամրագրել այցը</button>
-      <a className="mobile-bar-call" href={CLINIC.mobileHref} aria-label={`Զանգահարել ${CLINIC.mobile}`}><Phone /></a>
+      <button type="button" className="mobile-bar-call" aria-label="Կապ մեզ հետ" onClick={openContact}><Phone /></button>
     </div>
   );
 }

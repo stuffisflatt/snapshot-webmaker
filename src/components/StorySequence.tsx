@@ -136,10 +136,14 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
         const pose = videoFrame(still ? 0 : p);
         const media = frame.parentElement;
         if (media) {
+          // Phones: one large square, nearly the full screen width, instead of the widescreen frame.
           const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
-          const width = Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
+          const aspect = phone ? 1 : pose.aspect;
+          const width = phone
+            ? Math.min(window.innerWidth - 32, Math.max(220, window.innerHeight - 340))
+            : Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           frame.style.width = `${width}px`;
-          section.style.setProperty("--sx-ar", String(pose.aspect));
+          section.style.setProperty("--sx-ar", String(aspect));
         }
       }
       // Photos travel up from below the screen into the row under the video; transform
