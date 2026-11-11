@@ -1994,3 +1994,19 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-location { top: calc(18px + env(safe-area-inset-top, 0px)); bottom: auto; left: auto; right: 16px; translate: none; display: flex; flex-direction: column; align-items: flex-end; max-width: 60%; text-align: right; }
   .clinic-hero .clinic-location small { order: -1; margin: 0 0 6px; }
 }
+
+/* ---- Phones: hero, third pass ----
+   The rating lives directly in the hero (not inside the animated tagline), because Safari only blends
+   an element with what is behind it inside its own composited group. Group of rotating line, facts and
+   buttons moves 17px up; the rotating line starts at the buttons' left edge. */
+.hero-rating-m { display: none; }
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline .clinic-hero-rating { display: none; }
+  .clinic-hero .hero-rating-m { position: absolute; z-index: 2; top: calc(var(--hero-base) - 8vw - 6px); right: 8.5%; display: flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; line-height: 1.4; color: #fff; mix-blend-mode: difference; pointer-events: none; }
+  .clinic-hero .hero-rating-m span:first-child { font-size: 10px; letter-spacing: .5px; }
+  .clinic-hero .hero-rating-m svg { width: 10px; height: 10px; }
+  .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 122px); }
+  .clinic-hero .clinic-hero-ctas { top: calc(var(--hero-base) + 174px); }
+  .clinic-hero .clinic-hero-tagline p.tagline-rotator { align-self: flex-start; margin-left: calc((100% - min(320px, 100% - 56px)) / 2); justify-items: start; text-align: left; }
+}
