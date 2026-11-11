@@ -2024,3 +2024,8 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 118px); }
   .clinic-hero .clinic-hero-tagline p.tagline-rotator { margin-bottom: 8px; }
 }
+/* Phones: the hero's lower group (tagline, facts, buttons) sits 20px higher. */
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 98px); }
+  .clinic-hero .clinic-hero-ctas { top: calc(var(--hero-base) + 154px); }
+}
