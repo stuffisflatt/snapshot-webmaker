@@ -1958,3 +1958,21 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .doc .doc-actions { grid-column: 1 / -1; order: 4; }
 }
 @media (max-width: 767px) { .sx .sx-text { margin-top: 4px; } }
+
+/* ---- Phones: hero, quieter and tidier (Apple: one focal point, clear hierarchy, room to tap) ----
+   Only the menu icon stays in the corner; "Dental Clinic" gives its place under the logo to a small
+   rating (stars, Google mark, 147+); the facts read as one light line; the two actions are full,
+   comfortable tap targets of equal width. */
+@media (max-width: 767px) {
+  .m-nav-btn[aria-label="Կապ մեզ հետ"] { display: none; }
+  .clinic-headline span.clinic-headline-sub { visibility: hidden; }
+  .hero-rating-word { display: none; }
+  .clinic-hero-tagline .clinic-hero-rating { position: absolute; top: -8vw; right: 8.5%; left: auto; width: max-content; margin: 0; gap: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0; color: #fff; }
+  .clinic-hero-tagline .clinic-hero-rating span:first-child { font-size: 10px; letter-spacing: .5px; }
+  .clinic-hero-tagline .clinic-hero-rating svg { width: 10px; height: 10px; }
+  .clinic-hero-tagline ul { gap: 10px; font-size: 12px; font-weight: 500; letter-spacing: 0; }
+  .clinic-hero-tagline ul li + li::before { content: "·"; margin-right: 10px; opacity: .7; }
+  .clinic-hero-ctas { width: min(320px, calc(100% - 56px)); gap: 10px; }
+  .clinic-hero-ctas .clinic-hero-cta { max-width: none; min-height: 52px; border-radius: 16px; font-size: 14px; font-weight: 500; }
+  .clinic-hero-ctas .clinic-hero-cta svg { width: 18px; height: 18px; }
+}
