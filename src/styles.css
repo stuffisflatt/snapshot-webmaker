@@ -2017,3 +2017,10 @@ button, [role="button"], .clinic-hero-cta, .bk-chip, .bk-day, .ct-row, .m-nav-bt
   .clinic-hero .clinic-location { color: #fff; mix-blend-mode: difference; text-shadow: none; }
   .clinic-hero .clinic-location > span, .clinic-hero .clinic-location strong, .clinic-hero .clinic-location small { color: inherit; text-shadow: none; }
 }
+
+/* Phones: a touch more air in the hero's lower group (8px inside the text pair, 10px to the buttons),
+   gained by lifting the text so the buttons stay put. */
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 118px); }
+  .clinic-hero .clinic-hero-tagline p.tagline-rotator { margin-bottom: 8px; }
+}
