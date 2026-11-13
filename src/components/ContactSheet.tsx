@@ -45,7 +45,7 @@ export function ContactSheet() {
           </div>
           <button type="button" className="bk-close" aria-label="Փակել" onClick={() => close()}><X /></button>
         </header>
-        <p className="ct-lede">Գրեք կամ զանգահարեք․ կպատասխանենք աշխատանքային ժամերին։</p>
+        <p className="ct-lede">Գրեք կամ զանգահարեք․ կապ ենք մնում <strong>{CLINIC.hours}</strong>։</p>
         <ul className="ct-list">
           {ROWS.map(row => (
             <li key={row.label}>

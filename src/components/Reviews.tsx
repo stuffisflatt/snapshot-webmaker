@@ -3,6 +3,7 @@ import { ArrowUpRight, Star } from "lucide-react";
 import { Arrow, Roll, type Dir } from "@/components/DoctorShowcase";
 import { useRevealOnce } from "@/components/Highlights";
 import { SwapText } from "@/components/HeroHeader";
+import { useSwipe } from "@/components/useSwipe";
 
 /** source "google" shows the Google mark; use it only for reviews actually copied from Google. */
 export type Review = { id: number; name: string; role: string; content: string; rating: number; sample?: boolean; source?: "google" };
@@ -26,12 +27,13 @@ export function Reviews({ reviews, rating, ratingCount, ratingHref, sampleLabel 
     setDir(to > index ? "next" : "prev");
     setIndex(to);
   };
+  const swipe = useSwipe(step => go(index + step));
 
   return (
     <section ref={ref} id="reviews" className="rv dark-sec" aria-roledescription="carousel" aria-labelledby="reviews-title">
       <div className="dark-inner rv-grid">
         <div className="rv-intro">
-          <p className="dark-caption dark-rise">(Կարծիքներ)</p>
+          <p className="rv-mark dark-rise" aria-hidden="true">“</p>
           <h2 id="reviews-title" className="dark-title dark-rise">Ինչ են ասում <span className="dark-title-serif">պացիենտները</span></h2>
           <a className="rv-rating dark-rise" href={ratingHref} target="_blank" rel="noopener noreferrer">
             <span className="rv-score">{rating}</span>
@@ -43,7 +45,7 @@ export function Reviews({ reviews, rating, ratingCount, ratingHref, sampleLabel 
           </a>
         </div>
 
-        <figure className="rv-quote rv-card dark-rise" aria-live="polite">
+        <figure className="rv-quote rv-card dark-rise" aria-live="polite" {...swipe}>
           <figcaption className="rv-head">
             <span className="rv-avatar" aria-hidden="true">{review.name.charAt(0)}</span>
             <span className="rv-who">

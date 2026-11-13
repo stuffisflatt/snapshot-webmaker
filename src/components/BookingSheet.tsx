@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Phone, X } from "lucide-react";
+import { ArrowUpRight, MessageCircle, Phone, X } from "lucide-react";
 import { CLINIC, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
 import { useSheet } from "@/components/useSheet";
 import { SwapText } from "@/components/HeroHeader";
@@ -41,7 +41,7 @@ function Chips<T extends string>({ label, options, value, onChange }: { label: s
 /**
  * Booking as a frosted sheet: it rises from the bottom on phones and settles in the centre on
  * larger screens, over a dimmed, blurred page. Choices are tappable chips rather than dropdowns.
- * This concept build sends nothing: the visitor finishes online or by phone.
+ * Sending opens WhatsApp with the request written out; the clinic confirms the day and time.
  */
 export function BookingSheet({ open, preset, onClose }: { open: boolean; preset: BookingPreset; onClose: () => void }) {
   const [mounted, setMounted] = useState(false);
@@ -49,6 +49,8 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
   const [doctor, setDoctor] = useState(FIRST_AVAILABLE);
   const [day, setDay] = useState("");
   const [time, setTime] = useState("morning");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const days = useMemo(() => (mounted ? nextDays() : []), [mounted]);
   const { ref, closing, close, reopen } = useSheet(open, onClose);
 
@@ -59,11 +61,28 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
     setService(preset.service ?? CONSULT);
     setDoctor(preset.doctor ?? FIRST_AVAILABLE);
     setDay("");
+    setTime("morning");
     reopen();
   }, [open, preset, reopen]);
 
   if (!open) return null;
   const doctors = [FIRST_AVAILABLE, ...DOCTORS.map(d => d.name), ...(preset.doctor && !DOCTORS.some(d => d.name === preset.doctor) ? [preset.doctor] : [])];
+
+  // The request goes to the clinic's WhatsApp as a ready-written message; the visitor only taps Send.
+  const send = () => {
+    const d = days.find(x => x.key === day);
+    const t = TIMES.find(x => x.id === time)!;
+    const lines = [
+      "Բարև Ձեզ, ցանկանում եմ ամրագրել այց։",
+      `Ծառայություն՝ ${service}`,
+      `Բժիշկ՝ ${doctor}`,
+      `Օր՝ ${d ? `${d.day}, ${d.date} ${d.month}` : "ցանկացած"}`,
+      `Ժամ՝ ${t.label} (${t.hint})`,
+      name.trim() && `Անուն՝ ${name.trim()}`,
+      phone.trim() && `Հեռախոս՝ ${phone.trim()}`,
+    ].filter(Boolean).join("\n");
+    window.open(`https://wa.me/${CLINIC.bookingWhatsApp}?text=${encodeURIComponent(lines)}`, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="bk" data-state={closing ? "closing" : "open"} role="dialog" aria-modal="true" aria-labelledby="booking-title">
@@ -72,13 +91,13 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
         <span className="bk-grabber" aria-hidden="true" />
         <header className="bk-head">
           <div>
-            <p className="bk-caption">(Ամրագրում)</p>
+            <p className="bk-caption bk-rating"><span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք Google-ում</p>
             <h2 id="booking-title" className="bk-title">Ամրագրել <span className="bk-serif">այցը</span></h2>
           </div>
           <button type="button" className="bk-close" aria-label="Փակել" onClick={() => close()}><X /></button>
         </header>
 
-        <form className="bk-form" onSubmit={e => e.preventDefault()}>
+        <form className="bk-form" onSubmit={e => { e.preventDefault(); send(); }}>
           <Chips label="Ծառայություն" value={service} onChange={setService}
             options={[{ id: CONSULT, text: CONSULT }, ...SERVICES.map(s => ({ id: s.title, text: s.title }))]} />
           <Chips label="Բժիշկ" value={doctor} onChange={setDoctor} options={doctors.map(d => ({ id: d, text: d }))} />
@@ -96,15 +115,15 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
           <Chips label="Ժամ" value={time} onChange={setTime} options={TIMES.map(t => ({ id: t.id, text: t.label, hint: t.hint }))} />
 
           <div className="bk-fields">
-            <label className="bk-field"><span className="bk-label">Անուն</span><input autoComplete="name" placeholder="Ձեր անունը" /></label>
-            <label className="bk-field"><span className="bk-label">Հեռախոս</span><input type="tel" autoComplete="tel" inputMode="tel" placeholder="+374" /></label>
+            <label className="bk-field"><span className="bk-label">Անուն</span><input autoComplete="name" placeholder="Ձեր անունը" value={name} onChange={e => setName(e.target.value)} /></label>
+            <label className="bk-field"><span className="bk-label">Հեռախոս</span><input type="tel" autoComplete="tel" inputMode="tel" placeholder="+374" value={phone} onChange={e => setPhone(e.target.value)} /></label>
           </div>
 
           <div className="bk-actions">
-            <a className="clinic-hero-cta clinic-hero-cta-book" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><SwapText text="Ամրագրել առցանց" hover="Բացել քարտեզում" /><ArrowUpRight /></a>
+            <button type="submit" className="clinic-hero-cta clinic-hero-cta-book"><MessageCircle /><SwapText text="Ուղարկել WhatsApp-ով" hover="Պատրաստ է ուղարկման" /><ArrowUpRight /></button>
             <a className="clinic-hero-cta clinic-hero-cta-call" href={CLINIC.mobileHref}><Phone /><SwapText text="Զանգահարել" hover={CLINIC.mobile} /><ArrowUpRight /></a>
           </div>
-          <p className="bk-note">Կլինիկան կհաստատի օրը և ժամը։ Այս տարբերակում տվյալները չեն ուղարկվում․ ավարտեք առցանց կամ զանգով։</p>
+          <p className="bk-note">Կբացվի WhatsApp-ը՝ պատրաստի հաղորդագրությամբ։ Կլինիկան կհաստատի օրը և ժամը։</p>
         </form>
       </div>
     </div>

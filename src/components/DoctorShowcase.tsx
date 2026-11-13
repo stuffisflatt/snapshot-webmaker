@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { openContact } from "@/components/ContactSheet";
+import { useSwipe } from "@/components/useSwipe";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
@@ -82,8 +83,9 @@ export function Roll({ text, dir, byWord, delay = 0 }: { text: string; dir: Dir;
  * each card also carries that doctor's stat chips, language tag and arrows, so they leave and arrive
  * with their photo instead of vanishing (`overlay` draws them; `live` is false on the outgoing card).
  */
-function PhotoRoll({ index, dir, overlay }: { index: number; dir: Dir; overlay: (i: number, live: boolean) => ReactNode }) {
+function PhotoRoll({ index, dir, overlay, onSwipe }: { index: number; dir: Dir; overlay: (i: number, live: boolean) => ReactNode; onSwipe: (step: 1 | -1) => void }) {
   const { current, previous, turn } = useHandover(index);
+  const swipe = useSwipe(onSwipe);
   const card = (i: number, mode: string, live: boolean) => (
     <figure key={`${mode}-${turn}`} className="doc-card" data-mode={mode} aria-hidden={!live || undefined}>
       <div className="doc-card-clip"><img src={DOCTORS[i]!.photo} alt={live ? DOCTORS[i]!.name : ""} width={800} height={898} /></div>
@@ -91,7 +93,7 @@ function PhotoRoll({ index, dir, overlay }: { index: number; dir: Dir; overlay: 
     </figure>
   );
   return (
-    <div className="doc-photo" data-dir={dir}>
+    <div className="doc-photo" data-dir={dir} {...swipe}>
       {card(current, turn ? "in" : "static", true)}
       {previous !== null && card(previous, "out", false)}
     </div>
@@ -143,7 +145,7 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
           <p className="doc-caption">(Մասնագիտացում)</p>
           <ul>{[0, 1, 2].map(i => <li key={i}><Roll text={doctor.specs[i] ?? ""} dir={dir} delay={90 + i * 50} /></li>)}</ul>
         </div>
-        <PhotoRoll index={index} dir={dir} overlay={overlay} />
+        <PhotoRoll index={index} dir={dir} overlay={overlay} onSwipe={step => go(index + step)} />
         <div className="doc-creds">
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
           <ul>{doctor.creds.slice(0, 2).map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>

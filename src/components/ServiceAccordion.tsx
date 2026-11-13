@@ -105,6 +105,7 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
               <div className="service-panel-clip">
                 <div className="service-panel-content">
                   <p className="text-muted-foreground">{service.text}</p>
+                  <p className="service-price">սկսած {service.from} ֏</p>
                   <Button className="btn btn-primary mt-4 text-sm" onClick={() => onBook(service.title)}>Ամրագրել այս ծառայության համար</Button>
                 </div>
               </div>
