@@ -246,6 +246,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
               {stills
                 ? <img ref={frameRef} className="sx-still" src={storyFrameSrc(0)} alt="" aria-hidden="true" width={720} height={405} decoding="async" />
                 : src && <video ref={videoRef} src={blobSrc} poster={posterSrc} muted playsInline preload="auto" aria-hidden="true" disablePictureInPicture />}
+              <span className="sx-video-count" aria-hidden="true">{step + 1}/{STEPS.length}</span>
             </div>
           </div>
           <div className="sx-text">
@@ -262,6 +263,11 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
                   </div></div>}
                 </div>
               ))}
+            </div>
+            {/* Phones: the two buttons stay under every step, not only the last. */}
+            <div className="sx-actions sx-actions-m">
+              <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight /></Button>
+              <Button asChild variant="ghost" className="clinic-hero-cta clinic-hero-cta-call"><a href="#contact" onClick={event => { event.preventDefault(); openContact(); }}><Phone /><SwapText text="Կապ մեզ հետ" hover="Գրել կամ զանգել" /><ArrowUpRight /></a></Button>
             </div>
           </div>
         </div>

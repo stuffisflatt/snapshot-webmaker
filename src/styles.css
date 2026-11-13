@@ -2136,11 +2136,8 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .sx .sx-step .sx-count { display: inline; }
 }
 
-/* ---- Doctors on phones: a larger page counter, and the photo follows a finger swipe ---- */
+/* ---- Doctors: the photo follows a finger swipe ---- */
 .doc-photo { touch-action: pan-y; }
-@media (max-width: 767px) {
-  .doc .doc-foot .doc-count { font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
-}
 
 /* ---- Services: a typical starting price under each description ---- */
 .service-price { margin: 10px 0 0; font-size: 14px; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--foreground); }
@@ -2184,10 +2181,39 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 .clinic-hero .clinic-hero-tagline ul li { padding: 4px 10px; border: 1px solid var(--hero-ink); border-radius: 8px; background: var(--hero-ink); color: #fff; font-size: 11.5px; font-weight: 500; line-height: 1.3; letter-spacing: 0; white-space: nowrap; text-shadow: none; }
 .clinic-hero .clinic-hero-tagline ul li + li::before { content: none; }
 
-/* ---- Hero: the Google stars tuck in right under the wordmark ---- */
-@media (min-width: 768px) {
-  .clinic-hero .clinic-hero-tagline .clinic-hero-rating { top: -82px; left: 100%; }
-}
+/* ---- Hero on phones: the Google stars tuck in right under the wordmark ---- */
 @media (max-width: 767px) {
   .clinic-hero .hero-rating-m { top: calc(var(--hero-base) - 8vw - 11px); }
+}
+
+/* ---- Story on phones, second pass: step count on the frame's corner, title 13px above the
+   frame, and both buttons under every step ---- */
+.sx-video-count, .sx .sx-actions-m { display: none; }
+@media (max-width: 767px) {
+  .sx .sx-step .sx-line:has(.sx-num), .sx .sx-step .sx-line:has(.sx-actions) { display: none; }
+  .sx .sx-step .sx-line:has(.sx-title) { right: 0; top: calc(-1 * (var(--sx-frame, 343px) + 8px)); }
+  .sx .sx-video { position: relative; }
+  .sx .sx-video-count { display: block; position: absolute; right: 10px; bottom: 10px; padding: 3px 9px; border-radius: 999px; background: rgb(0 0 0 / .45); color: #fff; font-size: 12px; font-weight: 600; line-height: 1.3; letter-spacing: .02em; font-variant-numeric: tabular-nums; pointer-events: none; }
+  .sx .sx-actions-m { display: flex; margin-top: 4px; }
+}
+
+/* ---- Phone hero: a call icon beside the menu; the contact button gives its place to the value line ---- */
+@media (max-width: 767px) {
+  .m-nav { justify-content: flex-start; gap: 10px; }
+  .m-nav .m-nav-btn[aria-label="Կապ մեզ հետ"] { display: grid; }
+  .clinic-hero .clinic-hero-ctas .clinic-hero-cta-call { display: none; }
+  .clinic-hero .clinic-hero-tagline { top: calc(var(--hero-base) + 98px); }
+  .clinic-hero .clinic-hero-ctas { top: calc(var(--hero-base) + 166px); }
+  .clinic-hero .clinic-hero-tagline p.hero-value { position: absolute; top: 132px; left: 50%; translate: -50% 0; margin: 0; }
+}
+
+/* ---- Doctors on phones: the button's bottom lines up with the credentials' last line ---- */
+@media (max-width: 767px) {
+  .doc .doc-actions { margin-top: 0; align-self: end; }
+}
+@media (max-width: 767px) {
+  /* The step text block is only as tall as the longest step, and the whole group (title above the
+     frame included) sits in the middle of the screen. */
+  .sx .sx-steps { height: 130px; }
+  .sx .sx-stage { align-content: center; padding-top: 39px; padding-bottom: calc(100lvh - 100svh); }
 }

@@ -3,23 +3,30 @@ import { CalendarCheck, Phone } from "lucide-react";
 import { openContact } from "@/components/ContactSheet";
 
 /**
- * Phones only: booking and calling stay within thumb reach once the hero's own buttons have
- * scrolled away, and step aside at the contact section, which carries the same two actions.
+ * Phones only: booking and calling stay within thumb reach from the services section on, and step aside at the contact section, which carries the same two actions.
  */
 export function MobileActionBar({ onBook }: { onBook: () => void }) {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const hero = document.querySelector(".clinic-hero");
+    const services = document.getElementById("services");
     const contact = document.getElementById("contact");
-    if (!hero || !contact) return;
-    let pastHero = false, atContact = false;
-    const update = () => setShown(pastHero && !atContact);
-    const heroIo = new IntersectionObserver(([e]) => { pastHero = !(e?.isIntersecting ?? true); update(); }, { threshold: .15 });
-    const contactIo = new IntersectionObserver(([e]) => { atContact = e?.isIntersecting ?? false; update(); });
-    heroIo.observe(hero);
-    contactIo.observe(contact);
-    return () => { heroIo.disconnect(); contactIo.disconnect(); };
+    if (!services || !contact) return;
+    // The bar arrives once the services section fills half the screen (the story and doctors carry
+    // their own buttons) and leaves while the contact section is in view.
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const h = window.innerHeight, c = contact.getBoundingClientRect();
+      const reached = services.getBoundingClientRect().top < h * .5;
+      const atContact = c.top < h && c.bottom > 0;
+      setShown(reached && !atContact);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(check); };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
 
   return (
