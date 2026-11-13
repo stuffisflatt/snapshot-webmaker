@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { openContact } from "@/components/ContactSheet";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -77,13 +77,23 @@ export function Roll({ text, dir, byWord, delay = 0 }: { text: string; dir: Dir;
   );
 }
 
-/** Each portrait is its own card: the old card flies up off the screen while the next rises from below into its place. */
-function PhotoRoll({ src, alt, dir }: { src: string; alt: string; dir: Dir }) {
-  const { current, previous, turn } = useHandover(src);
+/**
+ * Each portrait is its own card: the old card flies off while the next comes into its place. On phones
+ * each card also carries that doctor's stat chips, language tag and arrows, so they leave and arrive
+ * with their photo instead of vanishing (`overlay` draws them; `live` is false on the outgoing card).
+ */
+function PhotoRoll({ index, dir, overlay }: { index: number; dir: Dir; overlay: (i: number, live: boolean) => ReactNode }) {
+  const { current, previous, turn } = useHandover(index);
+  const card = (i: number, mode: string, live: boolean) => (
+    <figure key={`${mode}-${turn}`} className="doc-card" data-mode={mode} aria-hidden={!live || undefined}>
+      <div className="doc-card-clip"><img src={DOCTORS[i]!.photo} alt={live ? DOCTORS[i]!.name : ""} width={800} height={898} /></div>
+      {overlay(i, live)}
+    </figure>
+  );
   return (
     <div className="doc-photo" data-dir={dir}>
-      <figure key={`in-${turn}`} className="doc-card" data-mode={turn ? "in" : "static"}><img src={current} alt={alt} width={800} height={898} /></figure>
-      {previous !== null && <figure key={`out-${turn}`} className="doc-card" data-mode="out" aria-hidden="true"><img src={previous} alt="" width={800} height={898} /></figure>}
+      {card(current, turn ? "in" : "static", true)}
+      {previous !== null && card(previous, "out", false)}
     </div>
   );
 }
@@ -91,20 +101,6 @@ function PhotoRoll({ src, alt, dir }: { src: string; alt: string; dir: Dir }) {
 export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void }) {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState<Dir>("next");
-  const root = useRef<HTMLElement>(null);
-  const shownIndex = useRef(0);
-  // Phones: the photo changes sideways, and the chips, language tag and arrows that sit on it slide
-  // in with it from the same side, on the photo's timing (900ms, strong ease-in-out, 70ms after).
-  useEffect(() => {
-    if (shownIndex.current === index) return;
-    shownIndex.current = index;
-    if (!window.matchMedia("(max-width: 900px)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const from = dir === "next" ? "100vw" : "-100vw";
-    root.current?.querySelectorAll<HTMLElement>(".doc-stats, .doc-langs, .doc-nav").forEach(el => {
-      el.animate([{ transform: `translate3d(${from}, 0, 0)` }, { transform: "none" }], { duration: 900, delay: 70, easing: "cubic-bezier(.77, 0, .175, 1)", fill: "backwards" });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
   const doctor = DOCTORS[index]!;
   const last = DOCTORS.length - 1;
   const go = (to: number) => {
@@ -112,9 +108,28 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
     setDir(to > index ? "next" : "prev");
     setIndex(to);
   };
+  // Phones: what sits on the photo travels with it. The live card gets working arrows; the outgoing
+  // card keeps a still copy of its own, so nothing pops out of place mid-swap.
+  const overlay = (i: number, live: boolean) => {
+    const d = DOCTORS[i]!;
+    return (
+      <div className="doc-card-over">
+        <ul className="doc-stats doc-card-stats">{d.stats.map((stat, s) => <li key={s} className="doc-chip">{stat}</li>)}</ul>
+        <p className="doc-langs doc-card-langs">{d.creds[2]!.split(" · ").map((lang, l) => <span key={l}>{l > 0 && <span className="doc-langs-bar">|</span>}{lang}</span>)}</p>
+        <div className="doc-nav doc-card-nav">
+          <button type="button" className="doc-arrow doc-prev" tabIndex={live ? 0 : -1} onClick={live ? () => go(i - 1) : undefined} aria-label="Նախորդ բժիշկը" data-shown={i > 0} disabled={!live || i === 0}>
+            <span className="doc-next-arrows"><Arrow /><Arrow /></span>
+          </button>
+          <button type="button" className="doc-arrow doc-next" tabIndex={live ? 0 : -1} onClick={live ? () => go(i + 1) : undefined} aria-label="Հաջորդ բժիշկը" data-shown={i < last} disabled={!live || i === last}>
+            <span className="doc-next-arrows"><Arrow /><Arrow /></span>
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <section ref={root} id="doctors" className="doc" aria-roledescription="carousel" aria-label="Մեր բժիշկները">
+    <section id="doctors" className="doc" aria-roledescription="carousel" aria-label="Մեր բժիշկները">
       <div className="doc-grid">
         <div className="doc-intro">
           <h2 className="doc-name"><span className="doc-title">Բժ․</span><Roll text={doctor.name} dir={dir} /></h2>
@@ -128,7 +143,7 @@ export function DoctorShowcase({ onBook }: { onBook: (doctor: string) => void })
           <p className="doc-caption">(Մասնագիտացում)</p>
           <ul>{[0, 1, 2].map(i => <li key={i}><Roll text={doctor.specs[i] ?? ""} dir={dir} delay={90 + i * 50} /></li>)}</ul>
         </div>
-        <PhotoRoll src={doctor.photo} alt={doctor.name} dir={dir} />
+        <PhotoRoll index={index} dir={dir} overlay={overlay} />
         <div className="doc-creds">
           <p className="doc-caption">(Կրթություն և լեզուներ)</p>
           <ul>{doctor.creds.slice(0, 2).map((cred, i) => <li key={i}><Roll text={cred} dir={dir} delay={80 + i * 50} /></li>)}</ul>

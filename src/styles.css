@@ -2054,3 +2054,22 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 }
 @keyframes doc-card-in-x { from { transform: translate3d(var(--card-x-from), 0, 0); } to { transform: none; } }
 @keyframes doc-card-out-x { from { transform: none; } to { transform: translate3d(var(--card-x-to), 0, 0); } }
+
+/* Doctor cards: the photo is clipped by its own rounded layer, so things placed on the card can
+   straddle its edges and travel with it. */
+.doc-card { overflow: visible; background: none; }
+.doc-card-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 22px; background: #d9d9dc; }
+.doc-card-over { display: none; }
+@media (max-width: 900px) {
+  /* Chips straddle the photo's top edge, the language tag its bottom edge, arrows sit inside the
+     bottom-right corner; all belong to the card, so they move with the photo. */
+  .doc .doc-intro .doc-stats, .doc .doc-creds .doc-langs, .doc .doc-foot .doc-nav { display: none; }
+  .doc-card-over { display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .doc .doc-card-stats { position: absolute; top: 0; left: 0; margin: 0; transform: translateY(-50%); }
+  .doc .doc-card-langs { position: absolute; bottom: 0; left: 0; margin: 0; transform: translateY(50%); }
+  .doc .doc-card-nav { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 12px; pointer-events: auto; }
+  .doc .doc-intro { margin-bottom: 0; }
+  .doc .doc-creds { margin-top: 0; }
+  .doc .doc-foot { margin-top: -14px; margin-right: 0; }
+  .doc .doc-foot .doc-count { margin-right: 0; }
+}
