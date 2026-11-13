@@ -2073,3 +2073,29 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .doc .doc-foot { margin-top: -14px; margin-right: 0; }
   .doc .doc-foot .doc-count { margin-right: 0; }
 }
+
+/* ---- Phones: doctors button solid first, top-aligned with the credentials ---- */
+@media (max-width: 900px) {
+  .doc .doc-actions { align-self: start; }
+  .doc .doc-actions .clinic-hero-cta.doc-book { background: var(--hero-ink); border-color: var(--hero-ink); color: #fff; transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 120ms ease-out; }
+  .doc .doc-actions .clinic-hero-cta.doc-book:active { background: transparent; border-color: rgb(34 35 38 / .3); color: var(--hero-ink); }
+}
+
+/* ---- Phones: services cards are plain outlines, nothing drawn behind them ---- */
+@media (max-width: 767px) {
+  .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]),
+  .sky-zone .services-section .service-item[data-open="true"] {
+    background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .sky-zone .services-section .service-item::before { content: none; }
+}
+
+/* Phones: explicit areas under the photo, so the button starts level with the credentials; the
+   counter keeps its own short row just under the photo's right edge. */
+@media (max-width: 900px) {
+  .doc .doc-grid { grid-template-areas: "intro intro" "photo photo" ". foot" "creds actions"; }
+  .doc .doc-intro { grid-area: intro; }
+  .doc .doc-photo { grid-area: photo; }
+  .doc .doc-foot { grid-area: foot; margin-top: -14px; }
+  .doc .doc-creds { grid-area: creds; margin-top: -16px; }
+  .doc .doc-actions { grid-area: actions; margin-top: -16px; align-self: start; }
+}
