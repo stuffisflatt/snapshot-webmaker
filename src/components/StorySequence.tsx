@@ -45,7 +45,9 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   // on a network range request. Starts about a screen and a half before the section.
   useEffect(() => {
     const section = ref.current;
-    if (!src || !section || stills) return;
+    // Touch screens show stills: never download the clip there (checked directly, as the stills
+    // flag is only set after the first render).
+    if (!src || !section || stills || window.matchMedia("(pointer: coarse)").matches) return;
     let url: string | undefined, cancelled = false;
     const controller = new AbortController();
     const observer = new IntersectionObserver(entries => {

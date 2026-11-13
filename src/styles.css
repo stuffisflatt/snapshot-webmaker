@@ -2099,3 +2099,20 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .doc .doc-creds { grid-area: creds; margin-top: -16px; }
   .doc .doc-actions { grid-area: actions; margin-top: -16px; align-self: start; }
 }
+
+/* ---- Phones: lighter downloads ----
+   The services photo is only ever seen as its centre strip on a tall phone screen; phones load that
+   strip alone (same pixels, ~100 KB instead of ~560 KB). */
+@media (max-width: 767px) {
+  .sky-zone .services-section::before { background-image: url("/media/services-bg-phone.webp"); }
+}
+
+/* ---- Phones: comfortable tap and reading sizes found in the QA pass ----
+   Doctor booking button reaches the 44px touch minimum; the story's two buttons read at 13px. */
+@media (max-width: 900px) {
+  .doc .doc-actions .clinic-hero-cta.doc-book { min-height: 44px; }
+}
+@media (max-width: 767px) {
+  .sx .sx-actions .clinic-hero-cta { min-height: 46px; font-size: 13px; }
+}
+@media (max-width: 767px) { .sky-zone .services-section .service-item::before { background-image: none; } }

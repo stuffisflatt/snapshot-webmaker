@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ArrowUpRight, Facebook, Instagram, MessageCircle, MessagesSquare, Phone, X } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
-import { setSmoothScrollPaused } from "@/components/SmoothScroll";
+import { useSheet } from "@/components/useSheet";
 
 /** Any "Contact us" button opens the sheet through this event, so it works from every section. */
 export const CONTACT_EVENT = "alphastom:contact";
 export const openContact = () => window.dispatchEvent(new Event(CONTACT_EVENT));
 
-const EXIT_MS = 260;
 const DIGITS = CLINIC.mobileHref.replace("tel:+", "");
 
 // Two rows of three: calls and Instagram, then the messengers and Facebook.
@@ -23,43 +22,20 @@ const ROWS: { icon: ReactNode; label: string; value: string; href: string; exter
 
 /** Contact as the same frosted sheet as booking: every way to reach the clinic, one tap each. */
 export function ContactSheet() {
-  const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const [closing, setClosing] = useState(false);
+  const { ref, closing, close, reopen } = useSheet(open, () => setOpen(false));
 
+  // Opening while the sheet is still leaving cancels the exit instead of being undone by it.
   useEffect(() => {
-    const show = () => { setClosing(false); setOpen(true); };
+    const show = () => { setOpen(true); reopen(); };
     window.addEventListener(CONTACT_EVENT, show);
     return () => window.removeEventListener(CONTACT_EVENT, show);
-  }, []);
-
-  const close = useCallback(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setOpen(false); return; }
-    setClosing(true);
-    window.setTimeout(() => { setOpen(false); setClosing(false); }, EXIT_MS);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = "hidden";
-    setSmoothScrollPaused(true);
-    const focus = window.setTimeout(() => ref.current?.querySelector<HTMLElement>(".bk-close")?.focus(), 60);
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.clearTimeout(focus);
-      document.body.style.overflow = "";
-      setSmoothScrollPaused(false);
-      window.removeEventListener("keydown", onKey);
-      prev?.focus();
-    };
-  }, [open, close]);
+  }, [reopen]);
 
   if (!open) return null;
   return (
     <div className="bk" data-state={closing ? "closing" : "open"} role="dialog" aria-modal="true" aria-labelledby="contact-title">
-      <button className="bk-scrim" aria-label="Փակել" tabIndex={-1} onClick={close} />
+      <button className="bk-scrim" aria-label="Փակել" tabIndex={-1} onClick={() => close()} />
       <div ref={ref} className="bk-sheet ct-sheet" data-lenis-prevent>
         <span className="bk-grabber" aria-hidden="true" />
         <header className="bk-head">
@@ -67,7 +43,7 @@ export function ContactSheet() {
             <p className="bk-caption">(Կապ)</p>
             <h2 id="contact-title" className="bk-title">Կապ <span className="bk-serif">մեզ հետ</span></h2>
           </div>
-          <button type="button" className="bk-close" aria-label="Փակել" onClick={close}><X /></button>
+          <button type="button" className="bk-close" aria-label="Փակել" onClick={() => close()}><X /></button>
         </header>
         <p className="ct-lede">Գրեք կամ զանգահարեք․ կպատասխանենք աշխատանքային ժամերին։</p>
         <ul className="ct-list">

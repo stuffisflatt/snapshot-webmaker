@@ -76,6 +76,7 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
       <HeroDots containerRef={hero} />
       <div className="clinic-hero-film" aria-hidden="true">
         <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/hero-poster.webp" disablePictureInPicture>
+          <source src="/media/hero-phone.mp4" type="video/mp4" media="(max-width: 767px)" />
           <source src="/media/hero.mp4" type="video/mp4" />
         </video>
       </div>

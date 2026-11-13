@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowUpRight, Menu, Phone, X } from "lucide-react";
 import { openContact } from "@/components/ContactSheet";
-import { setSmoothScrollPaused } from "@/components/SmoothScroll";
+import { useSheet } from "@/components/useSheet";
 
 const SECTIONS = [
   { id: "how", label: "Ինչպես ենք աշխատում" },
@@ -12,47 +12,23 @@ const SECTIONS = [
   { id: "reviews", label: "Կարծիքներ" },
   { id: "faq", label: "Հարցեր" },
 ];
-const EXIT_MS = 260;
 
 /**
  * Phones only: two round frosted icons sitting in the hero (menu and contact). They belong to the
  * first screen and scroll away with it; the menu opens the same frosted sheet as booking.
  */
 export function MobileNav() {
-  const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const [closing, setClosing] = useState(false);
+  const { ref, closing, close, reopen } = useSheet(open, () => setOpen(false));
+  const show = () => { setOpen(true); reopen(); };
 
-  const close = useCallback((then?: () => void) => {
-    const done = () => { setOpen(false); setClosing(false); then?.(); };
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { done(); return; }
-    setClosing(true);
-    window.setTimeout(done, EXIT_MS);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = "hidden";
-    setSmoothScrollPaused(true);
-    const focus = window.setTimeout(() => ref.current?.querySelector<HTMLElement>(".bk-close")?.focus(), 60);
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.clearTimeout(focus);
-      document.body.style.overflow = "";
-      setSmoothScrollPaused(false);
-      window.removeEventListener("keydown", onKey);
-      prev?.focus();
-    };
-  }, [open, close]);
-
+  // The jump runs once the sheet has closed and the page can scroll again.
   const go = (id: string) => close(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }));
 
   return (
     <>
       <div className="m-nav">
-        <button type="button" className="m-nav-btn" aria-label="Մենյու" aria-expanded={open} onClick={() => setOpen(true)}><Menu /></button>
+        <button type="button" className="m-nav-btn" aria-label="Մենյու" aria-expanded={open} onClick={show}><Menu /></button>
         <button type="button" className="m-nav-btn" aria-label="Կապ մեզ հետ" onClick={openContact}><Phone /></button>
       </div>
       {open && createPortal(
