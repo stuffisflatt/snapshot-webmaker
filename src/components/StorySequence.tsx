@@ -145,6 +145,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
             ? Math.min(window.innerWidth - 32, Math.max(220, window.innerHeight - 340))
             : Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           frame.style.width = `${width}px`;
+          section.style.setProperty("--sx-frame", `${width}px`);
           section.style.setProperty("--sx-ar", String(aspect));
         }
       }

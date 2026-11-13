@@ -10,9 +10,8 @@ export const CLINIC = {
   // Replace with the clinic's Facebook page; until then this opens a Facebook search for the clinic.
   facebook: "https://www.facebook.com/search/top?q=Alphastom%20Dental%20Clinic",
   yandex: "https://yandex.com/maps/org/alphastom/33222583956/",
-  yandexId: "33222583956",
   rating: "4.8/5",
-  ratingCount: 149,
+  ratingCount: "147+",
   founded: 2002,
   hours: "24/7",
   // Booking requests go to this WhatsApp number. It is a test number: it is only ever used inside

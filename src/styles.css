@@ -2153,10 +2153,41 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* ---- Booking sheet: the Google rating as its small header line ---- */
 .bk-caption.bk-rating span { color: #fbbc04; }
 
-/* ---- Contact: "open 24/7" line and a small map ---- */
+/* ---- Contact: "open 24/7" line ---- */
 .contact-open { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 6px 12px; border: 1px solid currentColor; border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .01em; opacity: .85; }
-.contact-open > span:not(.contact-open-dot) { color: #fbbc04; }
-.contact-open-dot { width: 7px; height: 7px; border-radius: 50%; background: #34c759; box-shadow: 0 0 0 3px rgb(52 199 89 / .25); }
-.contact-map { margin-top: 2rem; overflow: hidden; border-radius: 18px; border: 1px solid var(--border); aspect-ratio: 16 / 7; background: rgb(0 0 0 / .05); }
-.contact-map iframe { display: block; width: 100%; height: 100%; border: 0; }
-@media (max-width: 767px) { .contact-map { aspect-ratio: 4 / 3; margin-top: 1.5rem; border-radius: 16px; } }
+.contact-open > span { color: #fbbc04; }
+
+/* ---- Services on phones: barely-there black at rest, half black when open ---- */
+@media (max-width: 767px) {
+  .sky-zone .services-section .service-item, .sky-zone .services-section .service-item:not([data-open="true"]) { background: rgb(0 0 0 / .08); }
+  .sky-zone .services-section .service-item[data-open="true"] { background: rgb(0 0 0 / .5); }
+}
+
+/* ---- Story on phones: the title (and its 1/3) sits above the square frame; the rest follows
+   right under it with no empty line in between ---- */
+@media (max-width: 767px) {
+  .sx .sx-grid { row-gap: 0; }
+  .sx .sx-text { margin-top: 0; }
+  .sx .sx-step .sx-line:has(.sx-title), .sx .sx-step .sx-line:has(.sx-num) { position: absolute; left: 0; top: calc(-1 * (var(--sx-frame, 343px) + 24px)); translate: 0 -100%; margin: 0; }
+  .sx .sx-step .sx-line:has(.sx-num) { left: auto; right: 0; }
+  .sx .sx-step .sx-line:has(.sx-title) { right: 64px; }
+}
+
+/* ---- Hero: the value line as quiet small print, not a second headline ---- */
+.clinic-hero-tagline p.hero-value { width: min(340px, 90%); font-size: 13px; font-weight: 400; line-height: 1.5; letter-spacing: .01em; opacity: .72; }
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline p.hero-value { width: min(280px, calc(100% - 48px)); margin-bottom: 12px; font-size: 12px; line-height: 1.5; letter-spacing: .01em; opacity: .85; }
+}
+
+/* ---- Hero facts as the story section's solid tags ---- */
+.clinic-hero .clinic-hero-tagline ul { gap: 6px; }
+.clinic-hero .clinic-hero-tagline ul li { padding: 4px 10px; border: 1px solid var(--hero-ink); border-radius: 8px; background: var(--hero-ink); color: #fff; font-size: 11.5px; font-weight: 500; line-height: 1.3; letter-spacing: 0; white-space: nowrap; text-shadow: none; }
+.clinic-hero .clinic-hero-tagline ul li + li::before { content: none; }
+
+/* ---- Hero: the Google stars tuck in right under the wordmark ---- */
+@media (min-width: 768px) {
+  .clinic-hero .clinic-hero-tagline .clinic-hero-rating { top: -82px; left: 100%; }
+}
+@media (max-width: 767px) {
+  .clinic-hero .hero-rating-m { top: calc(var(--hero-base) - 8vw - 11px); }
+}

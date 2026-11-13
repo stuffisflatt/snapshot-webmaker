@@ -119,7 +119,7 @@ function Index() {
         {/* Contact */}
         <section id="contact" className="contact-section relative scroll-mt-16 overflow-hidden">
           <div className="contact-content relative mx-auto max-w-6xl px-5 py-20" data-reveal>
-            <p className="contact-open rise" style={riseStyle(0)}><span className="contact-open-dot" aria-hidden="true" />Բաց ենք {CLINIC.hours} · <span aria-hidden="true">★</span> 4.8 Google</p>
+            <p className="contact-open rise" style={riseStyle(0)}>Բաց ենք {CLINIC.hours} · <span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք</p>
             <WordReveal className="clinic-section-title max-w-xl" text="Պատրա՞ստ եք առաջին քայլին" />
             <p className="rise mt-4 max-w-md text-lg opacity-90" style={riseStyle(3)}>Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
             <div className="rise mt-8 flex flex-col gap-3 sm:flex-row" style={riseStyle(4)}>
@@ -127,9 +127,6 @@ function Index() {
               <a href={CLINIC.mobileHref} className="btn btn-ghost-white"><Phone className="size-5" />{CLINIC.mobile}</a>
             </div>
             <ContactCards className="m-contact-cards rise" />
-            <div className="contact-map rise" style={riseStyle(5)}>
-              <iframe title="Alphastom-ը քարտեզի վրա" src={`https://yandex.com/map-widget/v1/?oid=${CLINIC.yandexId}&z=16`} loading="lazy" allowFullScreen />
-            </div>
             <div className="contact-details mt-14 grid gap-4 sm:grid-cols-3">
               <a href={CLINIC.yandex} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(5)}>
                 <MapPin className="size-6" /><p className="mt-3 font-semibold">{CLINIC.address}</p><p className="mt-1 text-sm opacity-80">Ճանապարհը քարտեզի վրա ↗</p>
