@@ -67,22 +67,20 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", resume); };
   }, []);
 
-  // Desktop: the two short lines sit between the fact tags and the buttons (layout offsets, so the
-  // buttons' entrance motion does not throw it off).
+  // Desktop: the two halves read as rows across the centre. The white line on the video half shares
+  // its centre line with the fact tags; the Google stars share theirs with the rotating phrase.
+  // Layout offsets, so entrance motion never throws them off.
   useEffect(() => {
     const place = () => {
       const root = hero.current;
-      const ctas = root?.querySelector<HTMLElement>(".clinic-hero-ctas");
       const tagline = root?.querySelector<HTMLElement>(".clinic-hero-tagline");
       const chips = tagline?.querySelector<HTMLElement>("ul");
-      const lines = root ? [...root.querySelectorAll<HTMLElement>(".hero-statement")].filter(l => l.getClientRects().length) : [];
-      if (!ctas || !tagline || !chips || !lines.length) { ctas?.style.removeProperty("top"); ctas?.style.removeProperty("bottom"); return; }
-      // One 20px rhythm: fact tags, then the two lines, then the buttons.
-      const GAP = 20;
-      const top = tagline.offsetTop + chips.offsetTop + chips.offsetHeight + GAP;
-      lines.forEach(line => { line.style.top = `${top}px`; });
-      ctas.style.top = `${top + lines[0]!.offsetHeight + GAP}px`;
-      ctas.style.bottom = "auto";
+      const rotator = tagline?.querySelector<HTMLElement>(".tagline-rotator");
+      const rating = tagline?.querySelector<HTMLElement>(".clinic-hero-rating");
+      const line = root?.querySelector<HTMLElement>(".hero-statement");
+      if (!tagline || !chips || !line || !line.getClientRects().length) { rating?.style.removeProperty("top"); return; }
+      line.style.top = `${tagline.offsetTop + chips.offsetTop + (chips.offsetHeight - line.offsetHeight) / 2}px`;
+      if (rotator && rating) rating.style.top = `${rotator.offsetTop + (rotator.offsetHeight - rating.offsetHeight) / 2}px`;
     };
     place();
     window.addEventListener("resize", place);
@@ -113,8 +111,7 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
       <div className="hero-rating-m" aria-hidden="true"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div>
       <div className="clinic-hero-tagline"><p className="hero-value">Ատամնաբուժություն Երևանի կենտրոնում՝<br />հասանելի, թափանցիկ և առանց ցավի։</p><div className="clinic-hero-rating" role="img" aria-label="5 stars on Google, 147+ reviews"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div><ul><li>25+ տարի փորձ</li><li>Բազմապրոֆիլ հոգատար թիմ</li></ul><RotatingTagline /></div>
 
-      {/* Desktop: the same sentence as one line on the light half, ending at its right edge. */}
-      <p className="hero-statement">Ատամնաբուժություն Երևանի կենտրոնում՝ հասանելի, թափանցիկ և առանց ցավի։</p>
+      {/* Desktop: one short white line on the video half, level with the fact tags. */}
       <p className="hero-statement hero-statement-right">Գինը նախապես, առանց անակնկալների · ամրագրումը՝ 1 րոպեում</p>
 
       <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>Երևան, Կենտրոն<br />Պռոշյան 28/2</strong><small>Ձեր կողքին՝ 2002 թվականից <ArrowUpRight size={14} /></small></a>
