@@ -67,38 +67,19 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", resume); };
   }, []);
 
-  // Phones: the value line's longer line is sized to be exactly as wide as the booking button.
-  // Desktop: the one-line version keeps its CSS size and is placed below the buttons.
+  // Desktop: the one-line value sentence sits 20px under the buttons (layout offsets, so the
+  // buttons' entrance motion does not throw it off).
   useEffect(() => {
-    const fit = () => {
+    const place = () => {
       const root = hero.current;
-      if (!root) return;
-      root.querySelectorAll<HTMLElement>("[data-fit]").forEach(el => {
-        if (!el.getClientRects().length) return; // hidden at this screen size
-        const target = root.querySelector<HTMLElement>(".clinic-hero-ctas .clinic-hero-cta-book")?.offsetWidth ?? 0;
-        if (!target) return;
-        el.style.fontSize = "100px";
-        el.style.fontSize = `${Math.floor((100 * target / el.scrollWidth) * 10) / 10}px`;
-      });
-      // Desktop: the line sits midway between the buttons and the address; on short screens the
-      // address steps down just enough to keep clear of it. Layout offsets ignore entrance motion.
-      const lines = [...root.querySelectorAll<HTMLElement>(".hero-statement")].filter(el => el.getClientRects().length);
-      const ctas = root.querySelector<HTMLElement>(".clinic-hero-ctas");
-      const loc = root.querySelector<HTMLElement>(".clinic-location");
-      if (!lines.length || !ctas || !loc) return;
-      loc.style.translate = "";
-      const shift = parseFloat(getComputedStyle(loc).translate.split(" ")[1] ?? "0") || 0;
-      const below = ctas.offsetTop + ctas.offsetHeight, h = lines[0]!.offsetHeight;
-      const locTop = loc.offsetTop + shift;
-      const top = below + Math.max(16, (locTop - below - h) / 2);
-      lines.forEach(line => { line.style.top = `${top}px`; line.style.bottom = "auto"; });
-      const push = top + h + 16 - locTop;
-      if (push > 0) loc.style.translate = `0 ${shift + push}px`;
+      const line = root?.querySelector<HTMLElement>(".hero-statement");
+      const ctas = root?.querySelector<HTMLElement>(".clinic-hero-ctas");
+      if (!line || !ctas || !line.getClientRects().length) return;
+      line.style.top = `${ctas.offsetTop + ctas.offsetHeight + 20}px`;
     };
-    fit();
-    void document.fonts?.ready.then(fit);
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
   }, []);
 
   return (
@@ -123,11 +104,10 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
 
       {/* Phones: the rating as its own layer in the hero, so Safari blends it with the photo like the headline. */}
       <div className="hero-rating-m" aria-hidden="true"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div>
-      <div className="clinic-hero-tagline"><p className="hero-value" data-fit>Ատամնաբուժություն Երևանի կենտրոնում՝<br />հասանելի, թափանցիկ և առանց ցավի։</p><div className="clinic-hero-rating" role="img" aria-label="5 stars on Google, 147+ reviews"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div><ul><li>25+ տարի փորձ</li><li>Բազմապրոֆիլ հոգատար թիմ</li></ul><RotatingTagline /></div>
+      <div className="clinic-hero-tagline"><p className="hero-value">Ատամնաբուժություն Երևանի կենտրոնում՝<br />հասանելի, թափանցիկ և առանց ցավի։</p><div className="clinic-hero-rating" role="img" aria-label="5 stars on Google, 147+ reviews"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div><ul><li>25+ տարի փորձ</li><li>Բազմապրոֆիլ հոգատար թիմ</li></ul><RotatingTagline /></div>
 
-      {/* Desktop: the same sentence as one line across the screen, dark on the light half and blended with the video on the other. */}
+      {/* Desktop: the same sentence as one line on the light half, ending at its right edge. */}
       <p className="hero-statement">Ատամնաբուժություն Երևանի կենտրոնում՝ հասանելի, թափանցիկ և առանց ցավի։</p>
-      <p className="hero-statement hero-statement-light" aria-hidden="true">Ատամնաբուժություն Երևանի կենտրոնում՝ հասանելի, թափանցիկ և առանց ցավի։</p>
 
       <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>Երևան, Կենտրոն<br />Պռոշյան 28/2</strong><small>Ձեր կողքին՝ 2002 թվականից <ArrowUpRight size={14} /></small></a>
       <div className="clinic-hero-ctas">

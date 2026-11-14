@@ -2266,3 +2266,13 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 
 /* Hero rating: only the stars are yellow; "reviews" matches the count and the Google mark. */
 .clinic-hero-rating span.hero-rating-word { color: inherit; }
+
+/* ---- Hero value line, settled: small print on both screens ----
+   Desktop: 13px, one line, on the light half only, ending 24px short of the centre like the
+   tagline above it. Phones: 12px under the booking button. */
+@media (min-width: 768px) {
+  .clinic-hero .hero-statement { left: auto; right: calc(50% + 24px); bottom: auto; translate: none; font-size: 13px; line-height: 1.4; letter-spacing: .01em; clip-path: none; mix-blend-mode: normal; color: var(--hero-ink); }
+}
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline p.hero-value { font-size: 12px; line-height: 1.5; letter-spacing: .01em; opacity: .85; }
+}
