@@ -67,6 +67,18 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
       const closed = block.offsetHeight - (open?.offsetHeight ?? 0);
       const tallest = Math.max(0, ...[...list.querySelectorAll<HTMLElement>(".service-panel-content")].map(p => p.offsetHeight));
       block.style.minHeight = `${Math.ceil(closed + tallest)}px`;
+      // PC: the bottom of the section is cropped so the space under the pricing note (cards closed)
+      // equals the space above the heading. Nothing moves; the section just ends sooner.
+      const section = block.closest<HTMLElement>("section");
+      const note = block.querySelector<HTMLElement>(".services-price-note");
+      const heading = block.firstElementChild as HTMLElement | null;
+      if (!section || !note || !heading) return;
+      section.style.removeProperty("--svc-crop");
+      if (!window.matchMedia("(min-width: 768px)").matches) return;
+      const top = section.getBoundingClientRect().top;
+      const above = heading.getBoundingClientRect().top - top;
+      const below = section.offsetHeight - (note.getBoundingClientRect().bottom - top) - (open?.offsetHeight ?? 0);
+      section.style.setProperty("--svc-crop", `${Math.max(0, Math.round(below - above))}px`);
     };
     reserve();
     window.addEventListener("resize", reserve);
