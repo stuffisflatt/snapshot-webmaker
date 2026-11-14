@@ -67,16 +67,22 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", resume); };
   }, []);
 
-  // Desktop: the one-line value sentence sits 20px under the buttons (layout offsets, so the
+  // Desktop: the two short lines sit between the fact tags and the buttons (layout offsets, so the
   // buttons' entrance motion does not throw it off).
   useEffect(() => {
     const place = () => {
       const root = hero.current;
       const ctas = root?.querySelector<HTMLElement>(".clinic-hero-ctas");
-      if (!root || !ctas) return;
-      root.querySelectorAll<HTMLElement>(".hero-statement").forEach(line => {
-        if (line.getClientRects().length) line.style.top = `${ctas.offsetTop + ctas.offsetHeight + 20}px`;
-      });
+      const tagline = root?.querySelector<HTMLElement>(".clinic-hero-tagline");
+      const chips = tagline?.querySelector<HTMLElement>("ul");
+      const lines = root ? [...root.querySelectorAll<HTMLElement>(".hero-statement")].filter(l => l.getClientRects().length) : [];
+      if (!ctas || !tagline || !chips || !lines.length) { ctas?.style.removeProperty("top"); ctas?.style.removeProperty("bottom"); return; }
+      // One 20px rhythm: fact tags, then the two lines, then the buttons.
+      const GAP = 20;
+      const top = tagline.offsetTop + chips.offsetTop + chips.offsetHeight + GAP;
+      lines.forEach(line => { line.style.top = `${top}px`; });
+      ctas.style.top = `${top + lines[0]!.offsetHeight + GAP}px`;
+      ctas.style.bottom = "auto";
     };
     place();
     window.addEventListener("resize", place);
