@@ -120,7 +120,7 @@ function Index() {
         {/* Contact */}
         <section id="contact" className="contact-section relative scroll-mt-16 overflow-hidden">
           <div className="contact-content relative mx-auto max-w-6xl px-5 py-20" data-reveal>
-            <p className="contact-open rise" style={riseStyle(0)}>Բաց ենք {CLINIC.hours} · <span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք</p>
+            <p className="contact-open rise" style={riseStyle(0)}>Գրանցում {CLINIC.hours} · <span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք</p>
             <WordReveal className="clinic-section-title max-w-xl" text="Պատրա՞ստ եք առաջին քայլին" />
             <p className="rise mt-4 max-w-md text-lg opacity-90" style={riseStyle(3)}>Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
             <div className="rise mt-8 flex flex-col gap-3 sm:flex-row" style={riseStyle(4)}>
