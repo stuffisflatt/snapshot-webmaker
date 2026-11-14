@@ -23,7 +23,7 @@ function nextDays() {
   });
 }
 
-function Chips<T extends string>({ label, options, value, onChange }: { label: string; options: { id: T; text: string; hint?: string }[]; value: T; onChange: (v: T) => void }) {
+function Chips<T extends string>({ label, options, value, onChange }: { label: string; options: { id: T; text: string; hint?: string | undefined }[]; value: T; onChange: (v: T) => void }) {
   return (
     <fieldset className="bk-group">
       <legend className="bk-label">{label}</legend>
@@ -100,7 +100,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
         <form className="bk-form" onSubmit={e => { e.preventDefault(); send(); }}>
           <Chips label="Ծառայություն" value={service} onChange={setService}
             options={[{ id: CONSULT, text: CONSULT }, ...SERVICES.map(s => ({ id: s.title, text: s.title }))]} />
-          <Chips label="Բժիշկ" value={doctor} onChange={setDoctor} options={doctors.map(d => ({ id: d, text: d }))} />
+          <Chips label="Բժիշկ" value={doctor} onChange={setDoctor} options={doctors.map(d => ({ id: d, text: d, hint: DOCTORS.find(x => x.name === d)?.specialty }))} />
 
           <fieldset className="bk-group">
             <legend className="bk-label">Նախընտրելի օր</legend>

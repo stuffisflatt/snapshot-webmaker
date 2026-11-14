@@ -31,5 +31,13 @@ export const SERVICES = [
   { id: "hygiene", from: "15 000", title: "Հիգիենա և սպիտակեցում", text: "Մասնագիտական մաքրում, ատամնաքարի հեռացում և սպիտակեցման խորհրդատվություն։" },
 ];
 
-// Add confirmed doctors here: { name, specialty, photo }
-export const DOCTORS: { name: string; specialty: string; photo: string }[] = [];
+// The booking sheet lists these doctors. Sample team, the same names as the doctors section
+// (src/components/DoctorShowcase.tsx): replace both with the clinic's real doctors.
+export const DOCTORS: { name: string; specialty: string }[] = [
+  { name: "Անահիտ Սարգսյան", specialty: "Գլխավոր բժիշկ" },
+  { name: "Արամ Հարությունյան", specialty: "Իմպլանտոլոգ" },
+  { name: "Մարիամ Պետրոսյան", specialty: "Թերապևտ" },
+  { name: "Հայկ Մանուկյան", specialty: "Վիրաբույժ" },
+  { name: "Նարե Գրիգորյան", specialty: "Մանկական" },
+  { name: "Դավիթ Ավետիսյան", specialty: "Օրթոպեդ" },
+];
