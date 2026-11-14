@@ -2298,3 +2298,14 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* Same 14px as title → subtitle: the block's row gap (16px phone, 32px PC) plus this margin. */
 .services-content .services-price-note-below { margin-top: calc(14px - 32px); }
 @media (max-width: 767px) { .services-content .services-price-note-below { margin-top: calc(14px - 16px); } }
+
+/* Services, Apple-style even spacing: the pricing note sits as far under the last card (24px past
+   the 16/32px row gap) as the subtitle sits above the first (40px phone, 56px PC). */
+.services-content .services-price-note-below { margin-top: 24px; }
+@media (max-width: 767px) { .services-content .services-price-note-below { margin-top: 24px; } }
+/* PC: the photo layer starts 30% above the section (and is that much taller), lifting the picture
+   so the note under the cards clears her smile. The card glass copies read the same value. */
+@media (min-width: 768px) {
+  .sky-zone .services-section { --svc-bg-lift: .3; }
+  .sky-zone .services-section::before { top: -30%; background-position: 50% 50%; }
+}

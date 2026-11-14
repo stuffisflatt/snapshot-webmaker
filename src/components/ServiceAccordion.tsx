@@ -27,9 +27,13 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     const place = () => {
       raf = 0;
       const sw = section.clientWidth, sh = section.clientHeight;
-      const scale = Math.max(sw / IMAGE_W, sh / IMAGE_H);
+      // Same crop as the section photo, whose layer starts --svc-bg-lift (a share of the section
+      // height) above the section on desktop, lifting the picture.
+      const lift = parseFloat(getComputedStyle(section).getPropertyValue("--svc-bg-lift")) || 0;
+      const bh = sh * (1 + lift);
+      const scale = Math.max(sw / IMAGE_W, bh / IMAGE_H);
       const w = IMAGE_W * scale, h = IMAGE_H * scale;
-      const ox = (sw - w) / 2, oy = (sh - h) / 2;
+      const ox = (sw - w) / 2, oy = -lift * sh + (bh - h) / 2;
       list.querySelectorAll<HTMLElement>(".service-item").forEach(card => {
         const { x, y } = offsetIn(card);
         card.style.setProperty("--glass-pos", `${(ox - x + BLEED).toFixed(1)}px ${(oy - y + BLEED).toFixed(1)}px`);
