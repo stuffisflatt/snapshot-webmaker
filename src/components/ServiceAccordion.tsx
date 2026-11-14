@@ -50,17 +50,19 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     return () => { resize.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(follow); list.removeEventListener("click", onClick); };
   }, []);
 
-  // The list keeps room for the tallest open panel, so opening a card never changes the block's
-  // height: the centred heading, the other cards and the photo behind them all stay still.
+  // The whole services block keeps room at its bottom for the tallest open panel, so opening a card
+  // never changes the block's height: the centred heading, the other cards and the photo behind
+  // them all stay still, while the note under the cards follows them at its normal gap.
   useEffect(() => {
     const list = listRef.current;
-    if (!list) return;
+    const block = list?.parentElement;
+    if (!list || !block) return;
     const reserve = () => {
-      list.style.minHeight = "";
+      block.style.minHeight = "";
       const open = list.querySelector<HTMLElement>('.service-item[data-open="true"] .service-panel');
-      const closed = list.offsetHeight - (open?.offsetHeight ?? 0);
+      const closed = block.offsetHeight - (open?.offsetHeight ?? 0);
       const tallest = Math.max(0, ...[...list.querySelectorAll<HTMLElement>(".service-panel-content")].map(p => p.offsetHeight));
-      list.style.minHeight = `${Math.ceil(closed + tallest)}px`;
+      block.style.minHeight = `${Math.ceil(closed + tallest)}px`;
     };
     reserve();
     window.addEventListener("resize", reserve);
