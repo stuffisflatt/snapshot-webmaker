@@ -2256,3 +2256,10 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .sx .sx-stage { padding-top: 70px; }
   .sx .sx-video { margin-inline: auto; }
 }
+
+/* ---- Desktop hero line, sized as supporting copy (Apple type scale): one calm line under the
+   buttons, roughly the width of the wordmark, not the screen. Body-like weight, slight negative
+   tracking for its size, generous line box. ---- */
+@media (min-width: 768px) {
+  .clinic-hero .hero-statement { font-size: clamp(17px, 1.45vw, 24px); line-height: 1.3; letter-spacing: -.01em; font-weight: 400; }
+}
