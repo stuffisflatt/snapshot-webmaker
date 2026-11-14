@@ -18,6 +18,14 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     const section = list?.closest<HTMLElement>("section");
     if (!list || !section) return;
     const IMAGE_W = 2400, IMAGE_H = 1934, BLEED = 40;
+    // The photo only starts downloading about two screens before the section, so it never
+    // competes with the hero video on first load.
+    const near = new IntersectionObserver(entries => {
+      if (!entries[0]?.isIntersecting) return;
+      near.disconnect();
+      section.dataset["bg"] = "on";
+    }, { rootMargin: "200% 0px" });
+    near.observe(section);
     let raf = 0;
     const offsetIn = (el: HTMLElement) => {
       let x = 0, y = 0, node: HTMLElement | null = el;
@@ -51,7 +59,7 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     const tick = () => { place(); follow = performance.now() < until ? requestAnimationFrame(tick) : 0; };
     const onClick = () => { until = performance.now() + 450; if (!follow) follow = requestAnimationFrame(tick); };
     list.addEventListener("click", onClick);
-    return () => { resize.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(follow); list.removeEventListener("click", onClick); };
+    return () => { near.disconnect(); resize.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(follow); list.removeEventListener("click", onClick); };
   }, []);
 
   // The whole services block keeps room at its bottom for the tallest open panel, so opening a card

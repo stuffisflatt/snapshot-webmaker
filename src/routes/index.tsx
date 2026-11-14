@@ -27,6 +27,10 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "hy_AM" },
       { name: "twitter:card", content: "summary_large_image" },
+      // Link previews (WhatsApp, Facebook, Telegram) need an absolute URL: update it with the final domain.
+      { property: "og:image", content: "https://snapshot-webmaker.vercel.app/og.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
     ],
   }),
   component: Index,

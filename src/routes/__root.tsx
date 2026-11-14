@@ -81,12 +81,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#eceeef" },
     ],
     links: [
-      { rel: "preload", as: "image", href: "/media/hero-poster.webp" },
+      { rel: "preload", as: "image", href: "/media/hero-poster.webp", media: "(min-width: 768px)" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Noto+Sans+Armenian:wght@300;400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Noto+Sans+Armenian:wght@300;400;500;600;700&display=swap",
       },
       {
         rel: "stylesheet",

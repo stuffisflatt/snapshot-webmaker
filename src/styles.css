@@ -2325,3 +2325,13 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 .bk-doctor-list { margin-top: 6px; }
 .bk-chip-chevron { width: 14px; height: 14px; align-self: center; transition: rotate 200ms ease; }
 .bk-chip-chevron[data-open="true"] { rotate: 180deg; }
+
+/* Phone hero: the menu and call icons use the bottom bar's grey glass, with white icons. */
+@media (max-width: 767px) {
+  .m-nav .m-nav-btn { background: rgb(28 28 30 / .72); border-color: rgb(255 255 255 / .12); color: #f5f5f7; }
+  .m-nav .m-nav-btn:active { background: rgb(28 28 30 / .88); }
+}
+
+/* Services photo waits until the section is near (data-bg="on", set in ServiceAccordion). */
+.sky-zone .services-section:not([data-bg="on"])::before,
+.sky-zone .services-section:not([data-bg="on"]) .service-item::before { background-image: none; }
