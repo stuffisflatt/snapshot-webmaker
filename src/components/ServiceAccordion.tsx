@@ -17,7 +17,7 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     const list = listRef.current;
     const section = list?.closest<HTMLElement>("section");
     if (!list || !section) return;
-    const IMAGE_W = 2880, IMAGE_H = 1608, BLEED = 40;
+    const IMAGE_W = 2400, IMAGE_H = 1934, BLEED = 40;
     let raf = 0;
     const offsetIn = (el: HTMLElement) => {
       let x = 0, y = 0, node: HTMLElement | null = el;

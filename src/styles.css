@@ -2303,9 +2303,9 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
    the 16/32px row gap) as the subtitle sits above the first (40px phone, 56px PC). */
 .services-content .services-price-note-below { margin-top: 24px; }
 @media (max-width: 767px) { .services-content .services-price-note-below { margin-top: 24px; } }
-/* PC: the photo layer starts 30% above the section (and is that much taller), lifting the picture
-   so the note under the cards clears her smile. The card glass copies read the same value. */
+/* PC: the 5:4 photo is made for this section; the layer starts 8% above it (8% zoom instead of
+   the old 30%) so her smile sits just above the pricing note. Card glass reads the same value. */
 @media (min-width: 768px) {
-  .sky-zone .services-section { --svc-bg-lift: .3; }
-  .sky-zone .services-section::before { top: -30%; background-position: 50% 50%; }
+  .sky-zone .services-section { --svc-bg-lift: .08; }
+  .sky-zone .services-section::before { top: -8%; background-position: 50% 50%; }
 }
