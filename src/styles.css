@@ -2217,3 +2217,42 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .sx .sx-steps { height: 130px; }
   .sx .sx-stage { align-content: center; padding-top: 39px; padding-bottom: calc(100lvh - 100svh); }
 }
+
+/* ---- Hero value line, final: sized by script to its space (see HeroHeader) ----
+   Desktop: one line across the whole screen, below the buttons; a dark copy shows on the light
+   half and a white "difference" copy on the video half, like the wordmark. */
+.hero-statement { display: none; }
+@media (min-width: 768px) {
+  .clinic-hero .clinic-hero-tagline p.hero-value { display: none; }
+  .clinic-hero .hero-statement { display: block; position: absolute; z-index: 2; left: 50%; bottom: calc(4.7% + 167px); translate: -50% 0; width: max-content; margin: 0;
+    font-size: 36px; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; color: var(--hero-ink); pointer-events: none;
+    clip-path: inset(-50% 50% -50% -50%); }
+  .clinic-hero .hero-statement-light { color: #fff; mix-blend-mode: difference; clip-path: inset(-50% -50% -50% 50%); }
+}
+/* Phones: two lines, the longer exactly as wide as the booking button. */
+@media (max-width: 767px) {
+  .clinic-hero .clinic-hero-tagline p.hero-value { width: max-content; white-space: nowrap; font-size: 15px; line-height: 1.4; letter-spacing: 0; opacity: .9; }
+}
+
+/* ---- Story on phones, third pass (Apple spacing: one 14px rhythm between every block) ----
+   Title 14px above the frame, tags 14px under it, buttons 14px under the longest step's sentence.
+   The steps share one grid cell, so the block is exactly as tall as its longest step. Titles pair
+   a sans word with an italic serif phrase, like the results and reviews headings. */
+.sx-title-serif { font: inherit; }
+@media (max-width: 767px) {
+  .sx .sx-steps { display: grid; height: auto; }
+  .sx .sx-step { position: relative; inset: auto; grid-area: 1 / 1; }
+  .sx .sx-step .sx-line:has(.sx-title) { top: calc(-1 * (var(--sx-frame, 335px) + 8px)); } /* the line carries 6px of descender room */
+  .sx .sx-actions-m { margin-top: 14px; }
+  .sx .sx-title { font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 400; font-size: 26px; line-height: 1.08; letter-spacing: -.045em; }
+  .sx .sx-title-serif { font-family: "Noto Serif Armenian", serif; font-style: italic; letter-spacing: -.03em; }
+  .sx .sx-stage { padding-top: 42px; }
+}
+@media (max-width: 767px) {
+  /* Every title is two lines (sans word, then the serif phrase), so the group's height and its
+     centring never change between steps; the frame matches the text column's width. */
+  .sx .sx-title { margin: 0; }
+  .sx .sx-title-serif { display: block; }
+  .sx .sx-stage { padding-top: 70px; }
+  .sx .sx-video { margin-inline: auto; }
+}

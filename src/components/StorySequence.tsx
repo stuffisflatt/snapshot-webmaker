@@ -9,9 +9,9 @@ import { STORY_VIDEO_FRAMES, storyFrameIndex, storyFrameSrc } from "@/lib/story-
 import { activeStep, CORNER, frameTab, photoRise, sceneProgress, stepLine, videoFrame } from "@/lib/story-motion";
 
 const STEPS = [
-  { t: "Մանրակրկիտ զննում", d: "Սկսում ենք ձեր ատամների և խնդրի ուշադիր գնահատումից՝ որպեսզի բուժեք միայն այն, ինչ իսկապես պետք է։", tags: ["Զննում", "Ռենտգեն", "Խորհրդատվություն"] },
-  { t: "Անհատական բուժման պլան", d: "Բժիշկը բացատրում է տարբերակները, քայլերը և արժեքը՝ պարզ լեզվով, առանց անակնկալների։", tags: ["Բուժման պլան", "Տարբերակներ", "Արժեքի հաշվարկ"] },
-  { t: "Հաջորդ քայլերը՝ ձեր բժշկի հետ", d: "Միասին որոշում եք, թե երբ և ինչպես շարունակել՝ ձեզ հարմար տեմպով և ժամերին։", tags: ["Այցերի ժամանակացույց", "Հսկողություն"] },
+  { t: "Մանրակրկիտ", serif: "զննում", d: "Սկսում ենք ձեր ատամների և խնդրի ուշադիր գնահատումից՝ որպեսզի բուժեք միայն այն, ինչ իսկապես պետք է։", tags: ["Զննում", "Ռենտգեն", "Խորհրդատվություն"] },
+  { t: "Անհատական", serif: "բուժման պլան", d: "Բժիշկը բացատրում է տարբերակները, քայլերը և արժեքը՝ պարզ լեզվով, առանց անակնկալների։", tags: ["Բուժման պլան", "Տարբերակներ", "Արժեքի հաշվարկ"] },
+  { t: "Հաջորդ քայլերը՝", serif: "ձեր բժշկի հետ", d: "Միասին որոշում եք, թե երբ և ինչպես շարունակել՝ ձեզ հարմար տեմպով և ժամերին։", tags: ["Այցերի ժամանակացույց", "Հսկողություն"] },
 ];
 
 // Stills cut from the walkthrough film; replace with real clinic photos when available.
@@ -142,7 +142,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
           const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
           const aspect = phone ? 1 : pose.aspect;
           const width = phone
-            ? Math.min(window.innerWidth - 32, Math.max(220, window.innerHeight - 340))
+            ? Math.min(window.innerWidth - 40, Math.max(220, window.innerHeight - 340))
             : Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           frame.style.width = `${width}px`;
           section.style.setProperty("--sx-frame", `${width}px`);
@@ -254,7 +254,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
               {STEPS.map((s, i) => (
                 <div key={i} className="sx-step" aria-hidden={i !== step} inert={i !== step}>
                   <div className="sx-line"><span className="sx-num"><span className="sx-num-big">{String(i + 1).padStart(2, "0")}</span><span className="sx-count">{i + 1}/{STEPS.length}</span></span></div>
-                  <div className="sx-line"><h2 className="sx-title">{s.t}</h2></div>
+                  <div className="sx-line"><h2 className="sx-title">{s.t} <span className="sx-title-serif">{s.serif}</span></h2></div>
                   <div className="sx-line"><p className="sx-desc">{s.d}</p></div>
                   <div className="sx-line"><ul className="sx-tags">{s.tags.map(tag => <li key={tag} className="sx-tag">{tag}</li>)}</ul></div>
                   {i === 2 && <div className="sx-line"><div className="sx-actions">

@@ -41,7 +41,30 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     resize.observe(section);
     list.querySelectorAll(".service-item").forEach(card => resize.observe(card));
     schedule();
-    return () => { resize.disconnect(); cancelAnimationFrame(raf); };
+    // While a card opens or closes, the cards under it slide without resizing: keep their photo
+    // copies lined up every frame until the panel has settled.
+    let follow = 0, until = 0;
+    const tick = () => { place(); follow = performance.now() < until ? requestAnimationFrame(tick) : 0; };
+    const onClick = () => { until = performance.now() + 450; if (!follow) follow = requestAnimationFrame(tick); };
+    list.addEventListener("click", onClick);
+    return () => { resize.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(follow); list.removeEventListener("click", onClick); };
+  }, []);
+
+  // The list keeps room for the tallest open panel, so opening a card never changes the block's
+  // height: the centred heading, the other cards and the photo behind them all stay still.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const reserve = () => {
+      list.style.minHeight = "";
+      const open = list.querySelector<HTMLElement>('.service-item[data-open="true"] .service-panel');
+      const closed = list.offsetHeight - (open?.offsetHeight ?? 0);
+      const tallest = Math.max(0, ...[...list.querySelectorAll<HTMLElement>(".service-panel-content")].map(p => p.offsetHeight));
+      list.style.minHeight = `${Math.ceil(closed + tallest)}px`;
+    };
+    reserve();
+    window.addEventListener("resize", reserve);
+    return () => window.removeEventListener("resize", reserve);
   }, []);
 
   // Build the displacement map once: neutral grey in the middle, ramping smoothly toward each edge so
