@@ -37,11 +37,14 @@ export function useSheet(open: boolean, onClosed: () => void) {
     if (!open) return;
     reopen();
     const prev = document.activeElement as HTMLElement | null;
-    // Locking scroll hides the scrollbar; padding of the same width keeps the page exactly as wide,
-    // so nothing behind the sheet re-lays out (on PC it shifted 15px and every background jumped).
-    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
-    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
-    document.body.style.overflow = "hidden";
+    // Scroll is locked on the root element, never on <body>: an overflow on body turns it into its
+    // own scroll box, and every pinned (sticky) layer, like the story section, lost its place and
+    // vanished behind the sheet. Locking hides the scrollbar, so padding of the same width keeps the
+    // page exactly as wide and nothing behind the sheet re-lays out.
+    const root = document.documentElement;
+    const scrollbar = window.innerWidth - root.clientWidth;
+    if (scrollbar > 0) root.style.paddingRight = `${scrollbar}px`;
+    root.style.overflow = "hidden";
     setSmoothScrollPaused(true);
     const focus = window.setTimeout(() => ref.current?.querySelector<HTMLElement>(".bk-close")?.focus(), 60);
     const onKey = (e: KeyboardEvent) => {
@@ -57,8 +60,8 @@ export function useSheet(open: boolean, onClosed: () => void) {
     window.addEventListener("keydown", onKey);
     return () => {
       window.clearTimeout(focus);
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      root.style.overflow = "";
+      root.style.paddingRight = "";
       setSmoothScrollPaused(false);
       window.removeEventListener("keydown", onKey);
       prev?.focus();

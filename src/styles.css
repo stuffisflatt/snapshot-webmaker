@@ -2335,3 +2335,8 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* Services photo waits until the section is near (data-bg="on", set in ServiceAccordion). */
 .sky-zone .services-section:not([data-bg="on"])::before,
 .sky-zone .services-section:not([data-bg="on"]) .service-item::before { background-image: none; }
+
+/* Reviews: all quotes share one grid cell (others hidden), so the card height never changes. */
+.rv-text-stack { display: grid; }
+.rv-text-stack > blockquote { grid-area: 1 / 1; }
+.rv-text-stack > .rv-ghost { visibility: hidden; pointer-events: none; }
