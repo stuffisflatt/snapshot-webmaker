@@ -2287,3 +2287,7 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 @media (min-width: 768px) {
   .clinic-hero .hero-statement-right { left: calc(50% + 24px); right: auto; color: #fff; mix-blend-mode: normal; }
 }
+
+/* Services: one quiet line about pricing, in the hero's small-print type and the subtitle's grey. */
+.services-price-note { margin: 8px 0 0; font-size: 13px; font-weight: 400; line-height: 1.4; letter-spacing: .01em; color: rgb(255 255 255 / .82); text-wrap: balance; }
+@media (min-width: 768px) { .services-price-note { white-space: nowrap; } }

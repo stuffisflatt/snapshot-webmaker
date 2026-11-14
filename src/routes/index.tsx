@@ -79,6 +79,7 @@ function Index() {
           <div className="services-heading">
           <WordReveal className="clinic-section-title" text="Ծառայություններ" />
           <p className="rise mt-3 text-muted-foreground" style={riseStyle(1)}>Ընտրեք ուղղությունը՝ մանրամասների համար։</p>
+          <p className="services-price-note rise" style={riseStyle(2)}>Գները ֆիքսված չեն, բայց միշտ թափանցիկ են․ բժիշկը դրանք կքննարկի ձեզ հետ՝ նախքան որևէ քայլ։</p>
           </div>
           <ServiceAccordion onBook={service => book({ service })} />
           </div>
