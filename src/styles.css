@@ -2281,3 +2281,9 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 @media (max-width: 767px) {
   .sx .sx-video .sx-still, .sx .sx-video video { aspect-ratio: 4 / 3; }
 }
+
+/* Desktop: a second line on the video half, mirroring the left one from the centre outwards,
+   in plain white over the video. */
+@media (min-width: 768px) {
+  .clinic-hero .hero-statement-right { left: calc(50% + 24px); right: auto; color: #fff; mix-blend-mode: normal; }
+}

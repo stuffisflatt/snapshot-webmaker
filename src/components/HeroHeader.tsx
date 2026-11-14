@@ -72,10 +72,11 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
   useEffect(() => {
     const place = () => {
       const root = hero.current;
-      const line = root?.querySelector<HTMLElement>(".hero-statement");
       const ctas = root?.querySelector<HTMLElement>(".clinic-hero-ctas");
-      if (!line || !ctas || !line.getClientRects().length) return;
-      line.style.top = `${ctas.offsetTop + ctas.offsetHeight + 20}px`;
+      if (!root || !ctas) return;
+      root.querySelectorAll<HTMLElement>(".hero-statement").forEach(line => {
+        if (line.getClientRects().length) line.style.top = `${ctas.offsetTop + ctas.offsetHeight + 20}px`;
+      });
     };
     place();
     window.addEventListener("resize", place);
@@ -108,6 +109,7 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
 
       {/* Desktop: the same sentence as one line on the light half, ending at its right edge. */}
       <p className="hero-statement">Ատամնաբուժություն Երևանի կենտրոնում՝ հասանելի, թափանցիկ և առանց ցավի։</p>
+      <p className="hero-statement hero-statement-right">Գինը նախապես, առանց անակնկալների · ամրագրումը՝ 1 րոպեում</p>
 
       <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>Երևան, Կենտրոն<br />Պռոշյան 28/2</strong><small>Ձեր կողքին՝ 2002 թվականից <ArrowUpRight size={14} /></small></a>
       <div className="clinic-hero-ctas">
