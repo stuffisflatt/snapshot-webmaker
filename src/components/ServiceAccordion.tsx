@@ -98,10 +98,10 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
     reserve();
     void document.fonts?.ready.then(reserve);
     // The list grows and shrinks frame by frame while a panel animates.
-    const grow = new ResizeObserver(() => crop());
-    grow.observe(list);
+    const grow = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => crop());
+    grow?.observe(list);
     window.addEventListener("resize", reserve);
-    return () => { grow.disconnect(); window.removeEventListener("resize", reserve); };
+    return () => { grow?.disconnect(); window.removeEventListener("resize", reserve); };
   }, []);
 
   // Build the displacement map once: neutral grey in the middle, ramping smoothly toward each edge so
