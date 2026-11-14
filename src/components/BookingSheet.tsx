@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, MessageCircle, Phone, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, MessageCircle, Phone, X } from "lucide-react";
 import { CLINIC, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
 import { useSheet } from "@/components/useSheet";
 import { SwapText } from "@/components/HeroHeader";
@@ -47,6 +47,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
   const [mounted, setMounted] = useState(false);
   const [service, setService] = useState(CONSULT);
   const [doctor, setDoctor] = useState(FIRST_AVAILABLE);
+  const [picking, setPicking] = useState(false);
   const [day, setDay] = useState("");
   const [time, setTime] = useState("morning");
   const [name, setName] = useState("");
@@ -60,6 +61,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
     setMounted(true);
     setService(preset.service ?? CONSULT);
     setDoctor(preset.doctor ?? FIRST_AVAILABLE);
+    setPicking(false);
     setDay("");
     setTime("morning");
     reopen();
@@ -100,7 +102,27 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
         <form className="bk-form" onSubmit={e => { e.preventDefault(); send(); }}>
           <Chips label="Ծառայություն" value={service} onChange={setService}
             options={[{ id: CONSULT, text: CONSULT }, ...SERVICES.map(s => ({ id: s.title, text: s.title }))]} />
-          <Chips label="Բժիշկ" value={doctor} onChange={setDoctor} options={doctors.map(d => ({ id: d, text: d, hint: DOCTORS.find(x => x.name === d)?.specialty }))} />
+          {/* Doctor: two buttons; the second unfolds the list of doctors only when asked for. */}
+          <fieldset className="bk-group">
+            <legend className="bk-label">Բժիշկ</legend>
+            <div className="bk-chips">
+              <button type="button" className="bk-chip" aria-pressed={doctor === FIRST_AVAILABLE} onClick={() => { setDoctor(FIRST_AVAILABLE); setPicking(false); }}>
+                <span>{FIRST_AVAILABLE}</span>
+              </button>
+              <button type="button" className="bk-chip" aria-pressed={doctor !== FIRST_AVAILABLE} aria-expanded={picking} aria-controls="bk-doctor-list" onClick={() => setPicking(p => !p)}>
+                <span>{doctor !== FIRST_AVAILABLE ? doctor : "Ընտրել բժշկին"}</span><ChevronDown className="bk-chip-chevron" data-open={picking} aria-hidden="true" />
+              </button>
+            </div>
+            {picking && (
+              <div id="bk-doctor-list" className="bk-chips bk-doctor-list">
+                {doctors.filter(d => d !== FIRST_AVAILABLE).map(d => (
+                  <button key={d} type="button" className="bk-chip" aria-pressed={doctor === d} onClick={() => { setDoctor(d); setPicking(false); }}>
+                    <span>{d}</span>{DOCTORS.find(x => x.name === d) && <small>{DOCTORS.find(x => x.name === d)!.specialty}</small>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </fieldset>
 
           <fieldset className="bk-group">
             <legend className="bk-label">Նախընտրելի օր</legend>

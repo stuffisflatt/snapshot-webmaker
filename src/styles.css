@@ -2320,3 +2320,8 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* Services (PC and phone): the bottom is cropped by --svc-crop (set in ServiceAccordion) so the gap
    under the pricing note matches the gap above the heading; the photo and content keep their positions. */
 .sky-zone .services-section { clip-path: inset(0 0 var(--svc-crop, 0px) 0); margin-bottom: calc(-1 * var(--svc-crop, 0px)); }
+
+/* Booking: the doctor list unfolds under its two buttons. */
+.bk-doctor-list { margin-top: 6px; }
+.bk-chip-chevron { width: 14px; height: 14px; align-self: center; transition: rotate 200ms ease; }
+.bk-chip-chevron[data-open="true"] { rotate: 180deg; }
