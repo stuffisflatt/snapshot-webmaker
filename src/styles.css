@@ -2309,3 +2309,10 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .sky-zone .services-section { --svc-bg-lift: .08; }
   .sky-zone .services-section::before { top: -8%; background-position: 50% 50%; }
 }
+
+/* PC services, new photo: the opening is centred on her face (about 51% across the photo) and is a
+   little narrower than it, so the nearest cards just touch its edges (~16-23px) and never her eyes
+   or smile. Proportions of the 1240px content width, so it scales with the photo. */
+@media (min-width: 1024px) {
+  .services-content .service-list { grid-template-columns: minmax(0, 463fr) minmax(0, 345fr) minmax(0, 432fr); }
+}
