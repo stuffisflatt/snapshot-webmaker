@@ -67,20 +67,25 @@ export function ServiceAccordion({ onBook }: { onBook: (service: string) => void
       const closed = block.offsetHeight - (open?.offsetHeight ?? 0);
       const tallest = Math.max(0, ...[...list.querySelectorAll<HTMLElement>(".service-panel-content")].map(p => p.offsetHeight));
       block.style.minHeight = `${Math.ceil(closed + tallest)}px`;
-      // PC: the bottom of the section is cropped so the space under the pricing note (cards closed)
-      // equals the space above the heading. Nothing moves; the section just ends sooner.
+      // The bottom of the section is cropped so the space under the pricing note (cards closed)
+      // equals the space above the heading. Nothing moves; the section just ends sooner. Layout
+      // offsets, so the heading's and note's rise-in motion never skews the measurement.
       const section = block.closest<HTMLElement>("section");
       const note = block.querySelector<HTMLElement>(".services-price-note");
       const heading = block.firstElementChild as HTMLElement | null;
       if (!section || !note || !heading) return;
       section.style.removeProperty("--svc-crop");
-      if (!window.matchMedia("(min-width: 768px)").matches) return;
-      const top = section.getBoundingClientRect().top;
-      const above = heading.getBoundingClientRect().top - top;
-      const below = section.offsetHeight - (note.getBoundingClientRect().bottom - top) - (open?.offsetHeight ?? 0);
+      const offY = (el: HTMLElement) => {
+        let y = 0, node: HTMLElement | null = el;
+        while (node && node !== section) { y += node.offsetTop; node = node.offsetParent as HTMLElement | null; }
+        return y;
+      };
+      const above = offY(heading);
+      const below = section.offsetHeight - (offY(note) + note.offsetHeight - (open?.offsetHeight ?? 0));
       section.style.setProperty("--svc-crop", `${Math.max(0, Math.round(below - above))}px`);
     };
     reserve();
+    void document.fonts?.ready.then(reserve);
     window.addEventListener("resize", reserve);
     return () => window.removeEventListener("resize", reserve);
   }, []);

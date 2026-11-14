@@ -2317,8 +2317,6 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
   .services-content .service-list { grid-template-columns: minmax(0, 463fr) minmax(0, 345fr) minmax(0, 432fr); }
 }
 
-/* PC services: the bottom is cropped by --svc-crop (set in ServiceAccordion) so the gap under the
-   pricing note matches the gap above the heading; the photo and content keep their positions. */
-@media (min-width: 768px) {
-  .sky-zone .services-section { clip-path: inset(0 0 var(--svc-crop, 0px) 0); margin-bottom: calc(-1 * var(--svc-crop, 0px)); }
-}
+/* Services (PC and phone): the bottom is cropped by --svc-crop (set in ServiceAccordion) so the gap
+   under the pricing note matches the gap above the heading; the photo and content keep their positions. */
+.sky-zone .services-section { clip-path: inset(0 0 var(--svc-crop, 0px) 0); margin-bottom: calc(-1 * var(--svc-crop, 0px)); }
