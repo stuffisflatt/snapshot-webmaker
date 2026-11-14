@@ -2263,3 +2263,6 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 @media (min-width: 768px) {
   .clinic-hero .hero-statement { font-size: clamp(17px, 1.45vw, 24px); line-height: 1.3; letter-spacing: -.01em; font-weight: 400; }
 }
+
+/* Hero rating: only the stars are yellow; "reviews" matches the count and the Google mark. */
+.clinic-hero-rating span.hero-rating-word { color: inherit; }
