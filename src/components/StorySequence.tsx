@@ -140,12 +140,12 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
         if (media) {
           // Phones: one large square, nearly the full screen width, instead of the widescreen frame.
           const scale = phone ? 1 + (pose.scale - 1) * .2 : pose.scale;
-          const aspect = phone ? 1 : pose.aspect;
+          const aspect = phone ? 4 / 3 : pose.aspect;
           const width = phone
             ? Math.min(window.innerWidth - 40, Math.max(220, window.innerHeight - 340))
             : Math.min(media.offsetWidth * scale, window.innerWidth - 40, Math.max(180, window.innerHeight - 190) * pose.aspect);
           frame.style.width = `${width}px`;
-          section.style.setProperty("--sx-frame", `${width}px`);
+          if (phone) section.style.setProperty("--sx-frame", `${frame.offsetHeight}px`); // frame height, title sits above it
           section.style.setProperty("--sx-ar", String(aspect));
         }
       }

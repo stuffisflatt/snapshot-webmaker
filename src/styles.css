@@ -2242,7 +2242,7 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 @media (max-width: 767px) {
   .sx .sx-steps { display: grid; height: auto; }
   .sx .sx-step { position: relative; inset: auto; grid-area: 1 / 1; }
-  .sx .sx-step .sx-line:has(.sx-title) { top: calc(-1 * (var(--sx-frame, 335px) + 8px)); } /* the line carries 6px of descender room */
+  .sx .sx-step .sx-line:has(.sx-title) { top: calc(-1 * (var(--sx-frame, 251px) + 9.5px)); } /* the line carries 6px of descender room */
   .sx .sx-actions-m { margin-top: 14px; }
   .sx .sx-title { font-family: "Noto Sans Armenian", system-ui, sans-serif; font-weight: 400; font-size: 26px; line-height: 1.08; letter-spacing: -.045em; }
   .sx .sx-title-serif { font-family: "Noto Serif Armenian", serif; font-style: italic; letter-spacing: -.03em; }
@@ -2275,4 +2275,9 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 }
 @media (max-width: 767px) {
   .clinic-hero .clinic-hero-tagline p.hero-value { font-size: 12px; line-height: 1.5; letter-spacing: .01em; opacity: .85; }
+}
+
+/* Story on phones: a 4:3 landscape frame instead of the square. */
+@media (max-width: 767px) {
+  .sx .sx-video .sx-still, .sx .sx-video video { aspect-ratio: 4 / 3; }
 }
