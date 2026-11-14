@@ -33,6 +33,8 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
   // paint a video it may not play (Low Power Mode, data saver), while an image always shows.
   const [stills, setStills] = useState(false);
   const frameRef = useRef<HTMLImageElement>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
+  const readyRef = useRef<boolean[]>([]);
   useEffect(() => { setStills(window.matchMedia("(pointer: coarse)").matches); }, []);
   const src = phone && phoneVideoSrc ? phoneVideoSrc : videoSrc;
   useEffect(() => {
@@ -66,17 +68,29 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
       setBlobSrc(undefined);
     };
   }, [src, stills]);
-  // Stills: warm the browser cache with every frame shortly before the section arrives.
+  // Stills: load and decode every frame well before the section arrives, and keep them in memory.
+  // Scrolling only ever shows a frame that is ready (or the nearest ready one), so on a slow network
+  // the picture never goes blank or stalls on a frame that is still downloading.
   useEffect(() => {
     const section = ref.current;
     if (!stills || !section) return;
+    let cancelled = false;
+    const load = () => {
+      for (let i = 0; i < STORY_VIDEO_FRAMES; i++) {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = storyFrameSrc(i);
+        framesRef.current[i] = img;
+        img.decode().then(() => { if (!cancelled) readyRef.current[i] = true; }, () => {});
+      }
+    };
     const observer = new IntersectionObserver(entries => {
       if (!entries[0]?.isIntersecting) return;
       observer.disconnect();
-      for (let i = 0; i < STORY_VIDEO_FRAMES; i++) { const img = new Image(); img.decoding = "async"; img.src = storyFrameSrc(i); }
-    }, { rootMargin: "150% 0px" });
+      load();
+    }, { rootMargin: "300% 0px" });
     observer.observe(section);
-    return () => observer.disconnect();
+    return () => { cancelled = true; observer.disconnect(); };
   }, [stills]);
   // iOS Safari draws no frame for a video that has never played, so scrubbing currentTime leaves the
   // frame blank. Once the file is in, play it muted for an instant and pause: from then on, seeks
@@ -117,8 +131,14 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
     let shownFrame = -1;
     const syncVideo = () => {
       if (still) {
-        const index = storyFrameIndex(reduced.matches ? ([0, .5, 1][currentStep] ?? 0) : target);
-        if (index !== shownFrame) { shownFrame = index; still.src = storyFrameSrc(index); }
+        const wanted = storyFrameIndex(reduced.matches ? ([0, .5, 1][currentStep] ?? 0) : target);
+        // The nearest frame that has finished decoding; until any has, keep the current picture.
+        let index = -1;
+        for (let d = 0; d < STORY_VIDEO_FRAMES && index < 0; d++) {
+          if (readyRef.current[wanted - d]) index = wanted - d;
+          else if (readyRef.current[wanted + d]) index = wanted + d;
+        }
+        if (index >= 0 && index !== shownFrame) { shownFrame = index; still.src = storyFrameSrc(index); }
         return;
       }
       if (!video || video.seeking || !visible || !Number.isFinite(video.duration) || video.duration <= 0) return;

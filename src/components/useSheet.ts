@@ -37,6 +37,10 @@ export function useSheet(open: boolean, onClosed: () => void) {
     if (!open) return;
     reopen();
     const prev = document.activeElement as HTMLElement | null;
+    // Locking scroll hides the scrollbar; padding of the same width keeps the page exactly as wide,
+    // so nothing behind the sheet re-lays out (on PC it shifted 15px and every background jumped).
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
     document.body.style.overflow = "hidden";
     setSmoothScrollPaused(true);
     const focus = window.setTimeout(() => ref.current?.querySelector<HTMLElement>(".bk-close")?.focus(), 60);
@@ -54,6 +58,7 @@ export function useSheet(open: boolean, onClosed: () => void) {
     return () => {
       window.clearTimeout(focus);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
       setSmoothScrollPaused(false);
       window.removeEventListener("keydown", onKey);
       prev?.focus();
