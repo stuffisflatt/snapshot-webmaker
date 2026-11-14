@@ -2291,3 +2291,5 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* Services: one quiet line about pricing, in the hero's small-print type and the subtitle's grey. */
 .services-price-note { margin: 8px 0 0; font-size: 13px; font-weight: 400; line-height: 1.4; letter-spacing: .01em; color: rgb(255 255 255 / .82); text-wrap: balance; }
 @media (min-width: 768px) { .services-price-note { white-space: nowrap; } }
+/* The pricing note closes the list, centred under the cards. */
+.services-price-note-below { grid-column: 1 / -1; justify-self: center; width: 100%; margin-top: 24px; text-align: center; }
