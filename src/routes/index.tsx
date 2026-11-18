@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { riseStyle, useScrollReveal, WordReveal } from "@/components/Reveal";
 import { useSmoothScroll } from "@/components/SmoothScroll";
 import { Phone, CalendarCheck, ChevronDown, MapPin, Instagram, ShieldCheck } from "lucide-react";
-import { CLINIC } from "@/lib/clinic";
+import { CLINIC, CONFIG, fill } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
 import { StoryBackdrop } from "@/components/StoryBackdrop";
@@ -20,15 +20,15 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Alphastom Dental Clinic — Ատամնաբուժություն Երևանում՝ 2002 թվականից" },
-      { name: "description", content: "Բազմապրոֆիլ ստոմատոլոգիական կենտրոն Երևանում։ Օրթոդոնտիա, իմպլանտացիա, բուժում, հիգիենա։ Ամրագրեք այցը։" },
-      { property: "og:title", content: "ALPHASTOM — Ատամնաբուժություն՝ անհատական մոտեցմամբ" },
-      { property: "og:description", content: "Բազմապրոֆիլ ստոմատոլոգիական կենտրոն Երևանում՝ 2002 թվականից։" },
+      { title: fill(CONFIG.seo.title) },
+      { name: "description", content: fill(CONFIG.seo.description) },
+      { property: "og:title", content: fill(CONFIG.seo.ogTitle) },
+      { property: "og:description", content: fill(CONFIG.seo.ogDescription) },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "hy_AM" },
       { name: "twitter:card", content: "summary_large_image" },
       // Link previews (WhatsApp, Facebook, Telegram) need an absolute URL: update it with the final domain.
-      { property: "og:image", content: "https://snapshot-webmaker.vercel.app/og.jpg" },
+      { property: "og:image", content: CONFIG.seo.ogImage },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
     ],
@@ -36,26 +36,9 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Placeholder reviews (shown with a "Նմուշ" tag): no invented patient names. Swap for real ones.
-const SAMPLE_REVIEWS: Review[] = [
-  { id: 1, sample: true, name: "Պացիենտ", role: "Հիգիենա և մաքրում", rating: 5,
-    content: "Մասնագիտական մաքրումն անցավ հանգիստ և առանց ցավի։ Բժիշկը մանրամասն բացատրեց, թե ինչպես խնամել ատամները տանը։" },
-  { id: 2, sample: true, name: "Պացիենտ", role: "Իմպլանտացիա", rating: 5,
-    content: "Իմպլանտացիայից առաջ ամեն քայլը բացատրեցին պարզ լեզվով, և ես վստահ էի բուժման պլանին։ Արդյունքից շատ գոհ եմ։" },
-  { id: 3, sample: true, name: "Պացիենտի ծնող", role: "Մանկական ստոմատոլոգիա", rating: 5,
-    content: "Երեխայիս առաջին այցն էր, և թիմը շատ համբերատար էր։ Հիմա նա ինքն է ուզում նորից գալ։" },
-];
-
-
-
-const FAQ = [
-  { q: "Ինչպե՞ս ամրագրել այցը", a: "Սեղմեք «Ամրագրել այցը», ընտրեք ծառայությունը, օրը և ժամը, ապա ուղարկեք հայտը WhatsApp-ով կամ զանգահարեք։ Կլինիկան կհաստատի այցը։" },
-  { q: "Ի՞նչ արժե առաջին այցը", a: "Առաջին խորհրդատվությունն ու զննումը սկսվում են 5 000 ֏-ից։ Բուժման արժեքը բժիշկը նախապես հաշվարկում և բացատրում է՝ մինչև որևէ քայլ սկսելը։" },
-  { q: "Ցավո՞տ է", a: "Ոչ։ Բուժումն անցկացվում է ժամանակակից տեղային անզգայացմամբ, իսկ բժիշկը ամեն քայլից առաջ բացատրում է՝ ինչ է անելու։ Եթե անհանգստանում եք, պարզապես ասեք՝ կգնանք ձեր տեմպով։" },
-  { q: "Ինչ է լինում առաջին այցի ժամանակ", a: "Բժիշկը զննում է, քննարկում ձեր հարցերը և անհրաժեշտության դեպքում առաջարկում բուժման պլան։" },
-  { q: "Որտե՞ղ է գտնվում կլինիկան", a: `${CLINIC.address}։ Ճանապարհը կարող եք տեսնել քարտեզի վրա։` },
-  { q: "Ի՞նչ ծառայություններ եք մատուցում", a: "Օրթոդոնտիա, իմպլանտացիա, թերապևտիկ և վիրաբուժական ստոմատոլոգիա, պրոթեզավորում, հիգիենա։ Ճշգրտեք ձեր դեպքը զանգով։" },
-];
+// Reviews and FAQ come from the clinic config. Reviews marked "sample" carry a "Նմուշ" tag on screen.
+const REVIEWS: Review[] = CONFIG.reviews;
+const FAQ = CONFIG.faq.map(f => ({ q: f.q, a: fill(f.a) }));
 
 function Index() {
   useScrollReveal();
@@ -72,7 +55,7 @@ function Index() {
         <HeroHeader onBook={() => book()} />
 
         <StoryBackdrop>
-          <StoryScroll videoSrc="/media/story.mp4" posterSrc="/media/story-poster.webp" onBook={() => book()} />
+          <StoryScroll videoSrc={CONFIG.story.video} posterSrc={CONFIG.story.poster} onBook={() => book()} />
           <DoctorShowcase onBook={doctor => book({ doctor })} />
         </StoryBackdrop>
 
@@ -98,7 +81,7 @@ function Index() {
             The reviews are placeholders, tagged as samples on screen: replace them before launch. */}
         <DarkBackdrop>
           <Highlights onBook={() => book()} />
-          <Reviews reviews={SAMPLE_REVIEWS} rating="4.8" ratingCount={CLINIC.ratingCount} ratingHref={CLINIC.yandex} sampleLabel="Նմուշ" />
+          <Reviews reviews={REVIEWS} rating={CONFIG.rating.value} ratingCount={CLINIC.ratingCount} ratingHref={CLINIC.yandex} sampleLabel="Նմուշ" />
         </DarkBackdrop>
 
         {/* FAQ */}
@@ -124,7 +107,7 @@ function Index() {
         {/* Contact */}
         <section id="contact" className="contact-section relative scroll-mt-16 overflow-hidden">
           <div className="contact-content relative mx-auto max-w-6xl px-5 py-20" data-reveal>
-            <p className="contact-open rise" style={riseStyle(0)}>Գրանցում {CLINIC.hours} · <span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք</p>
+            <p className="contact-open rise" style={riseStyle(0)}>Գրանցում {CLINIC.hours} · <span aria-hidden="true">★</span> {CONFIG.rating.value} · {CLINIC.ratingCount} կարծիք</p>
             <WordReveal className="clinic-section-title max-w-xl" text="Պատրա՞ստ եք առաջին քայլին" />
             <p className="rise mt-4 max-w-md text-lg opacity-90" style={riseStyle(3)}>Ընտրեք հարմար ժամը․ կլինիկան կկապվի ձեզ հետ՝ այցը հաստատելու համար։</p>
             <div className="rise mt-8 flex flex-col gap-3 sm:flex-row" style={riseStyle(4)}>
@@ -142,7 +125,7 @@ function Index() {
                 <a href={CLINIC.landlineHref} className="mt-1 block font-semibold hover:underline">{CLINIC.landline}</a>
               </div>
               <a href={CLINIC.instagram} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(7)}>
-                <Instagram className="size-6" /><p className="mt-3 font-semibold">@alphastom_mc</p><p className="mt-1 text-sm opacity-80">Instagram ↗</p>
+                <Instagram className="size-6" /><p className="mt-3 font-semibold">{CONFIG.contact.instagramHandle}</p><p className="mt-1 text-sm opacity-80">Instagram ↗</p>
               </a>
             </div>
           </div>
@@ -150,7 +133,7 @@ function Index() {
       </main>
 
       <footer data-reveal className="clinic-footer mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
-        <span className="rise">© ALPHASTOM Dental Clinic · 2002</span>
+        <span className="rise">© {CONFIG.name} {CONFIG.headline.sub} · {CONFIG.founded}</span>
         <span className="rise flex items-center gap-2" style={riseStyle(1)}><ShieldCheck className="size-4" /><span className="rounded-sm border border-border px-2.5 py-0.5 text-xs font-medium">Concept preview</span></span>
       </footer>
 

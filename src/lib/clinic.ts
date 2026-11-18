@@ -1,43 +1,90 @@
-// Editable clinic content. Confirm services, rating and doctors with the clinic before launch.
+import { z } from "zod";
+// "@clinic-data" is the clinic this build is for: src/clinics/<CLINIC>.json, chosen by the CLINIC
+// environment variable (default "alphastom"; see vite.config.ts). Everything that differs between
+// clinics lives in that one file; interface wording (buttons, labels) stays in the components.
+import data from "@clinic-data";
+
+const text = z.string().min(1);
+const schema = z.object({
+  slug: text,
+  name: text,
+  brand: text,
+  brandLocal: z.tuple([z.string(), z.string()]),
+  headline: z.object({ swash: z.string(), left: z.string(), right: z.string(), sub: z.string() }),
+  seo: z.object({ title: text, description: text, ogTitle: text, ogDescription: text, ogImage: text }),
+  contact: z.object({
+    address: text, addressLines: z.array(text).min(1), mobile: text, landline: text,
+    instagram: text, instagramHandle: text, facebook: text, maps: text, bookingWhatsApp: text, hours: text,
+  }),
+  rating: z.object({ value: text, count: text }),
+  founded: z.number().int(),
+  hero: z.object({
+    value: z.array(text).min(1), chips: z.array(text), taglines: z.array(text).min(1), statement: text,
+    locationNote: text, video: text, videoPhone: text, poster: text,
+  }),
+  story: z.object({
+    video: text, poster: text, frames: text, stills: text,
+    steps: z.array(z.object({ title: text, serif: text, text: text, tags: z.array(text) })).length(3),
+    photos: z.array(z.object({ src: text, alt: text })),
+  }),
+  doctors: z.array(z.object({
+    name: text, role: text, short: text, line: text, stats: z.array(text), education: z.array(text).length(2),
+    languages: z.array(text).min(1), specs: z.array(text), photo: text,
+  })).min(1),
+  doctorShowcaseOrder: z.array(z.number().int().nonnegative()).optional(),
+  services: z.array(z.object({ id: text, from: text, title: text, text: text })).min(1),
+  results: z.object({
+    lede: text, sample: z.boolean(),
+    items: z.array(z.object({ after: text, before: text.optional(), alt: text })),
+  }),
+  reviews: z.array(z.object({
+    id: z.number(), name: text, role: text, content: text, rating: z.number().min(1).max(5),
+    sample: z.boolean().optional(), source: z.literal("google").optional(),
+  })).min(1),
+  faq: z.array(z.object({ q: text, a: text })),
+});
+
+export type ClinicConfig = z.infer<typeof schema>;
+
+const parsed = schema.safeParse(data);
+if (!parsed.success) {
+  throw new Error(`Clinic config is invalid:\n${parsed.error.issues.map(i => `  ${i.path.join(".")}: ${i.message}`).join("\n")}`);
+}
+export const CONFIG: ClinicConfig = parsed.data;
+
+const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
+
+/** Fills {name}, {brand}, {address}, {mobile}, {hours}, {founded}, {rating}, {ratingCount} in config text. */
+export function fill(template: string) {
+  const values: Record<string, string> = {
+    name: CONFIG.name, brand: CONFIG.brand, address: CONFIG.contact.address, mobile: CONFIG.contact.mobile,
+    hours: CONFIG.contact.hours, founded: String(CONFIG.founded), rating: CONFIG.rating.value, ratingCount: CONFIG.rating.count,
+  };
+  return template.replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
+}
+
+// The shape the components were written against, derived from the config.
 export const CLINIC = {
-  name: "ALPHASTOM",
-  address: "Պռոշյան փ. 28/2, Կենտրոն, Երևան",
-  mobile: "+374 55 279227",
-  mobileHref: "tel:+37455279227",
-  landline: "+374 10 279227",
-  landlineHref: "tel:+37410279227",
-  instagram: "https://www.instagram.com/alphastom_mc/",
-  // Replace with the clinic's Facebook page; until then this opens a Facebook search for the clinic.
-  facebook: "https://www.facebook.com/search/top?q=Alphastom%20Dental%20Clinic",
-  yandex: "https://yandex.com/maps/org/alphastom/33222583956/",
-  rating: "4.8/5",
-  ratingCount: "147+",
-  founded: 2002,
-  hours: "24/7",
-  // Booking requests go to this WhatsApp number. It is a test number: it is only ever used inside
-  // the wa.me link and must never be shown on the page.
-  bookingWhatsApp: "37495997995",
+  name: CONFIG.name,
+  address: CONFIG.contact.address,
+  mobile: CONFIG.contact.mobile,
+  mobileHref: telHref(CONFIG.contact.mobile),
+  landline: CONFIG.contact.landline,
+  landlineHref: telHref(CONFIG.contact.landline),
+  instagram: CONFIG.contact.instagram,
+  facebook: CONFIG.contact.facebook,
+  yandex: CONFIG.contact.maps,
+  rating: `${CONFIG.rating.value}/5`,
+  ratingCount: CONFIG.rating.count,
+  founded: CONFIG.founded,
+  hours: CONFIG.contact.hours,
+  // Booking requests go to this WhatsApp number; it is only used inside the wa.me link, never shown.
+  bookingWhatsApp: CONFIG.contact.bookingWhatsApp,
 };
 
 export const FIRST_AVAILABLE = "Առաջին հասանելի մասնագետը";
 
-// "from" is a typical starting price in AMD, shown as a guide; confirm the clinic's real prices.
-export const SERVICES = [
-  { id: "ortho", from: "300 000", title: "Օրթոդոնտիա և բրեկետներ", text: "Կծվածքի և ատամնաշարի դիրքի գնահատում, բրեկետ-համակարգերի ընտրություն և հետագա հսկողություն։" },
-  { id: "implant", from: "200 000", title: "Իմպլանտացիա", text: "Կորսված ատամների վերականգնման տարբերակների քննարկում՝ նախնական զննումից և պլանավորումից հետո։" },
-  { id: "endo", from: "15 000", title: "Ատամների բուժում և արմատախողովակներ", text: "Կարիեսի բուժում, լցոնում և արմատախողովակների բուժում՝ ըստ զննման արդյունքների։" },
-  { id: "surgery", from: "10 000", title: "Վիրաբուժական ստոմատոլոգիա", text: "Ատամների հեռացում և այլ վիրաբուժական միջամտություններ՝ մասնագետի գնահատմամբ։" },
-  { id: "prosth", from: "50 000", title: "Պսակներ և պրոթեզավորում", text: "Պսակների, կամուրջների և պրոթեզների տարբերակներ՝ ձեր դեպքին համապատասխան։" },
-  { id: "hygiene", from: "15 000", title: "Հիգիենա և սպիտակեցում", text: "Մասնագիտական մաքրում, ատամնաքարի հեռացում և սպիտակեցման խորհրդատվություն։" },
-];
+export const SERVICES = CONFIG.services;
 
-// The booking sheet lists these doctors. Sample team, the same names as the doctors section
-// (src/components/DoctorShowcase.tsx): replace both with the clinic's real doctors.
-export const DOCTORS: { name: string; specialty: string }[] = [
-  { name: "Անահիտ Սարգսյան", specialty: "Գլխավոր բժիշկ" },
-  { name: "Արամ Հարությունյան", specialty: "Իմպլանտոլոգ" },
-  { name: "Մարիամ Պետրոսյան", specialty: "Թերապևտ" },
-  { name: "Հայկ Մանուկյան", specialty: "Վիրաբույժ" },
-  { name: "Նարե Գրիգորյան", specialty: "Մանկական" },
-  { name: "Դավիթ Ավետիսյան", specialty: "Օրթոպեդ" },
-];
+/** The booking sheet's doctor list (config order, short specialty). */
+export const DOCTORS: { name: string; specialty: string }[] = CONFIG.doctors.map(d => ({ name: d.name, specialty: d.short }));

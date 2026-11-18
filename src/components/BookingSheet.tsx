@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, ChevronDown, MessageCircle, Phone, X } from "lucide-react";
-import { CLINIC, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
+import { CLINIC, CONFIG, DOCTORS, FIRST_AVAILABLE, SERVICES } from "@/lib/clinic";
 import { useSheet } from "@/components/useSheet";
 import { SwapText } from "@/components/HeroHeader";
 
@@ -93,7 +93,7 @@ export function BookingSheet({ open, preset, onClose }: { open: boolean; preset:
         <span className="bk-grabber" aria-hidden="true" />
         <header className="bk-head">
           <div>
-            <p className="bk-caption bk-rating"><span aria-hidden="true">★</span> 4.8 · {CLINIC.ratingCount} կարծիք Google-ում</p>
+            <p className="bk-caption bk-rating"><span aria-hidden="true">★</span> {CONFIG.rating.value} · {CLINIC.ratingCount} կարծիք Google-ում</p>
             <h2 id="booking-title" className="bk-title">Ամրագրել <span className="bk-serif">այցը</span></h2>
           </div>
           <button type="button" className="bk-close" aria-label="Փակել" onClick={() => close()}><X /></button>

@@ -6,7 +6,7 @@ import { SwapText } from "@/components/HeroHeader";
 import { useSwipe } from "@/components/useSwipe";
 
 /** source "google" shows the Google mark; use it only for reviews actually copied from Google. */
-export type Review = { id: number; name: string; role: string; content: string; rating: number; sample?: boolean; source?: "google" };
+export type Review = { id: number; name: string; role: string; content: string; rating: number; sample?: boolean | undefined; source?: "google" | undefined };
 
 const pad = (n: number) => String(n).padStart(2, "0");
 

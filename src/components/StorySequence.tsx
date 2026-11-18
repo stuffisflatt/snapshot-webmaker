@@ -3,23 +3,14 @@ import { openContact } from "@/components/ContactSheet";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
-import { CLINIC } from "@/lib/clinic";
+import { CLINIC, CONFIG } from "@/lib/clinic";
 import { storyScrollDelta } from "@/lib/story-scroll";
 import { STORY_VIDEO_FRAMES, storyFrameIndex, storyFrameSrc } from "@/lib/story-timeline";
 import { activeStep, CORNER, frameTab, photoRise, sceneProgress, stepLine, videoFrame } from "@/lib/story-motion";
 
-const STEPS = [
-  { t: "Մանրակրկիտ", serif: "զննում", d: "Սկսում ենք ձեր ատամների և խնդրի ուշադիր գնահատումից՝ որպեսզի բուժեք միայն այն, ինչ իսկապես պետք է։", tags: ["Զննում", "Խորհրդատվություն"] },
-  { t: "Անհատական", serif: "բուժման պլան", d: "Բժիշկը բացատրում է տարբերակները, քայլերը և արժեքը՝ պարզ լեզվով, առանց անակնկալների։", tags: ["Բուժման պլան", "Արժեքի հաշվարկ"] },
-  { t: "Հաջորդ քայլերը՝", serif: "ձեր բժշկի հետ", d: "Միասին որոշում եք, թե երբ և ինչպես շարունակել՝ ձեզ հարմար տեմպով և ժամերին։", tags: ["Ձեզ հարմար ժամեր", "Հսկողություն"] },
-];
-
-// Stills cut from the walkthrough film; replace with real clinic photos when available.
-const PHOTOS = [
-  { src: "/media/clinic/waiting.webp", alt: "Սպասասրահ" },
-  { src: "/media/clinic/door.webp", alt: "Բուժասենյակի մուտք" },
-  { src: "/media/clinic/treatment.webp", alt: "Բուժասենյակ" },
-];
+// The three steps and the clinic photos come from the clinic config.
+const STEPS = CONFIG.story.steps.map(s => ({ t: s.title, serif: s.serif, d: s.text, tags: s.tags }));
+const PHOTOS = CONFIG.story.photos;
 
 // The scrubbed video is encoded with a keyframe every few frames so any scroll
 // position decodes at once. Phones get a narrower crop of the same footage.

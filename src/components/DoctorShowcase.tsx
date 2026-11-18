@@ -4,26 +4,13 @@ import { useSwipe } from "@/components/useSwipe";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
+import { CONFIG } from "@/lib/clinic";
 
-// Sample profiles with AI-generated portraits. The one-line summaries, stats and credentials are
-// realistic placeholders: replace every name, number and certificate with the clinic's real ones.
-// creds: [university, year] · certification · languages spoken.
-const DOCTORS = [
-  { name: "Անահիտ Սարգսյան", role: "Գլխավոր բժիշկ", line: "Ղեկավարում է թիմն ու բարդ դեպքերը։",
-    stats: ["23 տարվա փորձ", "12 000+ պացիենտ"], creds: ["ԵՊԲՀ, 2003", "Digital Smile Design", "Հայ · Ռուս · Անգլ"], specs: ["Ախտորոշում", "Բուժման պլան", "Խորհրդատվություն"] },
-  { name: "Արամ Հարությունյան", role: "Ստոմատոլոգ-իմպլանտոլոգ", line: "Մեկ իմպլանտից մինչև ամբողջ ծնոտ։",
-    stats: ["12 տարվա փորձ", "3 000+ իմպլանտ"], creds: ["ԵՊԲՀ, 2013", "Straumann սերտիֆիկատ", "Հայ · Ռուս"], specs: ["Իմպլանտացիա", "Ոսկրային պլաստիկա", "Վերականգնում"] },
-  { name: "Մարիամ Պետրոսյան", role: "Ստոմատոլոգ-թերապևտ", line: "Փրկում է ատամները մանրադիտակի տակ։",
-    stats: ["10 տարվա փորձ", "6 000+ բուժված ատամ"], creds: ["ԵՊԲՀ, 2015", "Մանրադիտակային էնդոդոնտիա", "Հայ · Ռուս · Անգլ"], specs: ["Կարիեսի բուժում", "Էնդոդոնտիա", "Լցոնում"] },
-  { name: "Հայկ Մանուկյան", role: "Ստոմատոլոգ-վիրաբույժ", line: "Նուրբ հեռացում՝ հանգիստ ապաքինմամբ։",
-    stats: ["14 տարվա փորձ", "5 000+ վիրահատություն"], creds: ["ԵՊԲՀ, 2011", "Պիեզովիրաբուժություն", "Հայ · Ռուս"], specs: ["Ատամի հեռացում", "Վիրաբուժություն", "Հսկողություն"] },
-  { name: "Նարե Գրիգորյան", role: "Մանկական ստոմատոլոգ", line: "Առաջին այցը՝ հանգիստ ու առանց վախի։",
-    stats: ["9 տարվա փորձ", "4 000+ փոքր պացիենտ"], creds: ["ԵՊԲՀ, 2016", "EAPD անդամ", "Հայ · Ռուս · Անգլ"], specs: ["Մանկական բուժում", "Կանխարգելում", "Հերմետիկացում"] },
-  { name: "Դավիթ Ավետիսյան", role: "Օրթոպեդ-ստոմատոլոգ", line: "Պսակներ ու վինիրներ՝ ճիշտ կծվածքով։",
-    stats: ["15 տարվա փորձ", "2 500+ պսակ և վինիր"], creds: ["ԵՊԲՀ, 2010", "Ivoclar սերտիֆիկատ", "Հայ · Ռուս · Անգլ"], specs: ["Պսակներ", "Պրոթեզավորում", "Վինիրներ"] },
-].map((doctor, i) => ({ ...doctor, photo: `/team/doctor-${i + 1}.webp` }))
-  // Shown order: Davit, Mariam, Hayk, Aram, Nare, Anahit.
-  .map((_, i, all) => all[[5, 2, 3, 1, 4, 0][i]!]!);
+// Doctor profiles come from the clinic config (src/clinics/<clinic>.json), shown in its
+// doctorShowcaseOrder when given. creds: [university, year] · certification · languages spoken.
+const DOCTORS = (CONFIG.doctorShowcaseOrder ?? CONFIG.doctors.map((_, i) => i))
+  .map(i => CONFIG.doctors[i]!)
+  .map(doctor => ({ ...doctor, creds: [...doctor.education, doctor.languages.join(" · ")] }));
 
 const pad = (n: number) => String(n).padStart(2, "0");
 

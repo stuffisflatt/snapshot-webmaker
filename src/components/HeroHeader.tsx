@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from "react";
 import { MobileNav } from "@/components/MobileNav";
 import { openContact } from "@/components/ContactSheet";
 import { ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
-import { CLINIC } from "@/lib/clinic";
+import { CLINIC, CONFIG, fill } from "@/lib/clinic";
 import { HeroDots } from "./HeroDots";
 import { ShaderBackground } from "@/components/ui/7777";
 import NavHeader from "@/components/ui/nav-header";
@@ -15,7 +15,15 @@ export function SwapText({ text, hover }: { text: string; hover: string }) {
   return <span className="swap"><span className="sr-only">{text}</span><SwapLine text={text} /><SwapLine text={hover} /></span>;
 }
 
-const TAGLINES = ["Ժպտա՛ վստահ", "Ցավդ՝ առաջնահերթ", "Նուրբ աշխատանք", "Ազնիվ պայմաններ"];
+const TAGLINES = CONFIG.hero.taglines;
+
+/** The clinic name set as the hero headline: swash initial, two halves, small subline. */
+function HeadlineRow() {
+  const h = CONFIG.headline;
+  return <span className="hl-row"><span className="hl-left">{h.swash && <b className="swash">{h.swash}</b>}{h.left}</span><span className="hl-right">{h.right}<span className="clinic-headline-sub">{h.sub}</span></span></span>;
+}
+
+const lines = (list: string[]) => list.map((line, i) => <Fragment key={i}>{i > 0 && <br />}{line}</Fragment>);
 
 // The outgoing line rolls up and out, then resets below once settled, so every change moves upward.
 function RotatingTagline() {
@@ -95,26 +103,26 @@ export function HeroHeader({ onBook }: { onBook: () => void }) {
       <div className="clinic-hero-shader" aria-hidden="true"><ShaderBackground /></div>
       <HeroDots containerRef={hero} />
       <div className="clinic-hero-film" aria-hidden="true">
-        <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/hero-poster.webp" disablePictureInPicture>
-          <source src="/media/hero-phone.mp4" type="video/mp4" media="(max-width: 767px)" />
-          <source src="/media/hero.mp4" type="video/mp4" />
+        <video ref={video} autoPlay muted loop playsInline preload="auto" poster={CONFIG.hero.poster} disablePictureInPicture>
+          <source src={CONFIG.hero.videoPhone} type="video/mp4" media="(max-width: 767px)" />
+          <source src={CONFIG.hero.video} type="video/mp4" />
         </video>
       </div>
 
 
 
-      <h1 id="clinic-hero-title" className="clinic-headline"><span className="hl-row"><span className="hl-left"><b className="swash">A</b>lph</span><span className="hl-right">astom<span className="clinic-headline-sub">Dental Clinic</span></span></span></h1>
-      <div className="clinic-headline clinic-headline-light" aria-hidden="true"><span className="hl-row"><span className="hl-left"><b className="swash">A</b>lph</span><span className="hl-right">astom<span className="clinic-headline-sub">Dental Clinic</span></span></span></div>
-      <div className="clinic-headline clinic-headline-light clinic-headline-tint" aria-hidden="true"><span className="hl-row"><span className="hl-left"><b className="swash">A</b>lph</span><span className="hl-right">astom<span className="clinic-headline-sub">Dental Clinic</span></span></span></div>
+      <h1 id="clinic-hero-title" className="clinic-headline"><HeadlineRow /></h1>
+      <div className="clinic-headline clinic-headline-light" aria-hidden="true"><HeadlineRow /></div>
+      <div className="clinic-headline clinic-headline-light clinic-headline-tint" aria-hidden="true"><HeadlineRow /></div>
 
       {/* Phones: the rating as its own layer in the hero, so Safari blends it with the photo like the headline. */}
-      <div className="hero-rating-m" aria-hidden="true"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div>
-      <div className="clinic-hero-tagline"><p className="hero-value">Ատամնաբուժություն Երևանի կենտրոնում՝<br />հասանելի, թափանցիկ և առանց ցավի։</p><div className="clinic-hero-rating" role="img" aria-label="Google-ում 4.8 գնահատական, 147+ կարծիք"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>147+<span className="hero-rating-word"> reviews</span></span></div><ul><li>25+ տարի փորձ</li><li>Բազմապրոֆիլ հոգատար թիմ</li></ul><RotatingTagline /></div>
+      <div className="hero-rating-m" aria-hidden="true"><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>{CLINIC.ratingCount}<span className="hero-rating-word"> reviews</span></span></div>
+      <div className="clinic-hero-tagline"><p className="hero-value">{lines(CONFIG.hero.value)}</p><div className="clinic-hero-rating" role="img" aria-label={`Google-ում ${CONFIG.rating.value} գնահատական, ${CLINIC.ratingCount} կարծիք`}><span aria-hidden="true">★★★★★</span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1h-9.17v2.98h5.27c-.48 2.5-2.6 3.92-5.27 3.92a6 6 0 1 1 3.93-10.53l2.23-2.23A9.1 9.1 0 1 0 12.18 21c5.25 0 9.46-3.8 9.46-9 0-.3-.1-.6-.29-.9z"/></svg><span>{CLINIC.ratingCount}<span className="hero-rating-word"> reviews</span></span></div><ul>{CONFIG.hero.chips.map(chip => <li key={chip}>{chip}</li>)}</ul><RotatingTagline /></div>
 
       {/* Desktop: one short white line on the video half, level with the fact tags. */}
-      <p className="hero-statement hero-statement-right">Գինը նախապես, առանց անակնկալների · ամրագրումը՝ 1 րոպեում</p>
+      <p className="hero-statement hero-statement-right">{CONFIG.hero.statement}</p>
 
-      <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>Երևան, Կենտրոն<br />Պռոշյան 28/2</strong><small>Ձեր կողքին՝ 2002 թվականից <ArrowUpRight size={14} /></small></a>
+      <a className="clinic-location" href={CLINIC.yandex} target="_blank" rel="noopener noreferrer"><span>Մեր հասցեն</span><strong>{lines(CONFIG.contact.addressLines)}</strong><small>{fill(CONFIG.hero.locationNote)} <ArrowUpRight size={14} /></small></a>
       <div className="clinic-hero-ctas">
         <button className="clinic-hero-cta clinic-hero-cta-book" onClick={onBook}><CalendarCheck size={21} /><SwapText text="Ամրագրել այցը" hover="Ընտրել ժամը" /><ArrowUpRight size={21} /></button>
         <a className="clinic-hero-cta clinic-hero-cta-call" href="#contact" onClick={event => { event.preventDefault(); openContact(); }}><Phone size={21} /><SwapText text="Կապ մեզ հետ" hover="Գրել կամ զանգել" /><ArrowUpRight size={21} /></a>

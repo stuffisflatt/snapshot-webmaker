@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ArrowUpRight, Menu, Phone, X } from "lucide-react";
 import { openContact } from "@/components/ContactSheet";
 import { useSheet } from "@/components/useSheet";
+import { CONFIG } from "@/lib/clinic";
 
 const SECTIONS = [
   { id: "how", label: "Ինչպես ենք աշխատում" },
@@ -39,7 +40,7 @@ export function MobileNav() {
             <header className="bk-head">
               <div>
                 <p className="bk-caption">(Մենյու)</p>
-                <h2 id="menu-title" className="bk-title">Ալֆա<span className="bk-serif">ստոմ</span></h2>
+                <h2 id="menu-title" className="bk-title">{CONFIG.brandLocal[0]}<span className="bk-serif">{CONFIG.brandLocal[1]}</span></h2>
               </div>
               <button type="button" className="bk-close" aria-label="Փակել" onClick={() => close()}><X /></button>
             </header>

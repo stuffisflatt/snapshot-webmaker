@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowUpRight, Facebook, Instagram, MessageCircle, MessagesSquare, Phone, X } from "lucide-react";
-import { CLINIC } from "@/lib/clinic";
+import { CLINIC, CONFIG } from "@/lib/clinic";
 import { useSheet } from "@/components/useSheet";
 
 /** Any "Contact us" button opens the sheet through this event, so it works from every section. */
@@ -14,10 +14,10 @@ const DIGITS = CLINIC.mobileHref.replace("tel:+", "");
 const ROWS: { icon: ReactNode; label: string; value: string; href: string; external?: boolean }[] = [
   { icon: <Phone />, label: "Բջջային", value: CLINIC.mobile, href: CLINIC.mobileHref },
   { icon: <Phone />, label: "Քաղաքային", value: CLINIC.landline, href: CLINIC.landlineHref },
-  { icon: <Instagram />, label: "Instagram", value: "@alphastom_mc", href: CLINIC.instagram, external: true },
+  { icon: <Instagram />, label: "Instagram", value: CONFIG.contact.instagramHandle, href: CLINIC.instagram, external: true },
   { icon: <MessagesSquare />, label: "Viber", value: "Հաղորդագրություն", href: `viber://chat?number=%2B${DIGITS}` },
   { icon: <MessageCircle />, label: "WhatsApp", value: "Հաղորդագրություն", href: `https://wa.me/${DIGITS}`, external: true },
-  { icon: <Facebook />, label: "Facebook", value: "Alphastom", href: CLINIC.facebook, external: true },
+  { icon: <Facebook />, label: "Facebook", value: CONFIG.brand, href: CLINIC.facebook, external: true },
 ];
 
 /** Contact as the same frosted sheet as booking: every way to reach the clinic, one tap each. */

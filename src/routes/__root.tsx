@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CONFIG } from "../lib/clinic";
 
 function NotFoundComponent() {
   return (
@@ -81,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#eceeef" },
     ],
     links: [
-      { rel: "preload", as: "image", href: "/media/hero-poster.webp", media: "(min-width: 768px)" },
+      { rel: "preload", as: "image", href: CONFIG.hero.poster, media: "(min-width: 768px)" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

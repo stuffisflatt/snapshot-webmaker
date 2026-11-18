@@ -2,15 +2,11 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SwapText } from "@/components/HeroHeader";
+import { CONFIG } from "@/lib/clinic";
 
-// AI-generated sample results, tagged "Նմուշ" on screen: replace with the clinic's own before/after
-// photos (with patient consent). A square with a "before" slides its "after" photo aside to reveal it.
-const RESULTS: { after: string; before?: string; alt: string }[] = [
-  { after: "/media/results/woman-38-after.webp", alt: "Պացիենտը բուժումից հետո" },
-  { after: "/media/results/man-68-after.webp", before: "/media/results/man-68-before.webp", alt: "Պացիենտը բուժումից առաջ և հետո" },
-  { after: "/media/results/man-closeup-after.webp", before: "/media/results/man-closeup-before.webp", alt: "Ժպիտը բուժումից առաջ և հետո" },
-  { after: "/media/results/smile-after.webp", alt: "Ատամների վերականգնումից հետո" },
-];
+// Before/after photos from the clinic config. A square with a "before" slides its "after" photo
+// aside to reveal it. While results.sample is true, each photo carries the "Նմուշ" (sample) tag.
+const RESULTS = CONFIG.results.items;
 
 /** Adds data-in once the element is a fifth of the way into view, so its children can rise in. */
 export function useRevealOnce<T extends HTMLElement>() {
@@ -41,7 +37,7 @@ export function Highlights({ onBook }: { onBook: () => void }) {
                 <img className="hl-after" src={item.after} alt="" width={1024} height={1024} loading="lazy" decoding="async" />
                 {item.before && <span className="hl-tag hl-tag-before">Առաջ</span>}
                 {item.before && <span className="hl-tag hl-tag-after">Հիմա</span>}
-                <span className="hl-sample">Նմուշ</span>
+                {CONFIG.results.sample && <span className="hl-sample">Նմուշ</span>}
               </figure>
             </li>
           ))}
@@ -49,7 +45,7 @@ export function Highlights({ onBook }: { onBook: () => void }) {
         <div className="hl-copy">
           <p className="dark-caption dark-rise" style={{ "--i": 1 } as CSSProperties}>(Արդյունքներ)</p>
           <h2 id="results-title" className="dark-title dark-rise" style={{ "--i": 2 } as CSSProperties}>Ժպիտներ՝ <span className="dark-title-serif">առաջ և հետո</span></h2>
-          <p className="dark-lede dark-rise" style={{ "--i": 3 } as CSSProperties}>Յուրաքանչյուր արդյունք սկսվել է մեկ հանգիստ խորհրդատվությունից։ Տեսեք, թե ինչ է փոխում մանրակրկիտ աշխատանքը։</p>
+          <p className="dark-lede dark-rise" style={{ "--i": 3 } as CSSProperties}>{CONFIG.results.lede}</p>
           <Button variant="ghost" className="clinic-hero-cta clinic-hero-cta-book dark-rise" style={{ "--i": 4 } as CSSProperties} onClick={onBook}>
             <SwapText text="Սկսել խորհրդատվությունից" hover="Ընտրել ժամը" /><ArrowUpRight />
           </Button>
