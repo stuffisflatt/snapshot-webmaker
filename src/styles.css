@@ -2418,3 +2418,12 @@ html, body { background: #0e0e10; }
 @media (max-width: 767px) {
   .clinic-hero { background: #0e0e10; height: 100lvh; max-height: none; }
 }
+
+/* Safari on iPhone fills the strips behind the status bar and the bottom toolbar with the plain
+   background-color of the section under them (it ignores photos, gradients and canvases). Each
+   section that paints a picture now also declares a matching solid colour, so the strips follow
+   the page instead of showing white:
+   - story + doctors: the grey of their moving mesh
+   - services: a deep warm tone taken from the photo (grass above, sweater below) */
+.story-backdrop { background-color: #c9c9cc; }
+.sky-zone, .sky-zone .services-section { background-color: #2a2622; }
