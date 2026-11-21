@@ -2340,3 +2340,66 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 .rv-text-stack { display: grid; }
 .rv-text-stack > blockquote { grid-area: 1 / 1; }
 .rv-text-stack > .rv-ghost { visibility: hidden; pointer-events: none; }
+
+/* ==== Services v2: outlined cards that open their own page ==========================================
+   At rest the cards are only an outline over the photo (no fill, no blur, no glass copy). Pointing at
+   one (or focusing / first tap on touch) fills it light grey with black text and unfolds a small
+   "Տեսնել ավելին". The whole card is the link to that category's page. */
+.sky-zone .services-section .service-list .service-item,
+.sky-zone .services-section .service-list .service-item:not([data-open="true"]) {
+  background: transparent; border: 1px solid rgb(255 255 255 / .6); color: #fff; box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  transition: background-color 240ms cubic-bezier(.23, 1, .32, 1), border-color 240ms ease, color 200ms ease; }
+.sky-zone .services-section .service-list .service-item::before { content: none; }
+.sky-zone .services-section .service-list .service-item[data-open="true"] { background: #ececec; border-color: #ececec; color: #111214; box-shadow: none; }
+.sky-zone .services-section .service-list .service-item[data-open="true"] .service-chevron { color: #111214; }
+.sky-zone .services-section .service-list .service-item[data-open="true"] .service-trigger > span { text-shadow: none; }
+.service-card { display: block; color: inherit; text-decoration: none; border-radius: inherit; outline: none; }
+.service-card:focus-visible { box-shadow: 0 0 0 3px rgb(255 255 255 / .7); }
+h3.service-trigger { margin: 0; }
+.service-more { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 500; letter-spacing: 0; color: #2c2d31; }
+.service-more svg { width: 14px; height: 14px; }
+.sky-zone .services-section .service-list .service-panel-content { padding-top: 0; }
+
+/* ==== Service category page ========================================================================= */
+.sky-zone .services-section.svc-page-section { min-height: 100svh; display: block; justify-content: flex-start; padding: 28px clamp(20px, 5vw, 64px) 96px; clip-path: none; margin-bottom: 0; }
+/* The photo stays put while the price list scrolls over it, with a soft shade for legibility. */
+.sky-zone .services-section.svc-page-section::before { position: fixed; inset: 0; }
+.sky-zone .services-section.svc-page-section::after { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(8 10 12 / .55), rgb(8 10 12 / .42) 40%, rgb(8 10 12 / .6)); pointer-events: none; }
+.svc-page-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
+.svc-page-count { font-size: 14px; font-weight: 500; letter-spacing: .02em; color: rgb(255 255 255 / .8); font-variant-numeric: tabular-nums; }
+.svc-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid rgb(255 255 255 / .6); border-radius: 999px; background: transparent; color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer;
+  transition: background-color 220ms cubic-bezier(.23, 1, .32, 1), color 180ms ease, border-color 220ms ease, transform 120ms ease-out; }
+.svc-pill svg { width: 16px; height: 16px; flex: none; }
+.svc-pill:active { transform: scale(.97); }
+.svc-pill-solid { background: #fff; border-color: #fff; color: #111214; }
+.svc-pill-small { min-height: 38px; padding: 0 14px; font-size: 13px; }
+@media (hover: hover) and (pointer: fine) { .svc-pill:hover, .svc-row:hover { background: #ececec; border-color: #ececec; color: #111214; text-shadow: none; } }
+.svc-page-content { max-width: 760px; margin: clamp(40px, 8vh, 88px) auto 0; }
+.svc-page-content .services-heading { text-align: center; }
+.svc-page-content .services-heading > p { max-width: 34em; margin: 14px auto 0; color: rgb(255 255 255 / .82); }
+.svc-rows { display: grid; gap: 10px; margin: 36px 0 0; padding: 0; list-style: none; }
+.svc-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 26px; border: 1px solid rgb(255 255 255 / .55); border-radius: 999px; color: #fff; text-shadow: 0 1px 10px rgb(0 0 0 / .35);
+  transition: background-color 220ms cubic-bezier(.23, 1, .32, 1), color 180ms ease, border-color 220ms ease; }
+.svc-row-name { font-size: 1.0625rem; font-weight: 500; letter-spacing: -.01em; line-height: 1.35; }
+.svc-row-price { font-size: 1.0625rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.svc-page-note { margin-top: 24px; text-align: center; }
+.svc-page-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+.svc-page-others { margin-top: 64px; text-align: center; }
+.svc-page-others > p { margin: 0 0 14px; font-size: 13px; font-weight: 500; color: rgb(255 255 255 / .75); }
+.svc-page-others ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+@media (max-width: 767px) {
+  .sky-zone .services-section.svc-page-section { padding: 20px 16px 72px; }
+  .svc-row { padding: 14px 18px; border-radius: 22px; gap: 14px; }
+  .svc-row-name, .svc-row-price { font-size: 14px; }
+  .svc-page-actions .svc-pill { flex: 1 1 0; justify-content: center; }
+}
+
+/* ==== Page changes: the old page settles back and fades, the new one rises in (site curve) ===== */
+::view-transition-old(root) { animation: vt-out 280ms cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in 640ms cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes vt-out { to { opacity: 0; transform: scale(.985); } }
+@keyframes vt-in { from { opacity: 0; transform: translate3d(0, 28px, 0) scale(1.01); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

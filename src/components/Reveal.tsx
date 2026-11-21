@@ -22,7 +22,7 @@ export function useScrollReveal() {
 }
 
 /** A heading whose words fade and rise into place one after another (staggered word reveal). */
-export function WordReveal({ text, as = "h2", className = "", delay = 0 }: { text: string; as?: "h2" | "h3" | "p"; className?: string; delay?: number }) {
+export function WordReveal({ text, as = "h2", className = "", delay = 0 }: { text: string; as?: "h1" | "h2" | "h3" | "p"; className?: string; delay?: number }) {
   const words = text.split(" ");
   return createElement(as, { className: `word-reveal ${className}`, "aria-label": text },
     words.map((word, i) => (

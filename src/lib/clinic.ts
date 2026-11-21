@@ -32,7 +32,10 @@ const schema = z.object({
     languages: z.array(text).min(1), specs: z.array(text), photo: text,
   })).min(1),
   doctorShowcaseOrder: z.array(z.number().int().nonnegative()).optional(),
-  services: z.array(z.object({ id: text, from: text, title: text, text: text })).min(1),
+  services: z.array(z.object({
+    id: text, from: text, title: text, text: text,
+    items: z.array(z.object({ name: text, price: text })).min(1),
+  })).min(1),
   results: z.object({
     lede: text, sample: z.boolean(),
     items: z.array(z.object({ after: text, before: text.optional(), alt: text })),
