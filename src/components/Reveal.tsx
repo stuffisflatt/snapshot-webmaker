@@ -1,10 +1,11 @@
-import { createElement, useEffect, type CSSProperties } from "react";
+import { createElement, useEffect, type CSSProperties, type DependencyList } from "react";
 
 /**
  * Marks every [data-reveal] block with data-in once a fifth of it is on screen (with a slight
  * lower-viewport bias), then stops watching it: the reveal plays once, never on every pass.
+ * Pass deps when the blocks are replaced without the page remounting (one category page to the next).
  */
-export function useScrollReveal() {
+export function useScrollReveal(deps: DependencyList = []) {
   useEffect(() => {
     const blocks = document.querySelectorAll<HTMLElement>("[data-reveal]");
     if (!("IntersectionObserver" in window)) {
@@ -18,7 +19,8 @@ export function useScrollReveal() {
     }), { threshold: .2, rootMargin: "0px 0px -10% 0px" });
     blocks.forEach(b => io.observe(b));
     return () => io.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }
 
 /** A heading whose words fade and rise into place one after another (staggered word reveal). */

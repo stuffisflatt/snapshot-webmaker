@@ -2402,3 +2402,11 @@ h3.service-trigger { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
+
+/* iPhone (Safari 26): the strips behind the status bar and the bottom toolbar, and the rubber-band
+   overscroll at both ends, show the page canvas. It was white, which read as white bars above and
+   below the dark hero, footer and service pages. The canvas is now the site's dark tone; the
+   main content keeps its white base, so nothing inside the page changes. */
+html, body { background: #0e0e10; }
+.clinic-page main { background: #fff; }
+.svc-page { background: #0e0e10; }

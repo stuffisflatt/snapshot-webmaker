@@ -28,8 +28,8 @@ export const Route = createFileRoute("/services/$id")({
 });
 
 function ServicePage() {
-  useScrollReveal();
   const { index } = Route.useLoaderData();
+  useScrollReveal([index]);
   const service = SERVICES[index]!;
   const others = SERVICES.filter(s => s.id !== service.id);
   const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ function ServicePage() {
               ))}
             </ul>
 
-            <p className="services-price-note svc-page-note rise" style={riseStyle(3 + service.items.length)}>Յուրաքանչյուր դեպք յուրահատուկ է, ուստի գինը որոշում ենք միասին՝ բաց և առանց անակնկալների։</p>
+            <p className="services-price-note svc-page-note rise" style={riseStyle(3 + service.items.length)}>Եթե չգիտեք՝ ինչ ընտրել, ամրագրեք խորհրդատվություն՝ բժիշկը կօգնի որոշել։</p>
 
             <div className="svc-page-actions rise" style={riseStyle(4 + service.items.length)}>
               <button type="button" className="svc-pill svc-pill-solid" onClick={() => setOpen(true)}><CalendarCheck aria-hidden="true" />Ամրագրել այցը</button>

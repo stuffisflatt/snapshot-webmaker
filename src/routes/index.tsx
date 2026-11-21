@@ -70,7 +70,7 @@ function Index() {
           <p className="rise mt-3 text-muted-foreground" style={riseStyle(1)}>Ընտրեք ուղղությունը՝ մանրամասների համար։</p>
           </div>
           <ServiceAccordion />
-          <p className="services-price-note services-price-note-below rise" style={riseStyle(8)}>Յուրաքանչյուր դեպք յուրահատուկ է, ուստի գինը որոշում ենք միասին՝ բաց և առանց անակնկալների։</p>
+          <p className="services-price-note services-price-note-below rise" style={riseStyle(8)}>Եթե չգիտեք՝ ինչ ընտրել, ամրագրեք խորհրդատվություն՝ բժիշկը կօգնի որոշել։</p>
           </div>
         </section>
 
