@@ -2410,3 +2410,11 @@ h3.service-trigger { margin: 0; }
 html, body { background: #0e0e10; }
 .clinic-page main { background: #fff; }
 .svc-page { background: #0e0e10; }
+
+/* iPhone Safari tints its top and bottom bars from the page behind them. The phone hero was white
+   under its video and stopped at the small viewport height, so a white strip showed under the
+   status bar and the light story section under the bottom toolbar. On phones the hero is now dark
+   underneath and reaches the large viewport height, behind the toolbar. */
+@media (max-width: 767px) {
+  .clinic-hero { background: #0e0e10; height: 100lvh; max-height: none; }
+}
