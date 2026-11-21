@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { SERVICES } from "@/lib/clinic";
 import { riseStyle } from "@/components/Reveal";
+import { rememberHomeSpot } from "@/lib/return-home";
 
 /**
  * The six service categories as outlined cards over the section photo. Pointing at a card (or
@@ -85,7 +86,8 @@ export function ServiceAccordion() {
               onBlur={() => setActive(current => (current === service.id ? null : current))}
               onClick={event => {
                 // Touch: the first tap unfolds the card; the next one opens the page.
-                if (touch.current && !open) { event.preventDefault(); setActive(service.id); }
+                if (touch.current && !open) { event.preventDefault(); setActive(service.id); return; }
+                rememberHomeSpot();
               }}>
               <h3 className="service-trigger">
                 <span>{service.title}</span><ChevronDown className="service-chevron" size={20} aria-hidden="true" />

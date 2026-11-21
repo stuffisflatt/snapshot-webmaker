@@ -9,6 +9,8 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    // Every page change animates, including the browser's Back and Forward.
+    defaultViewTransition: true,
     defaultPreloadStaleTime: 0,
   });
 

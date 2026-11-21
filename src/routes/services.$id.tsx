@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarCheck, Phone } from "lucide-react";
 import { riseStyle, useScrollReveal, WordReveal } from "@/components/Reveal";
 import { CONFIG, SERVICES } from "@/lib/clinic";
 import { BookingSheet } from "@/components/BookingSheet";
 import { ContactSheet, openContact } from "@/components/ContactSheet";
+import { DarkBackdrop } from "@/components/DarkBackdrop";
+import { markReturnHome } from "@/lib/return-home";
 
 /** One service category's own page: its full price list, in the services section's look. */
 export const Route = createFileRoute("/services/$id")({
@@ -33,13 +35,17 @@ function ServicePage() {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const preset = useMemo(() => ({ service: service.title }), [service.title]);
+  // Each category opens at its top (the home page's smooth scroller can otherwise carry momentum in).
+  useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [service.id]);
 
   return (
     <div className="clinic-page svc-page">
-      <div className="sky-zone">
-        <section className="services-section svc-page-section" data-bg="on">
+      {/* The same moving dark mesh as the results and reviews sections. */}
+      <DarkBackdrop>
+        <section className="svc-page-section">
           <nav className="svc-page-nav" aria-label="Նավիգացիա">
-            <Link to="/" hash="services" viewTransition className="svc-pill"><ArrowLeft aria-hidden="true" />Ծառայություններ</Link>
+            {/* Back lands exactly where the visitor left the home page (see returnHome). */}
+            <Link to="/" resetScroll={false} viewTransition className="svc-pill" onClick={markReturnHome}><ArrowLeft aria-hidden="true" />Ծառայություններ</Link>
             <span className="svc-page-count">{String(index + 1).padStart(2, "0")}/{String(SERVICES.length).padStart(2, "0")}</span>
           </nav>
 
@@ -78,7 +84,7 @@ function ServicePage() {
             </div>
           </div>
         </section>
-      </div>
+      </DarkBackdrop>
 
       <BookingSheet open={open} preset={preset} onClose={close} />
       <ContactSheet />

@@ -16,6 +16,7 @@ import { ContactCards, ContactSheet } from "@/components/ContactSheet";
 import { Highlights } from "@/components/Highlights";
 import { Reviews, type Review } from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
+import { useReturnHome } from "@/lib/return-home";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,6 +42,7 @@ const REVIEWS: Review[] = CONFIG.reviews;
 const FAQ = CONFIG.faq.map(f => ({ q: f.q, a: fill(f.a) }));
 
 function Index() {
+  useReturnHome();
   useScrollReveal();
   useSmoothScroll();
   const [open, setOpen] = useState(false);
