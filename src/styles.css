@@ -2427,3 +2427,10 @@ html, body { background: #0e0e10; }
    - services: a deep warm tone taken from the photo (grass above, sweater below) */
 .story-backdrop { background-color: #c9c9cc; }
 .sky-zone, .sky-zone .services-section { background-color: #2a2622; }
+
+/* iPhone Safari 26: once a fixed bar sits at the bottom of the screen, Safari stops drawing the
+   page behind its own toolbar and fills both strips with a colour taken from that fixed bar.
+   Ours was see-through glass, which Safari read as white. A solid dark bar gives it a dark colour. */
+@media (max-width: 767px) {
+  .mobile-bar { background: #1c1c1e; border-color: rgb(255 255 255 / .1); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
