@@ -2392,7 +2392,7 @@ h3.service-trigger { margin: 0; }
 .svc-page-others > p { margin: 0 0 14px; font-size: 13px; font-weight: 500; color: rgb(255 255 255 / .75); }
 .svc-page-others ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
 @media (max-width: 767px) {
-  .svc-page-section { padding: 20px 16px 72px; }
+  .svc-page-section { min-height: 100lvh; padding: 20px 16px 72px; }
   .svc-row { padding: 14px 18px; border-radius: 22px; gap: 14px; }
   .svc-row-name, .svc-row-price { font-size: 14px; }
   .svc-page-actions .svc-pill { flex: 1 1 0; justify-content: center; padding: 0 12px; white-space: nowrap; font-size: 13px; }
