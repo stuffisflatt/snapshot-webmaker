@@ -34,6 +34,7 @@ the config at them, for example `"video": "/clinics/smilepro/hero.mp4"`.
 | `doctors[].short` | The specialty shown in the booking sheet |
 | `doctors[].role` | The specialty shown in the doctors section |
 | `doctorShowcaseOrder` | Order of the doctors section, as indexes into `doctors` (optional) |
+| `story.sample` | Shows the "Նմուշ տեսանյութ" (sample video) tag on the story footage |
 | `results.sample` / `reviews[].sample` | Show the "Նմուշ" (sample) tag until real photos and reviews replace them |
 | `contact.bookingWhatsApp` | Receives booking requests. It is never shown on the page |
 | `services[]` | The six cards in the services section; each opens `/services/<id>` with its `items` (name + price in ֏). `from` is the lowest price |

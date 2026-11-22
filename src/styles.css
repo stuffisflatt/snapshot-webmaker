@@ -1488,18 +1488,22 @@ body, button, input, select, textarea { font-family: "Noto Sans Armenian", syste
   .site-nav .nav-book { display: none; }
 
   /* Thumb bar: book and call within reach, floating above the safe area. */
-  .mobile-bar { position: fixed; z-index: 44; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); display: flex; gap: 8px; padding: 6px;
-    border-radius: 20px; background: rgb(28 28 30 / .72); border: 1px solid rgb(255 255 255 / .12); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 12px 32px -12px rgb(0 0 0 / .5);
-    transform: translate3d(0, calc(100% + 24px), 0); opacity: 0; transition: transform 420ms cubic-bezier(.23, 1, .32, 1), opacity 260ms ease; }
-  .mobile-bar[data-shown="true"] { transform: none; opacity: 1; }
+  .mobile-bar { position: fixed; z-index: 44; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); display: flex; gap: 8px; padding: 7px;
+    border-radius: 20px; visibility: hidden;
+    transform: translate3d(0, calc(100% + 24px), 0); opacity: 0; transition: transform 420ms cubic-bezier(.23, 1, .32, 1), opacity 260ms ease, visibility 0s 420ms; }
+  /* The glass must stay off the fixed box itself: a background or backdrop-filter there makes
+     iPhone Safari 26 replace the page behind its own bars with flat strips (WebKit bug 319479). */
+  .mobile-bar::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+    background: rgb(28 28 30 / .72); border: 1px solid rgb(255 255 255 / .12); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 12px 32px -12px rgb(0 0 0 / .5); }
+  .mobile-bar[data-shown="true"] { transform: none; opacity: 1; visibility: visible; transition-delay: 0s; }
   .mobile-bar-book, .mobile-bar-call { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 500; transition: transform 100ms ease-out; }
   .mobile-bar-book { flex: 1; background: #f5f5f7; color: #121214; }
   .mobile-bar-call { width: 56px; flex: none; border: 1px solid rgb(255 255 255 / .28); color: #f5f5f7; }
   .mobile-bar-book svg, .mobile-bar-call svg { width: 18px; height: 18px; }
   .mobile-bar-book:active, .mobile-bar-call:active { transform: scale(.97); }
   @media (prefers-reduced-motion: reduce) { .mobile-bar { transition: opacity 200ms ease; transform: none; } }
-  @media (prefers-reduced-transparency: reduce) { .mobile-bar { background: #1c1c1e; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+  @media (prefers-reduced-transparency: reduce) { .mobile-bar::before { background: #1c1c1e; -webkit-backdrop-filter: none; backdrop-filter: none; } }
 
   /* Services: one column of full-width glass pills, so labels never break mid-word. */
   .sky-zone .services-content .service-list { display: flex; flex-direction: column; gap: 10px; }
@@ -2403,34 +2407,23 @@ h3.service-trigger { margin: 0; }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
 
-/* iPhone (Safari 26): the strips behind the status bar and the bottom toolbar, and the rubber-band
-   overscroll at both ends, show the page canvas. It was white, which read as white bars above and
-   below the dark hero, footer and service pages. The canvas is now the site's dark tone; the
-   main content keeps its white base, so nothing inside the page changes. */
-html, body { background: #0e0e10; }
-.clinic-page main { background: #fff; }
-.svc-page { background: #0e0e10; }
-
-/* iPhone Safari tints its top and bottom bars from the page behind them. The phone hero was white
-   under its video and stopped at the small viewport height, so a white strip showed under the
-   status bar and the light story section under the bottom toolbar. On phones the hero is now dark
-   underneath and reaches the large viewport height, behind the toolbar. */
+/* Phones: full-height sections, so the page itself (not a colour) is what sits behind Safari's bars. */
 @media (max-width: 767px) {
-  .clinic-hero { background: #0e0e10; height: 100lvh; max-height: none; }
+  .clinic-hero { height: 100lvh; max-height: none; }
+  .doc { min-height: 100lvh; }
+  /* Services have no photo here: they share the moving dark mesh of results and reviews. */
+  .sky-zone { background: none; }
+  .sky-zone .services-section::before, .sky-zone .services-section::after { content: none; }
 }
 
-/* Safari on iPhone fills the strips behind the status bar and the bottom toolbar with the plain
-   background-color of the section under them (it ignores photos, gradients and canvases). Each
-   section that paints a picture now also declares a matching solid colour, so the strips follow
-   the page instead of showing white:
-   - story + doctors: the grey of their moving mesh
-   - services: a deep warm tone taken from the photo (grass above, sweater below) */
-.story-backdrop { background-color: #c9c9cc; }
-.sky-zone, .sky-zone .services-section { background-color: #2a2622; }
+/* Story: the footage is marked as a sample, like the result photos. */
+.sx .sx-video { position: relative; }
+.sx-sample { position: absolute; z-index: 2; top: 17px; right: 17px; padding: 3px 8px; border-radius: 7px;
+  background: rgb(255 255 255 / .82); color: #222326; font-size: 10.5px; font-weight: 500; line-height: 1.3; pointer-events: none; }
 
-/* iPhone Safari 26: once a fixed bar sits at the bottom of the screen, Safari stops drawing the
-   page behind its own toolbar and fills both strips with a colour taken from that fixed bar.
-   Ours was see-through glass, which Safari read as white. A solid dark bar gives it a dark colour. */
+/* Phones: the mesh melts into the FAQ's own dark tone, with no line where they meet. */
 @media (max-width: 767px) {
-  .mobile-bar { background: #1c1c1e; border-color: rgb(255 255 255 / .1); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  main > .dark-backdrop::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: -1; height: 240px;
+    background: linear-gradient(rgb(14 14 16 / 0), #0e0e10 88%); pointer-events: none; }
+  .faq-section .faq-content { border-top: 0; }
 }

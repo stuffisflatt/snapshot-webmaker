@@ -61,6 +61,9 @@ function Index() {
           <DoctorShowcase onBook={doctor => book({ doctor })} />
         </StoryBackdrop>
 
+        {/* Services, results and reviews share one moving dark mesh. On desktop the services photo
+            covers it; on phones it runs unbroken through all three. */}
+        <DarkBackdrop desktopTravelFrom="#results">
         <div className="sky-zone">
         {/* Services */}
         <section id="services" className="services-section scroll-mt-20 px-5 py-20">
@@ -73,15 +76,9 @@ function Index() {
           <p className="services-price-note services-price-note-below rise" style={riseStyle(8)}>Եթե չգիտեք՝ ինչ ընտրել, ամրագրեք խորհրդատվություն՝ բժիշկը կօգնի որոշել։</p>
           </div>
         </section>
-
-
-
-
         </div>
 
-        {/* Why us and patient reviews share one dark mesh; the red drifts across both.
-            The reviews are placeholders, tagged as samples on screen: replace them before launch. */}
-        <DarkBackdrop>
+        {/* The reviews are placeholders, tagged as samples on screen: replace them before launch. */}
           <Highlights onBook={() => book()} />
           <Reviews reviews={REVIEWS} rating={CONFIG.rating.value} ratingCount={CLINIC.ratingCount} ratingHref={CLINIC.yandex} sampleLabel="Նմուշ" />
         </DarkBackdrop>

@@ -40,6 +40,7 @@
   },
 
   "story": {
+    "sample": true,
     "video": "/media/story.mp4",
     "poster": "/media/story-poster.webp",
     "frames": "/media/story-frames",

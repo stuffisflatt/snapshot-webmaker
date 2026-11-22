@@ -23,7 +23,7 @@ const schema = z.object({
     locationNote: text, video: text, videoPhone: text, poster: text,
   }),
   story: z.object({
-    video: text, poster: text, frames: text, stills: text,
+    video: text, poster: text, frames: text, stills: text, sample: z.boolean().optional(),
     steps: z.array(z.object({ title: text, serif: text, text: text, tags: z.array(text) })).length(3),
     photos: z.array(z.object({ src: text, alt: text })),
   }),

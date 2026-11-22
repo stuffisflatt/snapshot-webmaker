@@ -18,9 +18,10 @@ const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 /**
  * One pinned dark mesh behind the sections it wraps. As the visitor scrolls through them, the red
  * glides from one corner to the other a beat behind the scroll, so it carries across the seam
- * between the sections instead of restarting in each one.
+ * between the sections instead of restarting in each one. desktopTravelFrom (a selector) starts that
+ * glide at a later section on desktop, where the sections before it cover the mesh with their own photo.
  */
-export function DarkBackdrop({ children }: { children: ReactNode }) {
+export function DarkBackdrop({ children, desktopTravelFrom }: { children: ReactNode; desktopTravelFrom?: string }) {
   const root = useRef<HTMLDivElement>(null);
   const offset = useRef<[number, number]>([...FROM]);
 
@@ -33,8 +34,10 @@ export function DarkBackdrop({ children }: { children: ReactNode }) {
     const frame = (now: number) => {
       raf = 0;
       const box = el.getBoundingClientRect();
-      const travel = Math.max(1, box.height - window.innerHeight);
-      const target = smoother(clamp01(-box.top / travel));
+      const from = desktopTravelFrom && window.innerWidth >= 768 ? el.querySelector(desktopTravelFrom) : null;
+      const top = from ? from.getBoundingClientRect().top : box.top;
+      const travel = Math.max(1, box.bottom - top - window.innerHeight);
+      const target = smoother(clamp01(-top / travel));
       const dt = last ? Math.min(.1, (now - last) / 1000) : 1;
       last = now;
       bg = bg < 0 || reduced.matches ? target : bg + (target - bg) * (1 - Math.exp(-FOLLOW * dt));
@@ -52,7 +55,7 @@ export function DarkBackdrop({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, []);
+  }, [desktopTravelFrom]);
 
   return (
     <div ref={root} className="dark-backdrop">

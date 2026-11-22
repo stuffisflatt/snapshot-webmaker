@@ -257,6 +257,7 @@ export function StoryScroll({ videoSrc, phoneVideoSrc, posterSrc, onBook }: { vi
               {stills
                 ? <img ref={frameRef} className="sx-still" src={storyFrameSrc(0)} alt="" aria-hidden="true" width={720} height={405} decoding="async" />
                 : src && <video ref={videoRef} src={blobSrc} poster={posterSrc} muted playsInline preload="auto" aria-hidden="true" disablePictureInPicture />}
+              {CONFIG.story.sample && <span className="sx-sample">Նմուշ տեսանյութ</span>}
               <span className="sx-video-count" aria-hidden="true">{step + 1}/{STEPS.length}</span>
             </div>
           </div>
