@@ -10,7 +10,8 @@
     "swash": "D",
     "left": "en",
     "right": "tex",
-    "sub": "Dental Plus"
+    "sub": "Dental Plus",
+    "center": true
   },
   "seo": {
     "title": "{brand} Dental Clinic — Ատամնաբուժություն Երևանում՝ {founded} թվականից",

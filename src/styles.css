@@ -687,6 +687,10 @@
 .clinic-headline .hl-left { justify-self: end; }
 .clinic-headline .hl-right { justify-self: start; }
 .clinic-headline span.clinic-headline-sub { display: block; }
+/* Per clinic (headline.center): a name whose halves differ in width is centred as a whole. */
+.clinic-headline > span.hl-row.hl-center { grid-template-columns: auto auto; }
+/* Per clinic (headline.plainInitial): the first letter in the name's own font. */
+.clinic-headline .swash.swash-plain { font-family: inherit; font-style: inherit; font-size: 1em; line-height: inherit; vertical-align: baseline; margin-right: 0; }
 
 /* Without the top menu, the headline and the two buttons read as one group, centred a touch
    above the middle (optical centre, about 46-47% of the screen). The buttons hang from the
@@ -2157,7 +2161,8 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* ---- Contact: "open 24/7" line ---- */
 .contact-open { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 6px 12px; border: 1px solid currentColor; border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .01em; opacity: .85; }
 .contact-open > span { color: #fbbc04; }
-@media (min-width: 640px) { .contact-open { white-space: nowrap; } } /* longer opening hours stay on one line */
+/* Longer opening hours stay on one line, and the pill hugs them (the section caps its paragraphs at 32rem). */
+@media (min-width: 640px) { .contact-content > p.contact-open { white-space: nowrap; max-width: none; } }
 
 /* ---- Services on phones: barely-there black at rest, half black when open ---- */
 @media (max-width: 767px) {

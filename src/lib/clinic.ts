@@ -10,7 +10,13 @@ const schema = z.object({
   name: text,
   brand: text,
   brandLocal: z.tuple([z.string(), z.string()]),
-  headline: z.object({ swash: z.string(), left: z.string(), right: z.string(), sub: z.string() }),
+  // center: centre the whole name (halves of unequal width) instead of splitting it at the video seam.
+  // plainInitial: the first letter in the headline's own font, for capitals the script font draws
+  // unreadably. subShift: moves "Dental Clinic" right by this many CSS pixels.
+  headline: z.object({
+    swash: z.string(), left: z.string(), right: z.string(), sub: z.string(),
+    center: z.boolean().optional(), plainInitial: z.boolean().optional(), subShift: z.number().optional(),
+  }),
   seo: z.object({ title: text, description: text, ogTitle: text, ogDescription: text, ogImage: text }),
   contact: z.object({
     // No landline, Instagram or Facebook: the contact rows show the address and the Google rating instead.

@@ -10,7 +10,9 @@
     "swash": "S",
     "left": "ha",
     "right": "ms",
-    "sub": "Dental Clinic"
+    "sub": "Dental Clinic",
+    "plainInitial": true,
+    "center": true
   },
   "seo": {
     "title": "{brand} Dental Clinic — Ատամնաբուժություն Արաբկիրում",

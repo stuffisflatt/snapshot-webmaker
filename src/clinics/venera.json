@@ -10,7 +10,8 @@
     "swash": "V",
     "left": "en",
     "right": "era",
-    "sub": "Dental Clinic"
+    "sub": "Dental Clinic",
+    "subShift": 15
   },
   "seo": {
     "title": "{brand} Dental Clinic — Ատամնաբուժություն Երևանում",

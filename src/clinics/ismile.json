@@ -1,16 +1,18 @@
 {
   "slug": "ismile",
   "name": "ISMILE",
-  "brand": "iSmile",
+  "brand": "Ismile",
   "brandLocal": [
     "Այ",
     "սմայլ"
   ],
   "headline": {
-    "swash": "i",
-    "left": "S",
+    "swash": "I",
+    "left": "s",
     "right": "mile",
-    "sub": "Dental Clinic"
+    "sub": "Dental Clinic",
+    "plainInitial": true,
+    "center": true
   },
   "seo": {
     "title": "{brand} Dental Clinic — Ատամնաբուժություն Երևանում",

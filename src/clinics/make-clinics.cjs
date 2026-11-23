@@ -20,14 +20,14 @@ const clinics = [
       instagram: "https://www.instagram.com/armoniaclinic_yerevan/", instagramHandle: "@armoniaclinic_yerevan",
       facebook: "https://www.facebook.com/profile.php?id=61580231044437",
       maps: "https://www.google.com/maps/place/Armonia+Clinic/@40.1839564,44.5276228,17z/data=!3m1!4b1!4m6!3m5!1s0x406abd001f5fb621:0x9873aa11c314ecc!8m2!3d40.1839564!4d44.5276228!16s%2Fg%2F11yxxv5k8b",
-      bookingWhatsApp: "37455552025", hours: "Երկ–Ուրբ, Կիր 09–20, Շբթ 09–17",
+      bookingWhatsApp: "37455552025", hours: "Երկ–Ուրբ 09–20, Շբթ 09–17, Կիր 09–20",
     },
     rating: { value: "5.0", count: "44" },
     chip: "Ստոմատոլոգիա և էսթետիկա", value0: "Ատամնաբուժություն Երևանի կենտրոնում՝", locationNote: "Ձեր կողքին՝ {founded} թվականից",
   },
   {
     slug: "shams", name: "SHAMS", brand: "Shams", brandLocal: ["Շամ", "ս"],
-    headline: { swash: "S", left: "ha", right: "ms", sub: "Dental Clinic" },
+    headline: { swash: "S", left: "ha", right: "ms", sub: "Dental Clinic", plainInitial: true, center: true },
     seo: seo(null, "Արաբկիրում"),
     contact: {
       address: "Գեներալ Բաբայանի փ. 12, Արաբկիր, Երևան", addressLines: ["Երևան, Արաբկիր", "Գ. Բաբայանի 12"],
@@ -41,7 +41,7 @@ const clinics = [
   },
   {
     slug: "dentex", name: "DENTEX", brand: "Dentex", brandLocal: ["Դենտ", "եքս"],
-    headline: { swash: "D", left: "en", right: "tex", sub: "Dental Plus" },
+    headline: { swash: "D", left: "en", right: "tex", sub: "Dental Plus", center: true },
     founded: 2015, seo: seo(2015),
     contact: {
       address: "Սայաթ-Նովա պող. 21/46, Կենտրոն, Երևան", addressLines: ["Երևան, Կենտրոն", "Սայաթ-Նովա 21/46"],
@@ -56,7 +56,7 @@ const clinics = [
   },
   {
     slug: "venera", name: "VENERA", brand: "Venera", brandLocal: ["Վեն", "երա"],
-    headline: { swash: "V", left: "en", right: "era", sub: "Dental Clinic" },
+    headline: { swash: "V", left: "en", right: "era", sub: "Dental Clinic", subShift: 15 },
     seo: seo(null),
     contact: {
       address: "Արգիշտի փ. 4/1, Երևան", addressLines: ["Երևան", "Արգիշտի 4/1"],
@@ -69,8 +69,8 @@ const clinics = [
     chip: "Բարձրակարգ ծառայություն", value0: "Ատամնաբուժություն Երևանում՝", locationNote: "Ձեր կողքին՝ Արգիշտի փողոցում",
   },
   {
-    slug: "ismile", name: "ISMILE", brand: "iSmile", brandLocal: ["Այ", "սմայլ"],
-    headline: { swash: "i", left: "S", right: "mile", sub: "Dental Clinic" },
+    slug: "ismile", name: "ISMILE", brand: "Ismile", brandLocal: ["Այ", "սմայլ"],
+    headline: { swash: "I", left: "s", right: "mile", sub: "Dental Clinic", plainInitial: true, center: true },
     seo: seo(null),
     contact: {
       address: "Տիգրան Մեծի պող. 24, Երևան", addressLines: ["Երևան", "Տիգրան Մեծի 24"],
