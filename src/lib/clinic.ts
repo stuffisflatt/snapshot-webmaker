@@ -12,10 +12,12 @@ const schema = z.object({
   brandLocal: z.tuple([z.string(), z.string()]),
   // center: centre the whole name (halves of unequal width) instead of splitting it at the video seam.
   // plainInitial: the first letter in the headline's own font, for capitals the script font draws
-  // unreadably. subShift: moves "Dental Clinic" right by this many CSS pixels.
+  // unreadably. subShift: moves "Dental Clinic" right by this many CSS pixels. scale: the name's size
+  // (the subline keeps its size). shift: moves the name right (negative: left) by CSS pixels.
   headline: z.object({
     swash: z.string(), left: z.string(), right: z.string(), sub: z.string(),
     center: z.boolean().optional(), plainInitial: z.boolean().optional(), subShift: z.number().optional(),
+    scale: z.number().positive().optional(), shift: z.number().optional(),
   }),
   seo: z.object({ title: text, description: text, ogTitle: text, ogDescription: text, ogImage: text }),
   contact: z.object({

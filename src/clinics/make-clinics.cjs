@@ -27,7 +27,7 @@ const clinics = [
   },
   {
     slug: "shams", name: "SHAMS", brand: "Shams", brandLocal: ["Շամ", "ս"],
-    headline: { swash: "S", left: "ha", right: "ms", sub: "Dental Clinic", plainInitial: true, center: true },
+    headline: { swash: "S", left: "ha", right: "ms", sub: "Dental Clinic", plainInitial: true, center: true, scale: 1.4 },
     seo: seo(null, "Արաբկիրում"),
     contact: {
       address: "Գեներալ Բաբայանի փ. 12, Արաբկիր, Երևան", addressLines: ["Երևան, Արաբկիր", "Գ. Բաբայանի 12"],
@@ -41,7 +41,7 @@ const clinics = [
   },
   {
     slug: "dentex", name: "DENTEX", brand: "Dentex", brandLocal: ["Դենտ", "եքս"],
-    headline: { swash: "D", left: "en", right: "tex", sub: "Dental Plus", center: true },
+    headline: { swash: "D", left: "en", right: "tex", sub: "Dental Plus", center: true, shift: -10 },
     founded: 2015, seo: seo(2015),
     contact: {
       address: "Սայաթ-Նովա պող. 21/46, Կենտրոն, Երևան", addressLines: ["Երևան, Կենտրոն", "Սայաթ-Նովա 21/46"],
@@ -70,7 +70,7 @@ const clinics = [
   },
   {
     slug: "ismile", name: "ISMILE", brand: "Ismile", brandLocal: ["Այ", "սմայլ"],
-    headline: { swash: "I", left: "s", right: "mile", sub: "Dental Clinic", plainInitial: true, center: true },
+    headline: { swash: "I", left: "s", right: "mile", sub: "Dental Clinic", plainInitial: true, center: true, scale: 1.4, subShift: 25 },
     seo: seo(null),
     contact: {
       address: "Տիգրան Մեծի պող. 24, Երևան", addressLines: ["Երևան", "Տիգրան Մեծի 24"],

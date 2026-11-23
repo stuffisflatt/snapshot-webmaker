@@ -12,7 +12,8 @@
     "right": "ms",
     "sub": "Dental Clinic",
     "plainInitial": true,
-    "center": true
+    "center": true,
+    "scale": 1.4
   },
   "seo": {
     "title": "{brand} Dental Clinic — Ատամնաբուժություն Արաբկիրում",

@@ -20,7 +20,7 @@ const TAGLINES = CONFIG.hero.taglines;
 /** The clinic name set as the hero headline: swash initial, two halves, small subline. */
 function HeadlineRow() {
   const h = CONFIG.headline;
-  return <span className={`hl-row${h.center ? " hl-center" : ""}`}><span className="hl-left">{h.swash && <b className={`swash${h.plainInitial ? " swash-plain" : ""}`}>{h.swash}</b>}{h.left}</span><span className="hl-right">{h.right}<span className="clinic-headline-sub" style={h.subShift ? { translate: `${h.subShift}px 0` } : undefined}>{h.sub}</span></span></span>;
+  return <span className={`hl-row${h.center ? " hl-center" : ""}`} style={{ ...(h.scale ? { "--hl-scale": h.scale } : {}), ...(h.shift ? { position: "relative", left: `${h.shift}px` } : {}) } as CSSProperties}><span className="hl-left">{h.swash && <b className={`swash${h.plainInitial ? " swash-plain" : ""}`}>{h.swash}</b>}{h.left}</span><span className="hl-right">{h.right}<span className="clinic-headline-sub" style={h.subShift ? { position: "relative", left: `${h.subShift}px` } : undefined}>{h.sub}</span></span></span>;
 }
 
 const lines = (list: string[]) => list.map((line, i) => <Fragment key={i}>{i > 0 && <br />}{line}</Fragment>);

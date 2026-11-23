@@ -690,6 +690,9 @@
 /* Per clinic (headline.center): a name whose halves differ in width is centred as a whole. */
 .clinic-headline > span.hl-row.hl-center { grid-template-columns: auto auto; }
 /* Per clinic (headline.plainInitial): the first letter in the name's own font. */
+/* Per clinic (headline.scale): a larger name; the subline is divided back to its own size. */
+.clinic-headline > span.hl-row { font-size: calc(1em * var(--hl-scale, 1)); }
+.clinic-headline .hl-row span.clinic-headline-sub { font-size: calc(.17em / var(--hl-scale, 1)); }
 .clinic-headline .swash.swash-plain { font-family: inherit; font-style: inherit; font-size: 1em; line-height: inherit; vertical-align: baseline; margin-right: 0; }
 
 /* Without the top menu, the headline and the two buttons read as one group, centred a touch
