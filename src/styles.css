@@ -2157,6 +2157,7 @@ button, [type="button"], [type="submit"] { -webkit-appearance: none; appearance:
 /* ---- Contact: "open 24/7" line ---- */
 .contact-open { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 6px 12px; border: 1px solid currentColor; border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .01em; opacity: .85; }
 .contact-open > span { color: #fbbc04; }
+@media (min-width: 640px) { .contact-open { white-space: nowrap; } } /* longer opening hours stay on one line */
 
 /* ---- Services on phones: barely-there black at rest, half black when open ---- */
 @media (max-width: 767px) {

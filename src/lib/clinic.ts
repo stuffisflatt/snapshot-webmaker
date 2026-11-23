@@ -13,11 +13,12 @@ const schema = z.object({
   headline: z.object({ swash: z.string(), left: z.string(), right: z.string(), sub: z.string() }),
   seo: z.object({ title: text, description: text, ogTitle: text, ogDescription: text, ogImage: text }),
   contact: z.object({
-    address: text, addressLines: z.array(text).min(1), mobile: text, landline: text,
-    instagram: text, instagramHandle: text, facebook: text, maps: text, bookingWhatsApp: text, hours: text,
+    // No landline, Instagram or Facebook: the contact rows show the address and the Google rating instead.
+    address: text, addressLines: z.array(text).min(1), mobile: text, landline: text.optional(),
+    instagram: text.optional(), instagramHandle: text.optional(), facebook: text.optional(), maps: text, bookingWhatsApp: text, hours: text,
   }),
   rating: z.object({ value: text, count: text }),
-  founded: z.number().int(),
+  founded: z.number().int().optional(), // unknown: left out of the footer; texts must not use {founded}
   hero: z.object({
     value: z.array(text).min(1), chips: z.array(text), taglines: z.array(text).min(1), statement: text,
     locationNote: text, video: text, videoPhone: text, poster: text,
@@ -61,7 +62,7 @@ const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
 export function fill(template: string) {
   const values: Record<string, string> = {
     name: CONFIG.name, brand: CONFIG.brand, address: CONFIG.contact.address, mobile: CONFIG.contact.mobile,
-    hours: CONFIG.contact.hours, founded: String(CONFIG.founded), rating: CONFIG.rating.value, ratingCount: CONFIG.rating.count,
+    hours: CONFIG.contact.hours, founded: String(CONFIG.founded ?? ""), rating: CONFIG.rating.value, ratingCount: CONFIG.rating.count,
   };
   return template.replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
 }
@@ -73,7 +74,7 @@ export const CLINIC = {
   mobile: CONFIG.contact.mobile,
   mobileHref: telHref(CONFIG.contact.mobile),
   landline: CONFIG.contact.landline,
-  landlineHref: telHref(CONFIG.contact.landline),
+  landlineHref: CONFIG.contact.landline ? telHref(CONFIG.contact.landline) : undefined,
   instagram: CONFIG.contact.instagram,
   facebook: CONFIG.contact.facebook,
   yandex: CONFIG.contact.maps,

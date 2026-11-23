@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { ArrowUpRight, Facebook, Instagram, MessageCircle, MessagesSquare, Phone, X } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram, MapPin, MessageCircle, MessagesSquare, Phone, Star, X } from "lucide-react";
 import { CLINIC, CONFIG } from "@/lib/clinic";
 import { useSheet } from "@/components/useSheet";
 
@@ -9,16 +9,20 @@ export const openContact = () => window.dispatchEvent(new Event(CONTACT_EVENT));
 
 const DIGITS = CLINIC.mobileHref.replace("tel:+", "");
 
-// Two rows of three: calls and Instagram, then the messengers and Facebook.
+type Row = { icon: ReactNode; label: string; value: string; href: string; external?: boolean };
+// Three rows of two: calls and Instagram, then the messengers and Facebook. A clinic without a
+// landline, Instagram or Facebook gets its address and Google rating instead, so there are always six.
 // WhatsApp and Viber assume the mobile number is registered on both: confirm with the clinic.
-const ROWS: { icon: ReactNode; label: string; value: string; href: string; external?: boolean }[] = [
+const ROWS: Row[] = ([
   { icon: <Phone />, label: "Բջջային", value: CLINIC.mobile, href: CLINIC.mobileHref },
-  { icon: <Phone />, label: "Քաղաքային", value: CLINIC.landline, href: CLINIC.landlineHref },
-  { icon: <Instagram />, label: "Instagram", value: CONFIG.contact.instagramHandle, href: CLINIC.instagram, external: true },
+  CLINIC.landline && CLINIC.landlineHref ? { icon: <Phone />, label: "Քաղաքային", value: CLINIC.landline, href: CLINIC.landlineHref } : null,
+  CLINIC.instagram && CONFIG.contact.instagramHandle ? { icon: <Instagram />, label: "Instagram", value: CONFIG.contact.instagramHandle, href: CLINIC.instagram, external: true } : null,
   { icon: <MessagesSquare />, label: "Viber", value: "Հաղորդագրություն", href: `viber://chat?number=%2B${DIGITS}` },
   { icon: <MessageCircle />, label: "WhatsApp", value: "Հաղորդագրություն", href: `https://wa.me/${DIGITS}`, external: true },
-  { icon: <Facebook />, label: "Facebook", value: CONFIG.brand, href: CLINIC.facebook, external: true },
-];
+  CLINIC.facebook ? { icon: <Facebook />, label: "Facebook", value: CONFIG.brand, href: CLINIC.facebook, external: true } : null,
+  { icon: <MapPin />, label: "Հասցե", value: CONFIG.contact.addressLines.at(-1)!, href: CLINIC.yandex, external: true },
+  { icon: <Star />, label: "Google", value: `★ ${CONFIG.rating.value} · ${CLINIC.ratingCount} կարծիք`, href: CLINIC.yandex, external: true },
+] as (Row | null)[]).filter((r): r is Row => r !== null).slice(0, 6);
 
 /** Contact as the same frosted sheet as booking: every way to reach the clinic, one tap each. */
 export function ContactSheet() {

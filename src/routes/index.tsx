@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
 import { riseStyle, useScrollReveal, WordReveal } from "@/components/Reveal";
 import { useSmoothScroll } from "@/components/SmoothScroll";
-import { Phone, CalendarCheck, ChevronDown, MapPin, Instagram, ShieldCheck } from "lucide-react";
+import { Phone, CalendarCheck, ChevronDown, MapPin, Instagram, Facebook, ShieldCheck } from "lucide-react";
 import { CLINIC, CONFIG, fill } from "@/lib/clinic";
 import { BookingSheet, type BookingPreset } from "@/components/BookingSheet";
 import { StoryScroll } from "@/components/StoryScroll";
@@ -121,18 +121,24 @@ function Index() {
               <div className="rise rounded-xl bg-sky-foreground/10 p-5" style={riseStyle(6)}>
                 <Phone className="size-6" />
                 <a href={CLINIC.mobileHref} className="mt-3 block font-semibold hover:underline">{CLINIC.mobile}</a>
-                <a href={CLINIC.landlineHref} className="mt-1 block font-semibold hover:underline">{CLINIC.landline}</a>
+                {CLINIC.landline && <a href={CLINIC.landlineHref} className="mt-1 block font-semibold hover:underline">{CLINIC.landline}</a>}
               </div>
-              <a href={CLINIC.instagram} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(7)}>
-                <Instagram className="size-6" /><p className="mt-3 font-semibold">{CONFIG.contact.instagramHandle}</p><p className="mt-1 text-sm opacity-80">Instagram ↗</p>
-              </a>
+              {CLINIC.instagram ? (
+                <a href={CLINIC.instagram} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(7)}>
+                  <Instagram className="size-6" /><p className="mt-3 font-semibold">{CONFIG.contact.instagramHandle}</p><p className="mt-1 text-sm opacity-80">Instagram ↗</p>
+                </a>
+              ) : CLINIC.facebook ? (
+                <a href={CLINIC.facebook} target="_blank" rel="noopener noreferrer" className="rise rounded-xl bg-sky-foreground/10 p-5 transition-colors hover:bg-sky-foreground/20" style={riseStyle(7)}>
+                  <Facebook className="size-6" /><p className="mt-3 font-semibold">{CONFIG.brand}</p><p className="mt-1 text-sm opacity-80">Facebook ↗</p>
+                </a>
+              ) : null}
             </div>
           </div>
         </section>
       </main>
 
       <footer data-reveal className="clinic-footer mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
-        <span className="rise">© {CONFIG.name} {CONFIG.headline.sub} · {CONFIG.founded}</span>
+        <span className="rise">© {CONFIG.name} {CONFIG.headline.sub}{CONFIG.founded ? ` · ${CONFIG.founded}` : ""}</span>
         <span className="rise flex items-center gap-2" style={riseStyle(1)}><ShieldCheck className="size-4" /><span className="rounded-sm border border-border px-2.5 py-0.5 text-xs font-medium">Concept preview</span></span>
       </footer>
 
